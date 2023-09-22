@@ -20,7 +20,7 @@ class Plant(models.Model):
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
     species = models.ForeignKey(Species, on_delete=models.PROTECT, related_name='plants')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    picture = models.ImageField(upload_to='static/images/', null=True, blank=True)
+    picture = models.ImageField(upload_to='pics', null=True, blank=True)
     #history = HistoricalRecords(excluded_fields=['tags', 'species', 'nick_name', 'updated'])
 
     def __str__(self):

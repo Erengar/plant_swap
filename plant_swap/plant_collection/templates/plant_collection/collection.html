@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
 <div>
     <div>
+        {% if not plants %}
+        <div>No plants :(</div>
+        {% endif %}
         {% for plant in plants %}
         <div>
             <h1>{{ plant.nick_name }}</h1>
-            <h1>{{ plant.picture }}</h1>
-            <img src="{% static '{{ plant.picture }}' %}" width=500px >
-            <!--img src="{% static 'images/milky-way-2695569_1280_Lmd1wC4.jpg' %}" alt=""-->
+            {% if plant.picture %}
+                <img src='{{ plant.picture.url }}' width=150px>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

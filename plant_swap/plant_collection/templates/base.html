@@ -1,8 +1,22 @@
 <html>
-    <head>My collection</head>
     <body>
+        <div>
+            <ul>
+                <li>Feed</li>
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'plant_collection:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'plant_collection:login' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div>
         {% block content %}
-        Empty collection :(
         {% endblock %}
+        </div>
     </body>
 </html>
