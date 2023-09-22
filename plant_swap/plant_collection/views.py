@@ -5,14 +5,15 @@ from .models import Plant
 from django import forms
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import LoginForm
+from .forms import LoginForm, RegistrationForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 class personal_collection(LoginRequiredMixin, generic.ListView):
     template_name ='plant_collection/collection.html'
     def get(self, request):
-        model = get_list_or_404(Plant, owner=request.user)
+        model = Plant.objects.filter(owner=request.user)
         context = {'plants': model}
         return render(request, self.template_name, context)
 
@@ -42,3 +43,28 @@ class login_view(View):
 def logout_view(request):
     logout(request)
     return redirect('plant_collection:front_page')
+
+class registration_view(View):
+    template_name = 'registration.html'
+    def get(self, request):
+        form = RegistrationForm()
+        context = {'form':form}
+        return render(request, self.template_name, context)
+
+    #No idea how save this is
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        email = request.POST['email']
+        if password != confirm_password:
+            return redirect('plant_collection:registration')
+        c = User.objects.create_user(username=username,
+                                    password=password,
+                                    email=email)
+        c.save()
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('plant_collection:front_page')
+        return redirect('plant_collection:front_page')
