@@ -19,7 +19,7 @@ class Plant(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
     species = models.ForeignKey(Species, on_delete=models.PROTECT, related_name='plants')
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='plants')
     picture = models.ImageField(upload_to='pics', null=True, blank=True)
     #history = HistoricalRecords(excluded_fields=['tags', 'species', 'nick_name', 'updated'])
 
