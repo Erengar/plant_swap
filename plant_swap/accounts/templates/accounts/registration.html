@@ -2,7 +2,7 @@
     <body>
         <div>
             <h1>Registration</h1>
-            <form action="{% url 'plant_collection:registration' %}" method='post'>
+            <form action="{% url 'accounts:registration' %}" method='post'>
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit", value='Submit'>

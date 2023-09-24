@@ -2,17 +2,22 @@
     <body>
         <div>
             <ul>
-                <li>Feed</li>
+                <li>
+                    <a href="{% url 'plant_collection:front_page' %}">Feed</a>
+                </li>
                 {% if user.is_authenticated %}
                     <li>
-                        <a href="{% url 'plant_collection:logout' %}">Logout</a>
+                        <a href="{% url 'plant_collection:personal_collection' %}">My collection</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'accounts:logout' %}">Logout</a>
                     </li>
                 {% else %}
                     <li>
-                        <a href="{% url 'plant_collection:login' %}">Login</a>
+                        <a href="{% url 'accounts:login' %}">Login</a>
                     </li>
                     <li>
-                        <a href="{% url 'plant_collection:registration' %}">Registration</a>
+                        <a href="{% url 'accounts:registration' %}">Registration</a>
                     </li>
                 {% endif %}
             </ul>

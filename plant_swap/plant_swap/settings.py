@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'tagging',
     'plant_collection',
-    'simple_history'
+    'simple_history',
+    'accounts',
 ]
 
 MIDDLEWARE = [
