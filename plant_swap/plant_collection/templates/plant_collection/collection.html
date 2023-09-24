@@ -1,18 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
-    <div>
-        {% if not plants %}
-        <div>No plants :(</div>
-        {% endif %}
-        {% for plant in plants %}
-        <div>
-            <h1>{{ plant.nick_name }}</h1>
+<div class='columns'>
+    {% if plants %}
+    {% for plant in plants %}
+    <div class='column is-3'>
+        <div class='box'>
             {% if plant.picture %}
-                <img src='{{ plant.picture.url }}' width=150px>
+            <div>
+                <figure class='image is-4by3'>
+                    <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
+                        <img src="{{ plant.picture.url }}" alt="" width='500px'>
+                    </a>
+                </figure>
+            </div>
             {% endif %}
+            <div>
+                {{plant.nick_name}}
+            </div>
+            <div>
+                {{plant.owner}}
+            </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}

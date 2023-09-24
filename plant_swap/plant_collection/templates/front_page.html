@@ -1,16 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-<div>
+<div class='columns'>
     {% if plants %}
     {% for plant in plants %}
-    <div>
-        {% if plant.picture %}
-        <div>
-            <img src="{{ plant.picture.url }}" alt="" width='300px'>
-        </div>
-        {% endif %}
-        <div>
-            {{plant.nick_name}}
+    <div class='column is-3'>
+        <div class='box'>
+            {% if plant.picture %}
+            <div>
+                <figure class='image is-4by3'>
+                    <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
+                        <img src="{{ plant.picture.url }}" alt="" width='500px'>
+                    </a>
+                </figure>
+            </div>
+            {% endif %}
+            <div>
+                {{plant.nick_name}}
+            </div>
+            <div>
+                {{plant.owner}}
+            </div>
         </div>
     </div>
     {% endfor %}
