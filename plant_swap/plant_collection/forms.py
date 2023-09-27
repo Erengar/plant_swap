@@ -9,6 +9,7 @@ class add_plant_form(forms.ModelForm):
                                    }))
     
     species= forms.ModelChoiceField(queryset=Species.objects,
+                                    required=False,
                                     widget=forms.Select(
                                     attrs={
                                         'class':'select'
@@ -18,7 +19,8 @@ class add_plant_form(forms.ModelForm):
     picture= forms.ImageField(widget=forms.FileInput(
                                     attrs={
                                         'class': 'file-input',
-                                        'type':'file'
+                                        'type':'file',
+                                        'accept':'image/jpeg'
                                     }
     ))
     

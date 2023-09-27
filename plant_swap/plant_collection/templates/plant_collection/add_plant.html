@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<form enctype='multipart/form-date' class='box' action="{% url 'plant_collection:personal_collection' %}" method='post'>
+<form enctype='multipart/form-data' class='box' action="{% url 'plant_collection:add_plant' %}" method='post'>
     {% csrf_token %}
         <div class='field'>
             <label class='label'>{{ form.nick_name.label_tag }}</label>

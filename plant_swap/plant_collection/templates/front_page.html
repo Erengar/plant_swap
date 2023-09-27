@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<div class='columns'>
+<div class='columns is-multiline'>
     {% if plants %}
     {% for plant in plants %}
-    <div class='column is-3'>
+    <div class='column is-3-desktop is-full-mobile'>
         <div class='card hover'>
             {% if plant.picture %}
             <div class='card-image'>

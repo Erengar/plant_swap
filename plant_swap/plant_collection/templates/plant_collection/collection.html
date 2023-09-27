@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class='columns'>
-    <div class='column is-3'>
+<div class='columns is-multiline'>
+    <div class='column is-3-desktop is-full-mobile'>
         <a href="{% url 'plant_collection:add_plant' %}">
         <div class='card has-text-centered hover' style='height:100%'>
             <div class='column is-vcentered'>
@@ -28,7 +28,7 @@
     </div>
     {% if plants %}
     {% for plant in plants %}
-    <div class='column is-3'>
+    <div class='column is-3-desktop is-full-mobile'>
         <div class='card hover'>
             {% if plant.picture %}
             <div class='card-image'>
