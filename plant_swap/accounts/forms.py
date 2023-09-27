@@ -1,9 +1,11 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.core.validators import EmailValidator, validate_email
+from django.core.validators import MinLengthValidator
+from .validators import unique_username, numbers_and_letters, upper_lower
+
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='User name', max_length=20, help_text='username',
+    username = forms.CharField(label='User name', max_length=20,
                                widget=forms.TextInput(attrs={
                                    'class':'input'}))
     password = forms.CharField(widget=forms.TextInput(attrs={
@@ -16,18 +18,20 @@ class LoginForm(forms.Form):
 
 
 class RegistrationForm(forms.Form):
+    error_css_class = 'is-danger'
     username = forms.CharField(label='User name',
-                               max_length=20,
+                               validators=[unique_username, MinLengthValidator(4)],
+                               max_length=14,
                                widget=forms.TextInput(attrs={
                                    'class':'input'
                             }))
     email = forms.EmailField(label='Email address',
-                             validators=[validate_email],
                              widget=forms.TextInput(attrs={
                                  'class':'input',
                                  'type':'email'
                             }))
-    password = forms.CharField(widget=forms.TextInput(attrs={
+    password = forms.CharField(validators=[numbers_and_letters, upper_lower, MinLengthValidator(9)],
+                                widget=forms.TextInput(attrs={
                                     'class':'input',
                                     'type':'password'
                             }))
@@ -46,5 +50,4 @@ class RegistrationForm(forms.Form):
         confirm_password = data.get('confirm_password')
 
         if password != confirm_password:
-            raise forms.ValidationError('password and confirm_password does not match')
-        
+            raise forms.ValidationError('Password and Confirm password do not match!')

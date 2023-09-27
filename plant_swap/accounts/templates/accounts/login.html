@@ -1,13 +1,22 @@
 <html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static "plant_collection/css/base.css" %}">
+    </head>
     <body>
-        <div>
-            <h1>Login</h1>
-            <form action="{% url 'accounts:login' %}" method='post'>
+        <div class='container'>
+            <form class='box' action="{% url 'accounts:login' %}" method='post'>
+                <h1 class='title'>Login</h1>
                 {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value='Submit'>
+                {% for field in form %}
+                <div class='label'>{{ field.label_tag }}</div>
+                {{ field }}
+                {% endfor %}
+                <div class='container pt-5'>
+                    <input class='button' type="submit" value='Submit'>
+                    <a class='button' href="{% url 'accounts:registration' %}">Registration</a>
+                </div>
             </form>
-            <a href="{% url 'accounts:registration' %}">Registration</a>
         </div>
     </body>
 </html>

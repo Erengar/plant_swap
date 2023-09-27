@@ -53,18 +53,17 @@ class plant_view(generic.DetailView):
 
 class add_plant(LoginRequiredMixin, View):
     template_name= 'plant_collection/add_plant.html'
+    form_class = add_plant_form
     def get(self,request):
-        form = add_plant_form()
+        form = self.form_class()
         context = {'form':form}
         return render(request, self.template_name, context)
         
     def post(self,request):
-        form = add_plant_form(request.POST)
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
-            nick_name = request.POST['nick_name']
-            species = request.POST['species']
-            picture = request.POST['picture']
-            c = Plant(nick_name=nick_name, species=species,picture=picture)
-            c.save()
+            plant =form.save(commit=True)
+            plant.save()
             return redirect('plant_collection:personal_collection')
+        
         return redirect('plant_collection:add_plant')

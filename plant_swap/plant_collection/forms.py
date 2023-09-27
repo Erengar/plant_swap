@@ -17,7 +17,8 @@ class add_plant_form(forms.ModelForm):
 
     picture= forms.ImageField(widget=forms.FileInput(
                                     attrs={
-                                        'class': 'file'
+                                        'class': 'file-input',
+                                        'type':'file'
                                     }
     ))
     

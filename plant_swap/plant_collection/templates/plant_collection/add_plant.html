@@ -1,24 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-<div class='box'>
-    <form action="{% url 'plant_collection:personal_collection' %}" method='post'>
-        {% csrf_token %}
-        <div>
-            <div class='container'>
-                <div>{{ form.nick_name.label_tag }}</div>
-                <div>{{ form.nick_name }}</div>
-            </div>
-            <div class='container'>
-                <div>{{ form.species.label_tag}}</div>
-                <div>{{ form.species }}</div>
-            </div>
-            <div class='container'>
-                <div>{{ form.picture }}</div>
+<form enctype='multipart/form-date' class='box' action="{% url 'plant_collection:personal_collection' %}" method='post'>
+    {% csrf_token %}
+        <div class='field'>
+            <label class='label'>{{ form.nick_name.label_tag }}</label>
+            <div class='control'>{{ form.nick_name }}</div>
+        </div>
+        <div class='field'>
+            <label class='label'>{{ form.species.label_tag }}</label>
+            <div class='control'>{{ form.species }}</div>
+        </div>
+        <div class='field'>
+
+            <div id='file-js-example' class='file is-medium'>
+                <label class='file-label'>
+                    {{ form.picture }}
+                    <span class='file-cta'>
+                        <span class='file-icon'>
+                            <i class='fa-solid fa-image'></i>
+                        </span>
+                        <span class='file-label'>
+                            Upload image
+                        </span>
+                    </span>
+                    <span class='file-name'>
+                        No Image
+                    </span>
+                </label>
             </div>
         </div>
-        <div class='container'>
-            <input class='button' type="submit" value='Submit'>
-        </div>
-    </form>
-</div>
+    <div class='container'>
+        <input class='button' type="submit" value='Submit'>
+    </div>
+</form>
+
+<script>
+    const fileInput = document.querySelector('#file-js-example input[type=file]');
+    fileInput.onchange = () => {
+      if (fileInput.files.length > 0) {
+        const fileName = document.querySelector('#file-js-example .file-name');
+        fileName.textContent = fileInput.files[0].name;
+      }
+    }
+  </script>
 {% endblock %}

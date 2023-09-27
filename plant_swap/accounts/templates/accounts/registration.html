@@ -1,13 +1,33 @@
 <html>
+    <head>
+        {% load static %}
+        {% load widget_tweaks %}
+        <link rel="stylesheet" href="{% static "plant_collection/css/base.css" %}">
+    </head>
     <body>
-        <div>
-            <h1>Registration</h1>
-            <form action="{% url 'accounts:registration' %}" method='post'>
+        <div class='container'>
+            <form class='box' action="{% url 'accounts:registration' %}" method='post'>
+                <h1 class='title' >Registration</h1>
                 {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value='Submit'>
+                {% for field in form %}
+                    <div class='label pt-3'>{{ field.label_tag }}</div>
+                    {% if field.errors %}
+                        {% render_field field class='input is-danger'%}
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                    {% if field.errors %}
+                        <div>
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {{ form.non_field_errors}}
+                <div class='container pt-5'>
+                    <input class='button' type="submit" value='Submit'>
+                    <a class='button' href="{% url 'accounts:login' %}">Login</a>
+                </div>
             </form>
-            <a href="{% url 'accounts:login' %}">Login</a>
         </div>
     </body>
 </html>

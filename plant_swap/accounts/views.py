@@ -42,14 +42,14 @@ class registration_view(View):
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
         email = request.POST['email']
-        if password != confirm_password:
-            return redirect('accounts:registration')
-        c = User.objects.create_user(username=username,
-                                    password=password,
-                                    email=email)
-        c.save()
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('plant_collection:front_page')
-        return redirect('plant_collection:front_page')
+        form =RegistrationForm(request.POST)
+        if form.is_valid():
+            c = User.objects.create_user(username=username,
+                                        password=password,
+                                        email=email)
+            c.save()
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('plant_collection:front_page')
+        return render(request, self.template_name, {'form':form})
