@@ -22,7 +22,7 @@ class Plant(models.Model):
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
     species = models.ForeignKey(Species, on_delete=models.PROTECT, blank=True, null=True, related_name='plants')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='plants')
-    picture = models.ImageField(upload_to='pics', null=True, blank=True)
+    picture = models.ImageField(upload_to='pics')
     slug = models.SlugField(default='bugged-plant')
     for_trade = models.BooleanField(default=False)
     #history = HistoricalRecords(excluded_fields=['tags', 'species', 'nick_name', 'updated'])

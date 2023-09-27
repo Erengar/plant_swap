@@ -4,31 +4,127 @@
         {% load static %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static "plant_collection/css/base.css" %}">
+        <link rel="stylesheet" href="{% static 'plant_collection/css/hover.css' %}">
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            function openModal($el) {
+              $el.classList.add('is-active');
+            }
+            function closeModal($el) {
+              $el.classList.remove('is-active');
+            }
+            function closeAllModal() {
+              (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+                closeModal($modal);
+              });
+            }
+            (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+              const modal = $trigger.dataset.target;
+              const $target = document.getElementById(modal);
+
+              $trigger.addEventListener('click', () => {
+                openModal($target);
+              });
+            });
+            (document.querySelectorAll('.modal-background, .modal-close') || []).forEach(($close) => {
+              const $target = $close.closest('.modal');
+
+              $close.addEventListener('click', () => {
+                closeModal($target);
+              });
+            });
+
+            document.addEventListener('keydown', (event) => {
+              if (event.code === 'Escape') {
+                closeAllModals();
+              }
+            });
+          });
+
+        </script>
     </head>
     <body>
         <nav class='navbar' role='navigation'>
             <div id='navbarBasicExample' class='navbar-menu'>
                <div class='navbar-start'>
                     <a href="{% url 'plant_collection:front_page' %}" class='navbar-item'>Home</a>
-
-
-
                     {% if user.is_authenticated %}
                     <a href="{% url 'plant_collection:personal_collection' %}" class='navbar-item'>My collection</a>
                     {% endif %}
                 </div>
                 <div class='narbar-end'>
+                  <div class='navbar-tem'>
                     {% if user.is_authenticated %}
                     <a href="{% url 'accounts:logout' %}" class='navbar-item'>Logout</a>
                     {% else %}
-                    <a href="{% url 'accounts:login' %}" class='navbar-item'>Login/Registration</a>
+                    <a class='js-modal-trigger' data-target='login-target'>
+                      <div class='button'>Login</div>
+                    </a>
+                    <div id='login-target' class='modal'>
+                        <div class='modal-background'></div>
+                        <div class='modal-content pr-6 pl-6'>
+                          <div class='box'>
+                            <form action="{% url 'accounts:login' %}" method='post'>
+                            {% csrf_token %}
+                            <div>
+                              <div>{{ login_form.username.label_tag}}</div>
+                                {{ login_form.username }}
+                              <div>{{ login_form.password.label_tag }}</div>
+                              <div>
+                                {{ login_form.password }}
+                              </div>
+                            </div>
+                              <div class='container pt-5'>
+                                <input class='button' type="submit" value='Submit'>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                        <button class='modal-close is-large'></button>
+                    </div>
+                    <a class='js-modal-trigger' data-target='registration-target'>
+                      <div class='button'>Sign up</div>
+                    </a>
+                    <div id='registration-target' class='modal'>
+                        <div class='modal-background'></div>
+                        <div class='modal-content pr-6 pl-6'>
+                          <div class='box'>
+                            <form action="{% url 'accounts:registration' %}" method='post'>
+                              {% csrf_token %}
+                              <div>
+                                <div>{{ registration_form.username.label_tag }}</div>
+                                <div>{{ registration_form.username}}</div>
+                              </div>
+                              <div>
+                                <div>{{ registration_form.email.label_tag}}</div>
+                                <div>{{ registration_form.email }}</div>
+                              </div>
+                              <div>
+                                <div>{{ registration_form.password.label_tag }}</div>
+                                <div>{{ registration_form.password }}</div>
+                              </div>
+                              <div>
+                                <div>{{ registration_form.confirm_password.label_tag }}</div>
+                                <div>{{ registration_form.confirm_password }}</div>
+                              </div>
+                              <div class='container pt-5'>
+                                <input class='button' type="submit" value='Submit'>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                        <button class='modal-close is-large'></button>
+                    </div>
                     {% endif %}
+                    </div
                </div> 
             </div>
         </nav>
+        <section class='section'>
         <div>
         {% block content %}
         {% endblock %}
         </div>
+        </section>
     </body>
 </html>

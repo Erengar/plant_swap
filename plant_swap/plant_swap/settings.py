@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'tagging',
+    'crispy_forms',
+
+
     'plant_collection',
-    'simple_history',
     'accounts',
 ]
 
@@ -133,3 +135,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+
+
+#Settings for crispy forms
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = ('bulma',)
+
+CRISPY_TEMPLATE_PACK = 'bulma'

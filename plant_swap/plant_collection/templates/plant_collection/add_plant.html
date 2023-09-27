@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class='box'>
+    <form action="{% url 'plant_collection:personal_collection' %}" method='post'>
+        {% csrf_token %}
+        <div>
+            <div class='container'>
+                <div>{{ form.nick_name.label_tag }}</div>
+                <div>{{ form.nick_name }}</div>
+            </div>
+            <div class='container'>
+                <div>{{ form.species.label_tag}}</div>
+                <div>{{ form.species }}</div>
+            </div>
+            <div class='container'>
+                <div>{{ form.picture }}</div>
+            </div>
+        </div>
+        <div class='container'>
+            <input class='button' type="submit" value='Submit'>
+        </div>
+    </form>
+</div>
+{% endblock %}

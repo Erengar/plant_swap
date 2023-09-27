@@ -1,12 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class='columns'>
+    <div class='column is-3'>
+        <a href="{% url 'plant_collection:add_plant' %}">
+        <div class='card has-text-centered hover' style='height:100%'>
+            <div class='column is-vcentered'>
+                <div class='column'>
+                    <div>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                    <div class='card-image'>
+                        <figure class='image is-96x96 is-inline-block'>
+                            <img src="/media/pics/add-image.png" alt="">
+                        </figure>
+                    </div>
+                    <div class='card-content'>
+                        <div class='title is-4'>
+                            Add new plant
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </a>
+    </div>
     {% if plants %}
     {% for plant in plants %}
     <div class='column is-3'>
-        <div class='box'>
+        <div class='card hover'>
             {% if plant.picture %}
-            <div>
+            <div class='card-image'>
                 <figure class='image is-4by3'>
                     <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
                         <img src="{{ plant.picture.url }}" alt="" width='500px'>
@@ -14,11 +39,13 @@
                 </figure>
             </div>
             {% endif %}
-            <div>
-                {{plant.nick_name}}
-            </div>
-            <div>
-                {{plant.owner}}
+            <div class='card-content'>
+                <div class='title is-4'>
+                    {{plant.nick_name}}
+                </div>
+                <div class='subtitle is-5'>
+                    {{plant.owner}}
+                </div>
             </div>
         </div>
     </div>

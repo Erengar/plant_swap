@@ -1,18 +1,41 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.core.validators import EmailValidator, validate_email
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='User name', max_length=20)
-    password = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(label='User name', max_length=20, help_text='username',
+                               widget=forms.TextInput(attrs={
+                                   'class':'input'}))
+    password = forms.CharField(widget=forms.TextInput(attrs={
+                                    'class':'input',
+                                    'type':'password'
+    }))
+                               
     class Meta:
         model = User
 
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(label='User name', max_length=20)
-    email = forms.EmailField(label='Email address')
-    password = forms.CharField(widget=forms.PasswordInput())
-    confirm_password = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(label='User name',
+                               max_length=20,
+                               widget=forms.TextInput(attrs={
+                                   'class':'input'
+                            }))
+    email = forms.EmailField(label='Email address',
+                             validators=[validate_email],
+                             widget=forms.TextInput(attrs={
+                                 'class':'input',
+                                 'type':'email'
+                            }))
+    password = forms.CharField(widget=forms.TextInput(attrs={
+                                    'class':'input',
+                                    'type':'password'
+                            }))
+    confirm_password = forms.CharField(widget=forms.TextInput(attrs={
+                                            'class':'input',
+                                            'type':'password'
+                            }))
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
