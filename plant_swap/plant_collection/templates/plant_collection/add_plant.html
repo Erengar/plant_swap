@@ -1,20 +1,58 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+    output .image span {
+        position: absolute;
+        top: -4px;
+        right: 4px;
+        cursor: pointer;
+        font-size: 22px;
+        color: white;
+      }
+      
+      output .image span:hover {
+        opacity: 0.8;
+      }
+      
+      output .span--hidden{
+        visibility: hidden;
+      }
+</style>
 <form enctype='multipart/form-data' class='box' action="{% url 'plant_collection:add_plant' %}" method='post'>
     {% csrf_token %}
+
         <div class='field'>
-            <label class='label'>{{ form.nick_name.label_tag }}</label>
+            <label class='label pt-3'>{{ form.nick_name.label_tag }}</label>
             <div class='control'>{{ form.nick_name }}</div>
         </div>
+        {% if form.nick_name.errors %}
+            <div>
+                <ul>
+                    {% for error in form.nick_name.errors %}
+                        <li class='has-text-danger'>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
         <div class='field'>
-            <label class='label'>{{ form.species.label_tag }}</label>
+            <label class='label pt-3'>{{ form.species.label_tag }}</label>
             <div class='control'>{{ form.species }}</div>
         </div>
-        <div class='field'>
+        {% if form.species.errors %}
+            <div>
+                <ul>
+                    {% for error in form.species.errors %}
+                        <li class='has-text-danger'>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
+        <div class='field'>
             <div id='file-js-example' class='file is-medium'>
-                <label class='file-label'>
-                    {{ form.picture }}
+                <label class='file-label pt-3'>
+                    <input hidden type="file" multiple accept='image/jpeg, image/png, image/jpg' name='picture'>
                     <span class='file-cta'>
                         <span class='file-icon'>
                             <i class='fa-solid fa-image'></i>
@@ -23,24 +61,55 @@
                             Upload image
                         </span>
                     </span>
-                    <span class='file-name'>
-                        No Image
-                    </span>
                 </label>
             </div>
         </div>
+        {% if form.picture.errors %}
+            <div>
+                <ul>
+                    {% for error in form.picture.errors %}
+                        <li class='has-text-danger'>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     <div class='container'>
-        <input class='button' type="submit" value='Submit'>
+        <input id='submit-btn' class='button' type="submit" value='Submit'>
     </div>
 </form>
+<output class='columns'></output>
 
 <script>
-    const fileInput = document.querySelector('#file-js-example input[type=file]');
-    fileInput.onchange = () => {
-      if (fileInput.files.length > 0) {
-        const fileName = document.querySelector('#file-js-example .file-name');
-        fileName.textContent = fileInput.files[0].name;
+    const output = document.querySelector('output')
+    const input = document.querySelector('input[type=file]')
+    let imagesArray = []
+
+
+    input.addEventListener("change", () => {
+        const files = input.files
+        for (let i = 0; i < files.length; i++) {
+          imagesArray.push(files[i])
+        }
+        displayImages()
+      })
+
+    function displayImages() {
+        let images = ""
+        imagesArray.forEach((image, index) => {
+          images += `<div class='column is-3'>
+                      <div class="image is-4by3">
+                      <img src="${URL.createObjectURL(image)}" alt="image">
+                      <span onclick="deleteImage(${index})">&times;</span>
+                    </div>
+                    </div>`
+        })
+        output.innerHTML = images
       }
-    }
+
+    function deleteImage(index) {
+        imagesArray.splice(index, 1)
+        displayImages()
+      }
+
   </script>
 {% endblock %}

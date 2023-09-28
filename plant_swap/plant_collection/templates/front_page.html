@@ -5,15 +5,17 @@
     {% for plant in plants %}
     <div class='column is-3-desktop is-full-mobile'>
         <div class='card hover'>
+
             {% if plant.picture %}
             <div class='card-image'>
                 <figure class='image is-4by3'>
                     <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
-                        <img src="{{ plant.picture.url }}" alt="" width='500px'>
+                        <img src="{{ plant.picture.all.0.image.url }}" alt="" width='500px'>
                     </a>
                 </figure>
             </div>
             {% endif %}
+
             <div class='card-content'>
                 <div class='title is-4'>
                     {{plant.nick_name}}

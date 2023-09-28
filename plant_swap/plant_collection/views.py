@@ -1,7 +1,7 @@
 from typing import Any
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.views import generic, View
-from .models import Plant, Species
+from .models import Plant, Species, Image
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import add_plant_form
@@ -33,9 +33,7 @@ class front_page(generic.ListView):
     registration_form = RegistrationForm()
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["plants"] = Plant.objects.order_by('updated')
-        context['login_form'] = self.login_form
-        context['registration_form'] = self.registration_form
+        context["plants"] = Plant.objects.order_by('-updated')
         return context
     
 class plant_view(generic.DetailView):
@@ -56,7 +54,7 @@ class add_plant(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
         
     def post(self,request):
-        form = add_plant_form(request.POST, request.FILES)
+        form = add_plant_form(request.POST)
         if form.is_valid():
             nick_name = request.POST['nick_name']
             owner = User.objects.get(username=request.user.username)
@@ -64,12 +62,21 @@ class add_plant(LoginRequiredMixin, View):
                 species = Species.objects.get(pk=request.POST['species'])
             except:
                 species = None
-            picture = request.FILES['picture']
+            pictures = request.POST['data']
             plant = Plant.objects.create(nick_name=nick_name,
                                          owner=owner,
-                                         species=species,
-                                         picture=picture)
-            plant.save()
+                                         species=species)
+            print(pictures)
+            try:
+                image = Image.objects.create(plant=plant, image=pictures)
+                image.save()
+                plant.save()
+            except:
+                plant.save()
+                for picture in pictures:
+                    image = Image.objects.create(plant=plant, image=picture)
+                    image.save()
+
             return redirect('plant_collection:personal_collection')
         
-        return redirect('plant_collection:add_plant')
+        return render(request, self.template_name, {'form':form})

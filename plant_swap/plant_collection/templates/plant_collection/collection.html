@@ -34,7 +34,7 @@
             <div class='card-image'>
                 <figure class='image is-4by3'>
                     <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
-                        <img src="{{ plant.picture.url }}" alt="" width='500px'>
+                        <img src="{{ plant.picture.all.0.image.url }}" alt="" width='500px'>
                     </a>
                 </figure>
             </div>
