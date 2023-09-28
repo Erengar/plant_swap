@@ -49,17 +49,17 @@
             </div>
         {% endif %}
 
-        <div class='input_container'>
-            <div class='field'>
-                <div id='file-js-example' class='file is-medium'>
+        <div class='input_container' id='replicator'>
+            <div class='field' id='hiding0'>
+                <div id='file-js-example' class='file is-medium is-boxed'>
                     <label class='file-label pt-3'>
-                        <input class='input_tag' hidden type='file' accept='image/*' name='picture'>
+                        <input class='input_tag0 file_input' id='input_tag0' hidden type='file' accept='image/*' name='picture0'>
                         <span class='file-cta'>
                             <span class='file-icon'>
                                 <i class='fa-solid fa-image'></i>
                             </span>
                             <span class='file-label'>
-                                Upload image
+                                Upload image...
                             </span>
                         </span>
                     </label>
@@ -83,11 +83,12 @@
 <output class='columns'></output>
 
 <script>
-    const output = document.querySelector('output')
-    var input = document.querySelector('.input_tag')
-    const inputContainer = document.querySelector('.input_container')
-    let count = 0
-    let imagesArray = []
+    const output = document.querySelector('output');
+    var input = document.querySelector('.input_tag0');
+    const inputContainer = document.querySelector('#replicator');
+    let count = 0;
+    let counti = 0;
+    let imagesArray = [];
 
 
     inputContainer.addEventListener("change", () => {
@@ -95,14 +96,24 @@
         imagesArray.push(files)
         displayImages()
         addInput()
+        removeInput()
       })
 
+    function removeInput() {
+        let node = document.getElementById(`hiding${counti}`);
+        let hid = document.createAttribute('hidden');
+        node.setAttributeNode(hid);
+        counti ++
+
+    }
+    
     function addInput() {
         count ++
-        const inputHtml = `<div class='field'>
-                            <div id='file-js-example' class='file is-medium'>
+        const inputHtml = document.createRange().createContextualFragment(
+                            `<div class='field' id='hiding${count}'>
+                            <div id='file-js-example' class='file is-medium is-boxed'>
                                 <label class='file-label pt-3'>
-                                    <input class='input_tag${count}' hidden type='file' accept='image/*' name='picture${count}'>
+                                    <input class='input_tag${count} file-input' id='input_tag${count}' hidden type='file' accept='image/*' name='picture${count}'>
                                     <span class='file-cta'>
                                         <span class='file-icon'>
                                             <i class='fa-solid fa-image'></i>
@@ -113,8 +124,8 @@
                                     </span>
                                 </label>
                             </div>
-                        </div>`
-        inputContainer.innerHTML += inputHtml
+                        </div>`);
+        inputContainer.appendChild(inputHtml);
         input = document.querySelector(`.input_tag${count}`);
     }
 
@@ -134,6 +145,9 @@
     }
 
     function deleteImage(index) {
+        let nod = document.getElementById(`input_tag${index}`);
+        let dis = document.createAttribute('disabled');
+        nod.setAttributeNode(dis)
         imagesArray.splice(index, 1)
         displayImages()
       }

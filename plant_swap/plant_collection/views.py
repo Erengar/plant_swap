@@ -67,7 +67,6 @@ class add_plant(LoginRequiredMixin, View):
                                          owner=owner,
                                          species=species)
             print(pictures)
-            '''
             try:
                 image = Image.objects.create(plant=plant, image=pictures)
                 image.save()
@@ -77,7 +76,6 @@ class add_plant(LoginRequiredMixin, View):
                 for picture in pictures:
                     image = Image.objects.create(plant=plant, image=picture)
                     image.save()
-            '''
             return redirect('plant_collection:personal_collection')
         
         return render(request, self.template_name, {'form':form})
