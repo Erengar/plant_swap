@@ -40,7 +40,7 @@ class Plant(models.Model):
     
 
 class Image(models.Model):
-    plant = models.ForeignKey(Plant, on_delete=models.PROTECT, related_name='picture')
+    plant = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name='picture')
     image = models.ImageField(upload_to='pics')
 
     def __str__(self):

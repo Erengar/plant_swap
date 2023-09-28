@@ -49,21 +49,24 @@
             </div>
         {% endif %}
 
-        <div class='field'>
-            <div id='file-js-example' class='file is-medium'>
-                <label class='file-label pt-3'>
-                    <input hidden type="file" multiple accept='image/jpeg, image/png, image/jpg' name='picture'>
-                    <span class='file-cta'>
-                        <span class='file-icon'>
-                            <i class='fa-solid fa-image'></i>
+        <div class='input_container'>
+            <div class='field'>
+                <div id='file-js-example' class='file is-medium'>
+                    <label class='file-label pt-3'>
+                        <input class='input_tag' hidden type='file' accept='image/*' name='picture'>
+                        <span class='file-cta'>
+                            <span class='file-icon'>
+                                <i class='fa-solid fa-image'></i>
+                            </span>
+                            <span class='file-label'>
+                                Upload image
+                            </span>
                         </span>
-                        <span class='file-label'>
-                            Upload image
-                        </span>
-                    </span>
-                </label>
+                    </label>
+                </div>
             </div>
         </div>
+
         {% if form.picture.errors %}
             <div>
                 <ul>
@@ -81,30 +84,54 @@
 
 <script>
     const output = document.querySelector('output')
-    const input = document.querySelector('input[type=file]')
+    var input = document.querySelector('.input_tag')
+    const inputContainer = document.querySelector('.input_container')
+    let count = 0
     let imagesArray = []
 
 
-    input.addEventListener("change", () => {
-        const files = input.files
-        for (let i = 0; i < files.length; i++) {
-          imagesArray.push(files[i])
-        }
+    inputContainer.addEventListener("change", () => {
+        var files = input.files
+        imagesArray.push(files)
         displayImages()
+        addInput()
       })
 
+    function addInput() {
+        count ++
+        const inputHtml = `<div class='field'>
+                            <div id='file-js-example' class='file is-medium'>
+                                <label class='file-label pt-3'>
+                                    <input class='input_tag${count}' hidden type='file' accept='image/*' name='picture${count}'>
+                                    <span class='file-cta'>
+                                        <span class='file-icon'>
+                                            <i class='fa-solid fa-image'></i>
+                                        </span>
+                                        <span class='file-label'>
+                                            Upload image
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>`
+        inputContainer.innerHTML += inputHtml
+        input = document.querySelector(`.input_tag${count}`);
+    }
+
     function displayImages() {
-        let images = ""
+        let images = "";
         imagesArray.forEach((image, index) => {
-          images += `<div class='column is-3'>
-                      <div class="image is-4by3">
-                      <img src="${URL.createObjectURL(image)}" alt="image">
-                      <span onclick="deleteImage(${index})">&times;</span>
-                    </div>
-                    </div>`
-        })
-        output.innerHTML = images
-      }
+            for (let i = 0; i < image.length; i++) {
+                images += `<div class='column is-3'>
+                              <div class="image is-4by3">
+                              <img src="${URL.createObjectURL(image[i])}" alt="image">
+                              <span onclick="deleteImage(${index}, ${i})">&times;</span>
+                            </div>
+                            </div>`;
+            }
+        });
+        output.innerHTML = images;
+    }
 
     function deleteImage(index) {
         imagesArray.splice(index, 1)

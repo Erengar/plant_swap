@@ -62,11 +62,12 @@ class add_plant(LoginRequiredMixin, View):
                 species = Species.objects.get(pk=request.POST['species'])
             except:
                 species = None
-            pictures = request.POST['data']
+            pictures = request.FILES
             plant = Plant.objects.create(nick_name=nick_name,
                                          owner=owner,
                                          species=species)
             print(pictures)
+            '''
             try:
                 image = Image.objects.create(plant=plant, image=pictures)
                 image.save()
@@ -76,7 +77,7 @@ class add_plant(LoginRequiredMixin, View):
                 for picture in pictures:
                     image = Image.objects.create(plant=plant, image=picture)
                     image.save()
-
+            '''
             return redirect('plant_collection:personal_collection')
         
         return render(request, self.template_name, {'form':form})
