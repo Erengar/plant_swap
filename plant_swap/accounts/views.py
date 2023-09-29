@@ -3,17 +3,25 @@ from django.contrib.auth import login, logout,authenticate
 from .forms import LoginForm, RegistrationForm
 from django.contrib.auth.models import User
 from django.views import generic, View
+from django.contrib.auth.views import LoginView
 
 # Create your views here.
 
-
-class login_view(View):
+class login_view(LoginView):
     template_name = 'accounts/login.html'
-    def get(self, request):
-        form = LoginForm()
-        return render(request, self.template_name, {'form':form})
+    next_page = ('plant_collection:personal_collection')
+    authentication_form = LoginForm
+    redirect_authenticated_user = True
 
-    #Dont know about safety here, additional work required
+'''OBSOLETE
+class logina_view(View):
+    template_name = 'accounts/login.html'
+    form = LoginForm()
+
+    def get(self, request):
+        return render(request, self.template_name, {'form':self.form})
+
+    #Dont know about safety here
     def post(self, request):
         username = request.POST['username']
         password = request.POST['password']
@@ -22,8 +30,8 @@ class login_view(View):
             login(request, user)
             return redirect('plant_collection:personal_collection')
         else:
-            return redirect('accounts:login')
-        
+            return render(request, self.template_name, {'form': self.form})
+'''
 
 def logout_view(request):
     logout(request)
@@ -31,18 +39,18 @@ def logout_view(request):
 
 class registration_view(View):
     template_name = 'accounts/registration.html'
+
     def get(self, request):
-        form = RegistrationForm()
+        form = RegistrationForm
         context = {'form':form}
         return render(request, self.template_name, context)
 
-    #No idea how save this is
+
     def post(self, request):
         username = request.POST['username']
         password = request.POST['password']
-        confirm_password = request.POST['confirm_password']
         email = request.POST['email']
-        form =RegistrationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             c = User.objects.create_user(username=username,
                                         password=password,

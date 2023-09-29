@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 import re
 
 def unique_username(value):
-    if User.objects.filter(username=value):
-        raise forms.ValidationError('Username taken.')
+    if User.objects.filter(username=value).exists():
+        raise forms.ValidationError('Username already taken.')
     
 def numbers_and_letters(value):
     if not (re.search('[a-z]+', value, flags=re.IGNORECASE) and re.search('[0-9]+', value)):
@@ -13,3 +13,7 @@ def numbers_and_letters(value):
 def upper_lower(value):
     if not(re.search('[a-z]+', value) and re.search('[A-Z]+', value)):
         raise forms.ValidationError('Password must contain uppercase and lower case letters.')
+    
+def unique_email(value):
+    if User.objects.filter(email=value).exists():
+        raise forms.ValidationError('Email adress is already taken.')

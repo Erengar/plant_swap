@@ -83,6 +83,14 @@
 <output class='columns'></output>
 
 <script>
+    /*
+    In this script we are listening to input_container class for any change, that is file input.
+    Once image is inserted into input, we display it, then hide used input tag and spawn new one.
+    In this way we are protecting input tags from getting new image which would be messing with our display of images and event listener.
+    Cross on the picture also removes given picture from post request.
+    */
+
+
     const output = document.querySelector('output');
     var input = document.querySelector('.input_tag0');
     const inputContainer = document.querySelector('#replicator');
@@ -90,7 +98,7 @@
     let counti = 0;
     let imagesArray = [];
 
-
+    //Listening to object that will contain all file input fields, „change“ should fine as long as we are adding and hiding fields
     inputContainer.addEventListener("change", () => {
         var files = input.files
         imagesArray.push(files)
@@ -99,6 +107,7 @@
         removeInput()
       })
 
+    
     function removeInput() {
         let node = document.getElementById(`hiding${counti}`);
         let hid = document.createAttribute('hidden');
@@ -107,6 +116,7 @@
 
     }
     
+    //Needs different variable, because it starts counting from 1, as 0 is already placed in html
     function addInput() {
         count ++
         const inputHtml = document.createRange().createContextualFragment(
@@ -125,6 +135,7 @@
                                 </label>
                             </div>
                         </div>`);
+        //before was innerHtml +=, turned out it was invalidating input fields
         inputContainer.appendChild(inputHtml);
         input = document.querySelector(`.input_tag${count}`);
     }

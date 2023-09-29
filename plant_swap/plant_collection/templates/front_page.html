@@ -23,6 +23,21 @@
                 <div class='subtitle is-5'>
                     {{plant.owner}}
                 </div>
+                {% if plant.for_trade %}
+                <div class='icon-text'>
+                    <span class='icon'>
+                        <i class="fa-solid fa-store"></i>
+                    </span>
+                    For Trade
+                </div>
+                {% else %}
+                <span class='icon-text'>
+                    <span class='icon'>
+                        <i class="fa-solid fa-store-slash"></i>
+                    </span>
+                    Not for Trade
+                </span>
+                {% endif %}
             </div>
         </div>
     </div>

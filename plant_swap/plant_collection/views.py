@@ -8,14 +8,11 @@ from .forms import add_plant_form
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
 
-
+#Importing forms from accounts app
 import sys
-
 sys.path.append('../accounts')
-
 from accounts.forms import LoginForm, RegistrationForm
 
-# Create your views here.
 
 class personal_collection(LoginRequiredMixin, generic.ListView):
     template_name ='plant_collection/collection.html'
@@ -35,7 +32,7 @@ class front_page(generic.ListView):
         context = super().get_context_data(**kwargs)
         context["plants"] = Plant.objects.order_by('-updated')
         return context
-    
+
 class plant_view(generic.DetailView):
     template_name = 'plant_collection/plant.html'
     model = Plant
@@ -66,7 +63,6 @@ class add_plant(LoginRequiredMixin, View):
             plant = Plant.objects.create(nick_name=nick_name,
                                          owner=owner,
                                          species=species)
-            print(pictures)
             try:
                 image = Image.objects.create(plant=plant, image=pictures)
                 image.save()

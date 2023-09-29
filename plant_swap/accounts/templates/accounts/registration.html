@@ -30,6 +30,7 @@
                     {% for error in form.non_field_errors %}
                             <li class='has-text-danger'>{{ error }}</li>
                     {% endfor %}
+                    {{ password_valid }}
                 </ul>
                 <div class='container pt-5'>
                     <input class='button' type="submit" value='Submit'>
