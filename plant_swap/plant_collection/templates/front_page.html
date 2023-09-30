@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static %}
 <div class='columns is-multiline'>
     {% if plants %}
     {% for plant in plants %}
@@ -16,32 +17,62 @@
             </div>
             {% endif %}
 
-            <div class='card-content'>
-                <div class='title is-4'>
-                    {{plant.nick_name}}
+            <div class='card-content columns'>
+                <div class='column'>
+                    <div class='title is-4 is-align-self-flex-start'>
+                        {{plant.nick_name}}
+                    </div>
+                    <div class='subtitle is-5'>
+                        {{plant.owner}}
+                    </div>
                 </div>
-                <div class='subtitle is-5'>
-                    {{plant.owner}}
+
+
+                <div class='column pb-1'>
+                    <div class='has-text-right pb-5'>
+                        {% if plant.for_trade %}
+                        <div class='icon-text has-text-weight-semibold'>
+                            <span class='icon'>
+                                <i class="fa-solid fa-store"></i>
+                            </span>
+                            For Trade
+                        </div>
+                        {% else %}
+                        <span class='icon-text has-text-weight-semibold'>
+                            <span class='icon'>
+                                <i class="fa-solid fa-store-slash "></i>
+                            </span>
+                            Not for Trade
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <div class='has-text-right'>
+                        {% csrf_token %}
+                        {% if not user in plant.likes.all %}
+                        <div>
+                            <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
+                        </div>
+                        {% elif user in plant.likes.all %}
+                        <div>
+                            <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
+                        </div>
+                        {% endif %}
+                        <div class='number_likes is-size-7 has-text-weight-bold'>
+                            {{ plant.number_of_likes }} like/s
+                        </div>
+                    </div>
                 </div>
-                {% if plant.for_trade %}
-                <div class='icon-text'>
-                    <span class='icon'>
-                        <i class="fa-solid fa-store"></i>
-                    </span>
-                    For Trade
-                </div>
-                {% else %}
-                <span class='icon-text'>
-                    <span class='icon'>
-                        <i class="fa-solid fa-store-slash"></i>
-                    </span>
-                    Not for Trade
-                </span>
-                {% endif %}
+
             </div>
         </div>
+    </div>
+    {% empty %}
+    <div class='column is-3-desktop is-full-mobile'>
+        No plants :(
     </div>
     {% endfor %}
     {% endif %}
 </div>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
 {% endblock %}

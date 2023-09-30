@@ -7,11 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import add_plant_form
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
-
-#Importing forms from accounts app
-import sys
-sys.path.append('../accounts')
-from accounts.forms import LoginForm, RegistrationForm
+from django.utils.decorators import method_decorator
+from django.http import HttpResponse
 
 
 class personal_collection(LoginRequiredMixin, generic.ListView):
@@ -20,18 +17,39 @@ class personal_collection(LoginRequiredMixin, generic.ListView):
         model = Plant.objects.filter(owner=request.user).order_by('-updated')
         context = {'plants': model}
         return render(request, self.template_name, context)
+    
+    
+    def post(self, request):
+        plant = request.POST['plant']
+        user = request.POST['user']
+        p = Plant.objects.get(nick_name=plant)
+        u = User.objects.get(username=user)
+        if u in p.likes.all():
+            p.likes.remove(u)
+        elif not u in p.likes.all():
+            p.likes.add(u)
+        return HttpResponse(p.number_of_likes())
 
 
 #Under construction
 class front_page(generic.ListView):
     template_name = 'front_page.html'
     model = Plant
-    login_form = LoginForm()
-    registration_form = RegistrationForm()
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["plants"] = Plant.objects.order_by('-updated')
         return context
+
+    def post(self, request):
+        plant = request.POST['plant']
+        user = request.POST['user']
+        p = Plant.objects.get(nick_name=plant)
+        u = User.objects.get(username=user)
+        if u in p.likes.all():
+            p.likes.remove(u)
+        elif not u in p.likes.all():
+            p.likes.add(u)
+        return HttpResponse(p.number_of_likes())
 
 class plant_view(generic.DetailView):
     template_name = 'plant_collection/plant.html'

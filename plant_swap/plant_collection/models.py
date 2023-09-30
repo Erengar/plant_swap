@@ -3,6 +3,7 @@ from django.core.validators import MinLengthValidator
 from django.conf import settings
 from simple_history.models import HistoricalRecords
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Species(models.Model):
@@ -24,6 +25,7 @@ class Plant(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='plants')
     slug = models.SlugField(default='bugged-plant')
     for_trade = models.BooleanField(default=False)
+    likes = models.ManyToManyField(User, related_name= 'liked')
     #history = HistoricalRecords(excluded_fields=['tags', 'species', 'nick_name', 'updated'])
 
     def update_slug(self):
@@ -34,6 +36,9 @@ class Plant(models.Model):
         if self.slug != slugify(self.nick_name):
             self.slug=slugify(self.nick_name)
         super().save(*args, **kwargs)
+
+    def number_of_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.nick_name
