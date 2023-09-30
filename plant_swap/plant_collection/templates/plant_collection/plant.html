@@ -1,18 +1,84 @@
 {% extends "base.html" %}
 {% block content %}
-<div class='container'>
-    {% if plant.picture %}
-    <div>
-        <figure class='image is-4by3'>
-            <img src="{{ plant.picture.all.0.image.url }}" alt="" width='500px'>
-        </figure>
-    </div>
-    {% endif %}
-    <div>
-        {{plant.nick_name}}
-    </div>
-    <div>
-        {{plant.owner}}
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
+</head>
+<div class='box'>
+    <div class='columns'>
+        <div class='column is-half'>
+            <div class="container">
+                <div class='carousel_box'>
+                    <button id="left-btn" class='carousel_button'><i class="arrow"></i></button>
+                        {% for picture in plant.picture.all %}
+                        <div class='carousel_image'>
+                            <figure class='image is-4by3'>
+                                <img class='carousel' hidden src="{{ picture.image.url }}" alt="">
+                            </figure>
+                        </div>
+                        {% endfor %}
+                    <button id="right-btn" class='carousel_button'><i class="arrow"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class='column is-half'>
+            <div class='container'>
+                <div class='block m-6'>
+                    <div class='title'>
+                        {{plant.nick_name}}
+                    </div>
+                    <div class='block'>
+                        <div class='subtitle is-5'>
+                            Owned by {{plant.owner}}
+                        </div>
+                    </div>
+                    <span class='icon-text'>
+                        <span class='icon'>
+                            <i class="fa-solid fa-store-slash"></i>
+                        </span>
+                        Not for Trade
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<script>
+    const pictures = document.querySelectorAll('.carousel_image');
+    const rightBtn = document.getElementById('right-btn');
+    const leftBtn = document.getElementById('left-btn');
+    var position = 0;
+
+    for (let i = 1; i < pictures.length; i++) {
+        pictures[i].setAttribute('hidden', true);
+    }
+
+    function hide() {
+        for (let i = 0; i < pictures.length; i++) {
+            pictures[i].setAttribute('hidden', true);
+        }
+    }
+
+    rightBtn.addEventListener('click', () => {
+        hide();
+        if (position == pictures.length-1) {
+            position = 0;
+        } else {
+            position ++;
+        }
+        pictures[position].removeAttribute('hidden');
+    })
+
+    leftBtn.addEventListener('click', () => {
+        hide();
+        if (position == 0) {
+            position = pictures.length-1;
+        } else {
+            position --;
+        }
+        pictures[position].removeAttribute('hidden');
+    })
+
+
+</script>
 {% endblock %}

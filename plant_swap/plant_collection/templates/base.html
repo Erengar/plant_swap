@@ -8,37 +8,45 @@
         <script src="https://kit.fontawesome.com/b2e6637db0.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <nav class='navbar' role='navigation'>
+        <nav class='navbar' role='navigation' style='position:sticky !important'>
 
-          <div id='navbarBasicExample' class='navbar-brand'>
-            <div class='navbar-item'>
-                <a href="{% url 'plant_collection:front_page' %}" class='navbar-item'>Home</a>
-                {% if user.is_authenticated %}
-                <a href="{% url 'plant_collection:personal_collection' %}" class='navbar-item'>My collection</a>
-                {% endif %}
-            </div>
-            <div class='navbar-item is-hidden-desktop'>
-              {% if user.is_authenticated %}
-              <a href="{% url 'accounts:logout' %}">Logout</a>
-              {% else %}
-              <a href="{% url 'accounts:login' %}" class='navbar-item'>Login/Signup</a>
-              {% endif %}
-            </div>
-        </div>
+          <div class='navbar-brand'>
+            <a href="{% url 'plant_collection:front_page' %}" class='navbar-item'>
+              <i class="fa-solid fa-house"></i>Home
+            </a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'plant_collection:personal_collection' %}" class='navbar-item'>
+              <i class="fa-solid fa-leaf"></i>My collection
+            </a>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'accounts:logout' %}" class='navbar-item is-hidden-desktop'>
+              <i class="fa-solid fa-power-off"></i>Logout
+            </a>
+            {% else %}
+            <a href="{% url 'accounts:login' %}" class='navbar-item is-hidden-desktop'>
+              <i class="fa-solid fa-power-off"></i>Login/Signup
+            </a>
+            {% endif %}
+          </div>
 
               
           <div class='navbar-menu'>
+            <div class='navbar-start'>
+            </div>
             <div class='navbar-end'>
-              <div class='navbar-item'>
                 {% if user.is_authenticated %}
-                <a href="{% url 'accounts:logout' %}" class='navbar-item'>Logout</a>
+                <a href="{% url 'accounts:logout' %}" class='navbar-item'>
+                  <span class='icon-text'><span class='icon'><i class="fa-solid fa-power-off"></i></span><span>Logout</span></span>
+                </a>
                 {% else %}
-                <a href="{% url 'accounts:login' %}" class='navbar-item'>Login/Signup</a>
+                <a href="{% url 'accounts:login' %}" class='navbar-item'>
+                  <span class='icon-text'><span class='icon'><i class="fa-solid fa-user"></i></span><span>Login/Signup</span></span>
+                </a>
                 {% endif %}
-              </div>
             </div>
           </div>
-
         </nav>
 
   

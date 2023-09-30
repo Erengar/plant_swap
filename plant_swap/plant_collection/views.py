@@ -64,14 +64,14 @@ class add_plant(LoginRequiredMixin, View):
                                          owner=owner,
                                          species=species)
             try:
-                image = Image.objects.create(plant=plant, image=pictures)
-                image.save()
-                plant.save()
-            except:
                 plant.save()
                 for picture in pictures:
-                    image = Image.objects.create(plant=plant, image=picture)
+                    image = Image.objects.create(plant=plant, image=pictures[picture])
                     image.save()
+            except:
+                image = Image.objects.create(plant=plant, image=pictures['picture0'])
+                image.save()
+                plant.save()
             return redirect('plant_collection:personal_collection')
         
         return render(request, self.template_name, {'form':form})
