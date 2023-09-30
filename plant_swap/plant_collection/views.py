@@ -3,11 +3,10 @@ from django.shortcuts import render, redirect, get_list_or_404, get_object_or_40
 from django.views import generic, View
 from .models import Plant, Species, Image
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import add_plant_form
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
-from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 
 
@@ -44,7 +43,7 @@ class front_page(generic.ListView):
         plant = request.POST['plant']
         user = request.POST['user']
         p = Plant.objects.get(nick_name=plant)
-        u = User.objects.get(username=user)
+        u = User.objects.get(username=user)  
         if u in p.likes.all():
             p.likes.remove(u)
         elif not u in p.likes.all():
@@ -58,6 +57,32 @@ class plant_view(generic.DetailView):
         plant = get_object_or_404(Plant, slug=slug)
         context = {'plant': plant}
         return render(request, self.template_name, context)
+    
+    '''
+    Both delete and like button-on-plant-view are POSTing on plant_view, thus it is necessary to provide some logic what to execute when.
+    When we user likes the picture like Ajax sends its url as context then we simply check wheter there is 'url' context, and if there is
+    wheter our plant slug is in that url. If it comes through this we know it is like request, otherwise it is delete request.'''
+    def post(self, request, slug):
+        plant = get_object_or_404(Plant, slug=slug)
+        try_url = 'č'
+        try:
+            try_url = request.POST['url']
+        except:
+            pass
+        if plant.slug in try_url:
+            plant = request.POST['plant']
+            user = request.POST['user']
+            p = Plant.objects.get(nick_name=plant)
+            u = User.objects.get(username=user)  
+            if u in p.likes.all():
+                p.likes.remove(u)
+            elif not u in p.likes.all():
+                p.likes.add(u)
+            return HttpResponse(p.number_of_likes())
+        elif request.user == plant.owner:
+            plant.delete()
+        return redirect('plant_collection:personal_collection')
+        
     
 
 class add_plant(LoginRequiredMixin, View):
@@ -93,3 +118,9 @@ class add_plant(LoginRequiredMixin, View):
             return redirect('plant_collection:personal_collection')
         
         return render(request, self.template_name, {'form':form})
+    
+
+class update_plant(generic.UpdateView, UserPassesTestMixin):
+    template_name = 'plant_collection/update_plant.html'
+    model = Plant
+    fields = ['nick_name', 'species', 'for_trade']

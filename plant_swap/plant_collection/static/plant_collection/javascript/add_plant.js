@@ -44,7 +44,7 @@
                                             <i class='fa-solid fa-image'></i>
                                         </span>
                                         <span class='file-label'>
-                                            Upload image
+                                            Upload image...
                                         </span>
                                     </span>
                                 </label>

@@ -19,6 +19,7 @@ class add_plant_form(forms.ModelForm):
                                         'class':'select'
                                     }
     ))
+    for_trade = forms.BooleanField()
 
     class Meta:
         model = Plant

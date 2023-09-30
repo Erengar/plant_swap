@@ -50,6 +50,20 @@
             </div>
         {% endif %}
 
+        <div>
+            <label class='label pt-3'>{{ form.for_trade.label_tag }}</label>
+            <div class='control'>{{ form.for_trade }}</div>
+        </div>
+        {% if form.for_trade.errors %}
+            <div>
+                <ul>
+                    {% for error in form.for_trade.errors %}
+                        <li class='has-text-danger'>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
         <div class='input_container' id='replicator'>
             <div class='field' id='hiding0'>
                 <div id='file-js-example' class='file is-medium is-boxed'>
@@ -67,7 +81,6 @@
                 </div>
             </div>
         </div>
-
         {% if form.picture.errors %}
             <div>
                 <ul>
@@ -77,7 +90,8 @@
                 </ul>
             </div>
         {% endif %}
-    <div class='container'>
+
+    <div class='container pt-4'>
         <input id='submit-btn' class='button' type="submit" value='Submit'>
     </div>
 </form>
