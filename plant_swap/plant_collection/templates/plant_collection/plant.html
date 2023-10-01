@@ -27,7 +27,7 @@
 
                     {% if user == plant.owner %}
                     <div class='container is-flex-direction-column'>
-                        <a class='modal_open is-pulled-right'><i class="fa-regular fa-trash-can"></i></a>
+                        <a class='modal_open is-pulled-right ml-3'><i class="fa-regular fa-trash-can"></i></a>
                         <a href="{% url 'plant_collection:update_plant' slug=plant.slug %}" class='is-pulled-right'><i class="fa-solid fa-pen-to-square"></i></a>
                     </div>
                     <div class='modal'>
@@ -68,6 +68,14 @@
                             <div class='number_likes is-size-7 has-text-weight-bold'>
                                 {{ plant.number_of_likes }} like/s
                             </div>
+                        </div>
+
+                        <div>
+                            {% for specie in plant.species %}
+                            <div>
+                                {{specie}}
+                            </div>
+                            {% endfor %}
                         </div>
                     </section>
 

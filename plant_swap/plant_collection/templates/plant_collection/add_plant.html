@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
+{% load widget_tweaks %}
 <style>
     output .image span {
         position: absolute;
@@ -19,79 +20,67 @@
         visibility: hidden;
       }
 </style>
-<form enctype='multipart/form-data' class='box' action="{% url 'plant_collection:add_plant' %}" method='post'>
+<form enctype='multipart/form-data' class='box mx-6' action="{% url 'plant_collection:add_plant' %}" method='post'>
     {% csrf_token %}
+                {% for field in form %}
+                    <div class='mx-2'>
+                        <div class='label pt-4'>{{ field.label_tag }}</div>
+                        {% if field.errors %}
+                            {% render_field field class='input is-danger'%}
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                        {% if field.errors %}
+                            <div>
+                                <ul>
+                                    {% for error in field.errors %}
+                                        <li class='has-text-danger'>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
 
-        <div class='field'>
-            <label class='label pt-3'>{{ form.nick_name.label_tag }}</label>
-            <div class='control'>{{ form.nick_name }}</div>
-        </div>
-        {% if form.nick_name.errors %}
-            <div>
-                <ul>
-                    {% for error in form.nick_name.errors %}
-                        <li class='has-text-danger'>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-
-        <div class='field'>
-            <label class='label pt-3'>{{ form.species.label_tag }}</label>
-            <div class='control'>{{ form.species }}</div>
-        </div>
-        {% if form.species.errors %}
-            <div>
-                <ul>
-                    {% for error in form.species.errors %}
-                        <li class='has-text-danger'>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-
-        <div>
-            <label class='label pt-3'>{{ form.for_trade.label_tag }}</label>
-            <div class='control'>{{ form.for_trade }}</div>
-        </div>
-        {% if form.for_trade.errors %}
-            <div>
-                <ul>
-                    {% for error in form.for_trade.errors %}
-                        <li class='has-text-danger'>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-
-        <div class='input_container' id='replicator'>
-            <div class='field' id='hiding0'>
-                <div id='file-js-example' class='file is-medium is-boxed'>
-                    <label class='file-label pt-3'>
-                        <input class='input_tag0 file_input' id='input_tag0' hidden type='file' accept='image/*' name='picture0'>
-                        <span class='file-cta'>
-                            <span class='file-icon'>
-                                <i class='fa-solid fa-image'></i>
+        <div class='mt-2 mx-2'>
+            <span class='is-size-7'>First picture will be displayed<span>
+            <div class='input_container' id='replicator'>
+                <div class='field' id='hiding0'>
+                    <div id='file-js-example' class='file is-medium is-boxed'>
+                        <label class='file-label pt-3'>
+                            {% for im in image %}{{im}}{% endfor %}
+                            <span class='file-cta'>
+                                {% if image_error %}
+                                <span class='file-icon'>
+                                    <i class='fa-solid fa-image has-text-danger'></i>
+                                </span>
+                                <span class='file-label has-text-danger'>
+                                    Upload image...
+                                </span>
+                                {% else %}
+                                <span class='file-icon'>
+                                    <i class='fa-solid fa-image'></i>
+                                </span>
+                                <span class='file-label'>
+                                    Upload image...
+                                </span>
+                                {% endif %}
                             </span>
-                            <span class='file-label'>
-                                Upload image...
-                            </span>
-                        </span>
-                    </label>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
-        {% if form.picture.errors %}
+
+        {% if image_error %}
             <div>
                 <ul>
-                    {% for error in form.picture.errors %}
-                        <li class='has-text-danger'>{{ error }}</li>
-                    {% endfor %}
+                    <li class='image-error has-text-danger ml-2'>{{image_error}}</li>
                 </ul>
             </div>
         {% endif %}
 
-    <div class='container pt-4'>
+    <div class='container pt-5'>
         <input id='submit-btn' class='button' type="submit" value='Submit'>
     </div>
 </form>

@@ -6,7 +6,7 @@
     </head>
     <body>
         <div class='container'>
-            <form class='box' action="{% url 'accounts:login' %}" method='post'>
+            <form class='box mt-6' action="{% url 'accounts:login' %}" method='post'>
                 <h1 class='title'>Login</h1>
                 {% csrf_token %}
                 {% for field in form %}

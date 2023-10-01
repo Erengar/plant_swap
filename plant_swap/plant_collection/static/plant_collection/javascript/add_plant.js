@@ -9,6 +9,7 @@
     const output = document.querySelector('output');
     var input = document.querySelector('.input_tag0');
     const inputContainer = document.querySelector('#replicator');
+    const imageError = document.getElementById('#image-error');
     let count = 0;
     let counti = 0;
     let imagesArray = [];
@@ -28,6 +29,7 @@
         let hid = document.createAttribute('hidden');
         node.setAttributeNode(hid);
         counti ++
+        $('.image-error').remove()
 
     }
     

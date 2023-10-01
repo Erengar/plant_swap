@@ -9,21 +9,21 @@ $('.heart').on('click', function() {
     url = window.location.href;
 
     $.ajax({
-        type:'POST',
+        type:'post',
         url:'',
         data:{plant: plant,
             user: user,
             csrfmiddlewaretoken: csrf,
             url: url},
         success: function (response) {
-            if ($('i.has-text-danger').hasClass('fa-regular') && response) {
-                $('i.has-text-danger').removeClass('fa-regular fa-heart');
-                $('i.has-text-danger').addClass('fa-solid fa-heart');
-            } else if ($('i.has-text-danger').hasClass('fa-solid') && response) {
-                $('i.has-text-danger').removeClass('fa-solid fa-heart');
-                $('i.has-text-danger').addClass('fa-regular fa-heart');
+            if ($(`.heart[data-plant='${plant}'] > i.has-text-danger`).hasClass('fa-regular') && response) {
+                $(`.heart[data-plant='${plant}'] > i.has-text-danger`).removeClass('fa-regular fa-heart');
+                $(`.heart[data-plant='${plant}'] > i.has-text-danger`).addClass('fa-solid fa-heart');
+            } else if ($(`.heart[data-plant='${plant}'] > i.has-text-danger`).hasClass('fa-solid') && response) {
+                $(`.heart[data-plant='${plant}'] > i.has-text-danger`).removeClass('fa-solid fa-heart');
+                $(`.heart[data-plant='${plant}'] > i.has-text-danger`).addClass('fa-regular fa-heart');
             }
-            $('.number_likes').html(response+' like/s');
+            $(`.number_likes[data-plant='${plant}']`).html(response+' like/s');
           },
         });
       });

@@ -1,4 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-
+<div class='field'>
+    <label class='label pt-3'>{{ form.nick_name.label_tag }}</label>
+    <div class='control'>{{ form.nick_name|default:"AHOJ" }}</div>
+</div>
 {% endblock %}

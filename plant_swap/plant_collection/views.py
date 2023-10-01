@@ -4,7 +4,7 @@ from django.views import generic, View
 from .models import Plant, Species, Image
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import add_plant_form
+from .forms import add_plant_form, image_form
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -87,15 +87,20 @@ class plant_view(generic.DetailView):
 
 class add_plant(LoginRequiredMixin, View):
     template_name= 'plant_collection/add_plant.html'
-    form_class = add_plant_form
+    plant_form = add_plant_form
+    ima_form = image_form
     def get(self,request):
-        form = self.form_class()
-        context = {'form':form}
+        context = {'form':self.plant_form, 'image':self.ima_form}
         return render(request, self.template_name, context)
         
     def post(self,request):
-        form = add_plant_form(request.POST)
-        if form.is_valid():
+        plant_form = add_plant_form(request.POST)
+        ima_form = image_form(request.FILES)
+        #Not great but cant seem to make it work in forms
+        if not request.FILES:
+            image_error = 'You must submit at least one image'
+            return render(request, self.template_name, {'form':plant_form, 'image':ima_form, 'image_error':image_error})
+        if plant_form.is_valid() and ima_form.is_valid():
             nick_name = request.POST['nick_name']
             owner = User.objects.get(username=request.user.username)
             try:
@@ -117,10 +122,16 @@ class add_plant(LoginRequiredMixin, View):
                 plant.save()
             return redirect('plant_collection:personal_collection')
         
-        return render(request, self.template_name, {'form':form})
+        return render(request, self.template_name, {'form':plant_form, 'image':ima_form})
     
 
 class update_plant(generic.UpdateView, UserPassesTestMixin):
     template_name = 'plant_collection/update_plant.html'
     model = Plant
-    fields = ['nick_name', 'species', 'for_trade']
+    form_class = add_plant_form
+    def get(self,request, slug):
+        plant = get_object_or_404(Plant, slug=slug)
+        form = self.form_class()
+        context = {'form':form,
+                   'plant':plant}
+        return render(request, self.template_name, context)
