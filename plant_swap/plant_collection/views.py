@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_list_or_404, get_object_or_40
 from django.views import generic, View
 from .models import Plant, Species, Image
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .forms import add_plant_form, image_form, update_plant_form
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
@@ -125,7 +125,7 @@ class add_plant(LoginRequiredMixin, View):
         return render(request, self.template_name, {'form':plant_form, 'image':ima_form})
     
 
-class update_plant(generic.UpdateView, LoginRequiredMixin, UserPassesTestMixin):
+class update_plant(LoginRequiredMixin, generic.UpdateView):
     template_name = 'plant_collection/update_plant.html'
     model = Plant
     plant_form = update_plant_form
@@ -137,6 +137,10 @@ class update_plant(generic.UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     
     def get(self,request, slug):
         plant = get_object_or_404(Plant, slug=slug)
+        #We need to chceck wheter user accessing this url is truly owner of given object. 
+        #Django permission system is not appropriate and as far as I know there is nothing better than this solution.
+        if request.user != plant.owner:
+            return redirect('plant_collection:front_page')
         form = self.plant_form(instance=plant)
         image = self.ima_form
         context = {'form':form,
@@ -145,9 +149,10 @@ class update_plant(generic.UpdateView, LoginRequiredMixin, UserPassesTestMixin):
         return render(request, self.template_name, context)
     
     def post(self, request, slug):
-        print(request.POST)
-        print(request.FILES)
         plant = get_object_or_404(Plant, slug=slug)
+        #Dont know if this is needed it here
+        if request.user != plant.owner:
+            return redirect('plant_collection:front_page')
         form = update_plant_form(request.POST)
 
         #This conditional is replacing is_valid() function,
@@ -185,7 +190,6 @@ class update_plant(generic.UpdateView, LoginRequiredMixin, UserPassesTestMixin):
             except:
                 image = Image.objects.create(plant=plant, image=pictures['image'])
                 image.save()
-
             return redirect('plant_collection:personal_collection')
             
         context = {'form':form,
