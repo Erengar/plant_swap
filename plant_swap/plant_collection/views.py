@@ -175,11 +175,10 @@ class update_plant(LoginRequiredMixin, generic.UpdateView):
 
             try:
                 to_delete = request.POST['to delete'].split(',')
-                print(to_delete)
                 for image in to_delete:
                     Image.objects.get(pk=int(image)).delete()
             except:
-                print('error')
+                pass
 
 
             pictures = request.FILES
@@ -190,6 +189,8 @@ class update_plant(LoginRequiredMixin, generic.UpdateView):
             except:
                 image = Image.objects.create(plant=plant, image=pictures['image'])
                 image.save()
+            if not plant.picture.all():
+                plant.delete()
             return redirect('plant_collection:personal_collection')
             
         context = {'form':form,
