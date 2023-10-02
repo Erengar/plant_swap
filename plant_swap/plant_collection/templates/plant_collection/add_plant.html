@@ -2,24 +2,7 @@
 {% block content %}
 {% load static %}
 {% load widget_tweaks %}
-<style>
-    output .image span {
-        position: absolute;
-        top: -4px;
-        right: 4px;
-        cursor: pointer;
-        font-size: 22px;
-        color: white;
-      }
-      
-      output .image span:hover {
-        opacity: 0.8;
-      }
-      
-      output .span--hidden{
-        visibility: hidden;
-      }
-</style>
+<link rel="stylesheet" href="{% static 'plant_collection/css/add_plant.css' %}">
 <form enctype='multipart/form-data' class='box mx-6' action="{% url 'plant_collection:add_plant' %}" method='post'>
     {% csrf_token %}
                 {% for field in form %}
@@ -84,7 +67,7 @@
         <input id='submit-btn' class='button' type="submit" value='Submit'>
     </div>
 </form>
-<output class='columns'></output>
+<output class='columns is-multiline'></output>
 
 <script type='text/javascript' src="{% static 'plant_collection/javascript/add_plant.js' %}"></script>
 {% endblock %}

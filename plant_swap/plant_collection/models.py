@@ -56,7 +56,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to='pics')
 
     def __str__(self):
-        return str(self.plant.nick_name) + ' ' + str(self.pk)
+        return str(self.pk)
     
 
 @receiver(post_delete, sender=Image)

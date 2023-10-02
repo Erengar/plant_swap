@@ -14,7 +14,7 @@
     let counti = 0;
     let imagesArray = [];
 
-    //Listening to object that will contain all file input fields, „change“ should fine as long as we are adding and hiding fields
+    //Listening to object that will contain all file input fields, „change“ should be fine as long as we are adding and hiding fields
     inputContainer.addEventListener("change", () => {
         var files = input.files
         imagesArray.push(files)

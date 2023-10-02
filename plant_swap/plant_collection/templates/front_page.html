@@ -58,7 +58,7 @@
                             <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
                         </div>
                         {% endif %}
-                        <div class='number_likes is-size-7 has-text-weight-bold'>
+                        <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
                             {{ plant.number_of_likes }} like/s
                         </div>
                     </div>

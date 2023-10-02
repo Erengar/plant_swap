@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<head>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
-</head>
+{% load static %}
+<link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
 <div class='box'>
     <div class='columns'>
         <div class='column is-half'>
@@ -65,18 +63,18 @@
                                 <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
                             </div>
                             {% endif %}
-                            <div class='number_likes is-size-7 has-text-weight-bold'>
+                            <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
                                 {{ plant.number_of_likes }} like/s
                             </div>
                         </div>
 
+                        {% if plant.species %}
                         <div>
-                            {% for specie in plant.species %}
                             <div>
-                                {{specie}}
+                                {{plant.species}}
                             </div>
-                            {% endfor %}
                         </div>
+                        {% endif %}
                     </section>
 
                     <section class='section is-medium is-flex is-justify-content-center'>
@@ -97,6 +95,14 @@
                             </span>
                             {% endif %}
 
+                            {% if user.is_authenticated %}
+                            {% if user == plant.owner %}
+                            <div>
+                                <button class='button is-success is-large is-responsive mt-2'>
+                                    See Offers
+                                </button>
+                            </div>
+                            {% if not user == plant.owner %}
                             {% if plant.for_trade %}
                             <div>
                                 <button class='button is-success is-large is-responsive mt-2'>
@@ -110,6 +116,9 @@
                                 </button>
                             </div>
                             {% endif %}
+                            {% endif %}
+                            {% endif %}
+                            {% endif %}
                         </div>
                     </section>
 
@@ -119,16 +128,6 @@
     </div>
 </div>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/plant_carousel.js' %}"></script>
-<script>
-    $('.modal_open').on('click', function() {
-        $('.modal').addClass('is-active')
-    });
-    $('.modal-close').on('click', function() {
-        $('.modal').removeClass('is-active')
-    })
-    $('.modal-background').on('click', function() {
-        $('.modal').removeClass('is-active')
-    })
-</script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/plant.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
 {% endblock %}

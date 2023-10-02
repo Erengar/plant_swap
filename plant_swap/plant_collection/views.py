@@ -4,7 +4,7 @@ from django.views import generic, View
 from .models import Plant, Species, Image
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import add_plant_form, image_form
+from .forms import add_plant_form, image_form, update_plant_form
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -125,13 +125,69 @@ class add_plant(LoginRequiredMixin, View):
         return render(request, self.template_name, {'form':plant_form, 'image':ima_form})
     
 
-class update_plant(generic.UpdateView, UserPassesTestMixin):
+class update_plant(generic.UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     template_name = 'plant_collection/update_plant.html'
     model = Plant
-    form_class = add_plant_form
+    plant_form = update_plant_form
+    ima_form = image_form
+
+    def test_func(self,slug) -> bool | None:
+        plant = get_object_or_404(Plant, slug=slug)
+        return self.request.user == plant.owner
+    
     def get(self,request, slug):
         plant = get_object_or_404(Plant, slug=slug)
-        form = self.form_class()
+        form = self.plant_form(instance=plant)
+        image = self.ima_form
+        context = {'form':form,
+                   'plant':plant,
+                   'image':image}
+        return render(request, self.template_name, context)
+    
+    def post(self, request, slug):
+        print(request.POST)
+        print(request.FILES)
+        plant = get_object_or_404(Plant, slug=slug)
+        form = update_plant_form(request.POST)
+
+        #This conditional is replacing is_valid() function,
+        #because is_valid() also calls models validation methods
+        # which raise nick_name unique error if nick_name field stays unchanged
+        check_unique = plant in Plant.objects.filter(nick_name=request.POST['nick_name']) or not (len(Plant.objects.filter(nick_name=request.POST['nick_name']))>=1)
+        check_minlength = (len(request.POST['nick_name'])>3)
+        if check_unique and check_minlength:
+            plant.nick_name = request.POST['nick_name']
+            try:
+                plant.species = Species.objects.get(pk=request.POST['species'])
+            except:
+                plant.species = None
+            try:
+                request.POST['for_trade']
+                plant.for_trade = True
+            except:
+                plant.for_trade = False
+            plant.save()
+
+            try:
+                to_delete = request.POST['to delete'].split(',')
+                print(to_delete)
+                for image in to_delete:
+                    Image.objects.get(pk=int(image)).delete()
+            except:
+                print('error')
+
+
+            pictures = request.FILES
+            try:
+                for picture in pictures:
+                    image = Image.objects.create(plant=plant, image=pictures[picture])
+                    image.save()
+            except:
+                image = Image.objects.create(plant=plant, image=pictures['image'])
+                image.save()
+
+            return redirect('plant_collection:personal_collection')
+            
         context = {'form':form,
                    'plant':plant}
         return render(request, self.template_name, context)

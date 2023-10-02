@@ -24,7 +24,16 @@ class add_plant_form(forms.ModelForm):
 
     class Meta:
         model = Plant
-        fields = ("nick_name", 'species')
+        fields = ("nick_name", 'species', 'for_trade')
+
+
+class update_plant_form(add_plant_form):
+    nick_name= forms.CharField(max_length=24,
+                               validators=[ MinLengthValidator(3)],
+                               widget=forms.TextInput(
+                                   attrs={
+                                       'class': 'input',
+                                   }))
 
 class image_form(forms.ModelForm):
     image= forms.ImageField(validators=[image],
