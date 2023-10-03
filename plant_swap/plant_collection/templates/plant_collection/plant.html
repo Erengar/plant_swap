@@ -102,7 +102,7 @@
                                     See Offers
                                 </button>
                             </div>
-                            {% if not user == plant.owner %}
+                            {% elif not user == plant.owner %}
                             {% if plant.for_trade %}
                             <div>
                                 <button class='button is-success is-large is-responsive mt-2'>
@@ -115,7 +115,6 @@
                                     Offer trade
                                 </button>
                             </div>
-                            {% endif %}
                             {% endif %}
                             {% endif %}
                             {% endif %}

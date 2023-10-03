@@ -20,7 +20,7 @@
             <div class='card-content columns'>
                 <div class='column'>
                     <div class='title is-4 is-align-self-flex-start'>
-                        {{plant.nick_name}}
+                        <a class='has-text-dark' href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
                     </div>
                     <div class='subtitle is-5'>
                         {{plant.owner}}

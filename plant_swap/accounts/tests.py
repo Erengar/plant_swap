@@ -23,7 +23,7 @@ class test_login(TestCase):
     
     def get_login_navbar(self):
         page = self.client.get('/accounts/login/').content.decode('utf-8')
-        return self.assertInHTML("<nav class='navbar' role='navigation' style='position:sticky !important'>", page)
+        return self.assertInHTML("class='navbar'", page)
     
     def test_login_redirect(self):
         self.client.login(username='Polo', password='Liteon987')
@@ -47,6 +47,7 @@ class test_registration(TestCase):
     def test_registration_navbar(self):
         page = self.client.get('/accounts/registration/')
         return self.assertContains(page, "<nav class='navbar' role='navigation' style='position:sticky !important'>")
+    
     def test_registration_redirect(self):
         self.client.login(username='Polo', password='Liteon987')
         response = self.client.get('/accounts/registration/')
@@ -86,10 +87,3 @@ class test_registration(TestCase):
     def test_registration_view(self):
         response = self.client.get('/accounts/registration/')
         return self.assertTemplateUsed(response, 'accounts/registration.html')
-
-    def form(self):
-        form = RegistrationForm
-        field_name = 'email'
-        with self.subTest(input_value='test@test'):
-            form = RegistrationForm({field_name: 'test@test'})
-            return self.assertFormError(form, field_name, 'test@test', 'erengagr3@gmail.com')
