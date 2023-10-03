@@ -41,6 +41,8 @@ class registration_view(View):
     template_name = 'accounts/registration.html'
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('plant_collection:personal_collection')
         form = RegistrationForm
         context = {'form':form}
         return render(request, self.template_name, context)
