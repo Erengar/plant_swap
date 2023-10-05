@@ -1,6 +1,6 @@
 const pictures = document.querySelectorAll('.carousel_image');
-    const rightBtn = document.getElementById('right-btn');
-    const leftBtn = document.getElementById('left-btn');
+    const rightBtn = document.getElementById('right-arrow');
+    const leftBtn = document.getElementById('left-arrow');
     var position = 0;
 
     for (let i = 1; i < pictures.length; i++) {

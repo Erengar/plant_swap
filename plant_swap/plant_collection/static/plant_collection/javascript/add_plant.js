@@ -62,10 +62,12 @@
         imagesArray.forEach((image, index) => {
             for (let i = 0; i < image.length; i++) {
                 images += `<div class='column is-3'>
-                              <div class="image is-4by3">
-                              <img src="${URL.createObjectURL(image[i])}" alt="image">
-                              <span onclick="deleteImage(${index}, ${i})">&times;</span>
-                            </div>
+                                <div class='card-image'>
+                                    <div class="image is-4by3">
+                                        <img src="${URL.createObjectURL(image[i])}" alt="image">
+                                        <span onclick="deleteImage(${index}, ${i})">&times;</span>
+                                    </div>
+                                </div>
                             </div>`;
             }
         });

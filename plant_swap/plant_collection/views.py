@@ -9,7 +9,7 @@ from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
-
+#This view is receiving post request only for likes
 class personal_collection(LoginRequiredMixin, generic.ListView):
     template_name ='plant_collection/collection.html'
     def get(self, request):
@@ -30,15 +30,22 @@ class personal_collection(LoginRequiredMixin, generic.ListView):
         return HttpResponse(p.number_of_likes())
 
 
-#Under construction
+#This view is recieving post request only for likes
 class front_page(generic.ListView):
     template_name = 'front_page.html'
     model = Plant
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
+
+    def get(self, request):
+        print(request.GET)
+        context = {}
         context["plants"] = Plant.objects.order_by('-updated')
         context["species"] = Species.objects.all()
-        return context
+        try:
+            plants = request.GET['search']
+            context["plants"] = Plant.objects.filter(nick_name__icontains=plants).order_by('-updated')
+        except:
+            pass
+        return render(request, self.template_name, context)
 
     def post(self, request):
         plant = request.POST['plant']
@@ -51,6 +58,7 @@ class front_page(generic.ListView):
             p.likes.add(u)
         return HttpResponse(p.number_of_likes())
 
+#This view receives post reqests for like and delete buttons
 class plant_view(generic.DetailView):
     template_name = 'plant_collection/plant.html'
     model = Plant
@@ -198,11 +206,12 @@ class update_plant(LoginRequiredMixin, generic.UpdateView):
         return render(request, self.template_name, context)
     
 
+#This view receives post request only for likes
 class species_list_view(generic.ListView):
     template_name = 'plant_collection/species.html'
     model = Plant
-    def get(self, request, pk):
-        species = get_object_or_404(Species, pk=pk)
+    def get(self, request, nam):
+        species = get_object_or_404(Species, slug=nam)
         plants = Plant.objects.filter(species=species)
         species = Species.objects.all()
         context = {'species':species,
@@ -221,12 +230,12 @@ class species_list_view(generic.ListView):
         return HttpResponse(p.number_of_likes())
     
 
+#This view receives requests only from species search bar
 def search(request):
-    print(request.GET)
     search = request.GET['search']
     species = Species.objects.filter(name__icontains=search)
     response = []
     for specie in species:
-        response.append('<li><a href="/species/'+str(specie.pk)+'">'+specie.name+'</a></li>')
+        response.append('<li><a href="/species/'+str(specie.slug)+'">'+specie.name+'</a></li>')
     return HttpResponse("".join(response)+'</ul>')
     

@@ -2,7 +2,7 @@
 {% block content %}
 {% load widget_tweaks %}
 {% load static %}
-<section class='section'>
+<section class='section mx-6'>
     <form enctype='multipart/form-data' class='box mx-6' action="{% url 'plant_collection:update_plant' slug=plant.slug %}" method='post'>
         {% csrf_token %}
                     {% for field in form %}

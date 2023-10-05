@@ -1,12 +1,8 @@
-$('.heart').on('click', function() {
-    var plant
-    var user
-    var csrf
-    var url
-    plant = $(this).attr('data-plant');
-    user = $(this).attr('data-user');
-    csrf = $('input').attr('value');
-    url = window.location.href;
+$('.heart').on('click', _.throttle(function() {
+    var plant = $(this).attr('data-plant');
+    var user = $(this).attr('data-user');
+    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+    var url = window.location.href;
 
     $.ajax({
         type:'post',
@@ -26,5 +22,5 @@ $('.heart').on('click', function() {
             $(`.number_likes[data-plant='${plant}']`).html(response+' like/s');
           },
         });
-      });
+      },300));
     

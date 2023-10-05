@@ -15,6 +15,16 @@ from django.db.models.signals import pre_save, post_delete
 
 class Species(models.Model):
     name = models.CharField(max_length=64)
+    slug = models.SlugField(default='bugged-species')
+
+    def update_slug(self):
+        self.slug = slugify(self.name)
+        self.save()
+
+    def save(self, *args, **kwargs):
+        if self.slug != slugify(self.name):
+            self.slug=slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
