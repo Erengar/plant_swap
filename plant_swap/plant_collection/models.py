@@ -28,7 +28,7 @@ class Plant(models.Model):
         unique=True)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
-    species = models.ForeignKey(Species, on_delete=models.PROTECT, blank=True, null=True, related_name='plants')
+    species = models.ForeignKey(Species, on_delete=models.SET_NULL, blank=True, null=True, related_name='plants')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='plants')
     slug = models.SlugField(default='bugged-plant')
     for_trade = models.BooleanField(default=False)

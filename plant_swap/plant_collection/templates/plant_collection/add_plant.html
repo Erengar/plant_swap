@@ -3,71 +3,75 @@
 {% load static %}
 {% load widget_tweaks %}
 <link rel="stylesheet" href="{% static 'plant_collection/css/add_plant.css' %}">
-<form enctype='multipart/form-data' class='box mx-6' action="{% url 'plant_collection:add_plant' %}" method='post'>
-    {% csrf_token %}
-                {% for field in form %}
-                    <div class='mx-2'>
-                        <div class='label pt-4'>{{ field.label_tag }}</div>
-                        {% if field.errors %}
-                            {% render_field field class='input is-danger'%}
-                        {% else %}
-                            {{ field }}
-                        {% endif %}
-                        {% if field.errors %}
-                            <div>
-                                <ul>
-                                    {% for error in field.errors %}
-                                        <li class='has-text-danger'>{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+<section class='section'>
+    <form enctype='multipart/form-data' class='box mx-6' action="{% url 'plant_collection:add_plant' %}" method='post'>
+        {% csrf_token %}
+                    {% for field in form %}
+                        <div class='mx-2'>
+                            <div class='label pt-4'>{{ field.label_tag }}</div>
+                            {% if field.errors %}
+                                {% render_field field class='input is-danger'%}
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+                            {% if field.errors %}
+                                <div>
+                                    <ul>
+                                        {% for error in field.errors %}
+                                            <li class='has-text-danger'>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
 
-        <div class='mt-2 mx-2'>
-            <span class='is-size-7'>First picture will be displayed<span>
-            <div class='input_container' id='replicator'>
-                <div class='field' id='hiding0'>
-                    <div id='file-js-example' class='file is-medium is-boxed'>
-                        <label class='file-label pt-3'>
-                            {% for im in image %}{{im}}{% endfor %}
-                            <span class='file-cta'>
-                                {% if image_error %}
-                                <span class='file-icon'>
-                                    <i class='fa-solid fa-image has-text-danger'></i>
+            <div class='mt-2 mx-2'>
+                <span class='is-size-7'>First picture will be displayed.<span>
+                <div class='input_container' id='replicator'>
+                    <div class='field' id='hiding0'>
+                        <div id='file-js-example' class='file is-medium is-boxed'>
+                            <label class='file-label pt-3'>
+                                {% for im in image %}{{im}}{% endfor %}
+                                <span class='file-cta'>
+                                    {% if image_error %}
+                                    <span class='file-icon'>
+                                        <i class='fa-solid fa-image has-text-danger'></i>
+                                    </span>
+                                    <span class='file-label has-text-danger'>
+                                        Upload image...
+                                    </span>
+                                    {% else %}
+                                    <span class='file-icon'>
+                                        <i class='fa-solid fa-image'></i>
+                                    </span>
+                                    <span class='file-label'>
+                                        Upload image...
+                                    </span>
+                                    {% endif %}
                                 </span>
-                                <span class='file-label has-text-danger'>
-                                    Upload image...
-                                </span>
-                                {% else %}
-                                <span class='file-icon'>
-                                    <i class='fa-solid fa-image'></i>
-                                </span>
-                                <span class='file-label'>
-                                    Upload image...
-                                </span>
-                                {% endif %}
-                            </span>
-                        </label>
+                            </label>
+                        </div>
                     </div>
+                    {% if image_error %}
+                <div>
+                    <ul>
+                        <li class='image-error has-text-danger ml-2'>{{image_error}}</li>
+                    </ul>
+                </div>
+            {% endif %}
+                </div>
+                <div class='pt-5'>
+                    <input id='submit-btn' class='button' type="submit" value='Submit'>
                 </div>
             </div>
-        </div>
 
-        {% if image_error %}
-            <div>
-                <ul>
-                    <li class='image-error has-text-danger ml-2'>{{image_error}}</li>
-                </ul>
-            </div>
-        {% endif %}
 
-    <div class='container pt-5'>
-        <input id='submit-btn' class='button' type="submit" value='Submit'>
-    </div>
-</form>
-<output class='columns is-multiline'></output>
+
+        <output class='columns is-multiline mt-6'></output>
+    </form>
+    
+</section>
 
 <script type='text/javascript' src="{% static 'plant_collection/javascript/add_plant.js' %}"></script>
 {% endblock %}

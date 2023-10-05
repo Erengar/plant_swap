@@ -1,0 +1,47 @@
+.carousel_button {
+    height: 10%;
+    border: none;
+    outline: none;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    padding: 1em;
+    display: flex;
+}
+
+.carousel_button:hover {
+    background: rgba(0, 0, 0, 0.89);
+    opacity: 0.8;
+}
+
+.carousel_button .arrow {
+    border: solid #fff;
+    border-width: 0 4px 4px 0;
+    display: inline-block;
+    padding: 10px;
+    transition: transform 0.3s ease-out;
+    outline: none;
+}
+
+#right-btn {
+    margin: auto 0 auto -2em;
+    position: relative;
+    bottom:22rem;
+    z-index:1;
+    left:53rem;
+}
+
+#right-btn .arrow {
+    transform: rotate(-45deg);
+}
+
+#left-btn {
+    z-index: 0;
+    margin: auto -2em auto 0;
+    position: relative;
+    top:22rem;
+    z-index:1;
+}
+
+#left-btn .arrow {
+    transform: rotate(135deg);
+}

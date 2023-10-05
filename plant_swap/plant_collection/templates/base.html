@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="{% static 'plant_collection/css/hover.css' %}">
         <script src="https://kit.fontawesome.com/b2e6637db0.js" crossorigin="anonymous"></script>
         <script type='text/javascript' src="{% static 'plant_collection/javascript/jquery.js' %}"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
     </head>
     <body>
         <nav class='navbar' role='navigation' style='position:sticky !important'>
@@ -50,12 +51,8 @@
           </div>
         </nav>
 
-  
-        <section class='section'>
-          <div>
-          {% block content %}
-          {% endblock %}
-          </div>
-        </section>
+ 
+            {% block content %}
+            {% endblock %}
     </body>
 </html>

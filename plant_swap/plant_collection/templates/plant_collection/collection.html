@@ -2,93 +2,95 @@
 {% block content %}
 {% load static %}
 <style></style>
-<div class='columns is-multiline'>
-    <div class='column is-3-desktop is-full-mobile'>
-            <a href="{% url 'plant_collection:add_plant' %}">
-                <div class='card hover is-flex is-align-items-center is-flex-direction-column pt-6' style='height:100%'>
-                    <div class='card-image'>
-                    <br>
-                    <br>
-                    <br>
-                        <figure class='image is-96x96 is-inline-block'>
-                            <img src="/media/pics/add-image.png" alt="">
-                        </figure>
-                    </div>
-                    <div class='card-content'>
-                        <div class='title is-4'>
-                            Add new plant
+<section class='section'>
+    <div class='columns is-multiline'>
+        <div class='column is-3-desktop is-full-mobile'>
+                <a href="{% url 'plant_collection:add_plant' %}">
+                    <div class='card hover is-flex is-align-items-center is-flex-direction-column pt-6' style='height:100%'>
+                        <div class='card-image'>
+                        <br>
+                        <br>
+                        <br>
+                            <figure class='image is-96x96 is-inline-block'>
+                                <img src="/media/pics/add-image.png" alt="">
+                            </figure>
+                        </div>
+                        <div class='card-content'>
+                            <div class='title is-4'>
+                                Add new plant
+                            </div>
                         </div>
                     </div>
+                </a>
+        </div>
+        {% if plants %}
+        {% for plant in plants %}
+        <div class='column is-3-desktop is-full-mobile'>
+            <div class='card hover'>
+
+                {% if plant.picture %}
+                <div class='card-image'>
+                    <figure class='image is-4by3'>
+                        <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
+                            <img src="{{ plant.picture.all.0.image.url }}" alt="" width='500px'>
+                        </a>
+                    </figure>
                 </div>
-            </a>
-    </div>
-    {% if plants %}
-    {% for plant in plants %}
-    <div class='column is-3-desktop is-full-mobile'>
-        <div class='card hover'>
+                {% endif %}
 
-            {% if plant.picture %}
-            <div class='card-image'>
-                <figure class='image is-4by3'>
-                    <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
-                        <img src="{{ plant.picture.all.0.image.url }}" alt="" width='500px'>
-                    </a>
-                </figure>
-            </div>
-            {% endif %}
-
-            <div class='card-content columns'>
-                <div class='column'>
-                    <div class='title is-4 is-align-self-flex-start'>
-                        <a class='has-text-dark' href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
+                <div class='card-content columns'>
+                    <div class='column'>
+                        <div class='title is-4 is-align-self-flex-start'>
+                            <a class='has-text-dark' href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
+                        </div>
+                        <div class='subtitle is-5'>
+                            {{plant.owner}}
+                        </div>
                     </div>
-                    <div class='subtitle is-5'>
-                        {{plant.owner}}
-                    </div>
-                </div>
 
 
-                <div class='column pb-1'>
-                    <div class='has-text-right pb-5'>
-                        {% if plant.for_trade %}
-                        <span class='icon-text has-text-weight-semibold'>
-                            <span class='icon'>
-                                <i class="fa-solid fa-store"></i>
+                    <div class='column pb-1'>
+                        <div class='has-text-right pb-5'>
+                            {% if plant.for_trade %}
+                            <span class='icon-text has-text-weight-semibold'>
+                                <span class='icon'>
+                                    <i class="fa-solid fa-store"></i>
+                                </span>
+                                For Trade
                             </span>
-                            For Trade
-                        </span>
-                        {% else %}
-                        <span class='icon-text has-text-weight-semibold'>
-                            <span class='icon'>
-                                <i class="fa-solid fa-store-slash "></i>
+                            {% else %}
+                            <span class='icon-text has-text-weight-semibold'>
+                                <span class='icon'>
+                                    <i class="fa-solid fa-store-slash "></i>
+                                </span>
+                                Not for Trade
                             </span>
-                            Not for Trade
-                        </span>
-                        {% endif %}
+                            {% endif %}
+                        </div>
+
+                        <div class='has-text-right'>
+                            {% csrf_token %}
+                            {% if not user in plant.likes.all %}
+                            <div>
+                                <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
+                            </div>
+                            {% elif user in plant.likes.all %}
+                            <div>
+                                <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
+                            </div>
+                            {% endif %}
+                            <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
+                                {{ plant.number_of_likes }} like/s
+                            </div>
+                        </div>
                     </div>
 
-                    <div class='has-text-right'>
-                        {% csrf_token %}
-                        {% if not user in plant.likes.all %}
-                        <div>
-                            <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
-                        </div>
-                        {% elif user in plant.likes.all %}
-                        <div>
-                            <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
-                        </div>
-                        {% endif %}
-                        <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
-                            {{ plant.number_of_likes }} like/s
-                        </div>
-                    </div>
                 </div>
-
             </div>
         </div>
+        {% endfor %}
+        {% endif %}
     </div>
-    {% endfor %}
-    {% endif %}
-</div>
+</section>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
 {% endblock %}

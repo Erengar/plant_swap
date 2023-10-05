@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block menu %}
+<aside class='menu'>
+    <p class='menu-label'>
+        Search
+    </p>
+    <p class='menu-label'>Species</p>   
+    <ul class='menu-list'>
+        {% for specie in species %}
+        <li><a href="{% url 'plant_collection:species_list' pk=specie.pk %}">{{specie}}</a></li>
+        {% endfor %}
+    </ul>
+</aside>
+{% endblock menu %}

@@ -37,6 +37,7 @@ class front_page(generic.ListView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["plants"] = Plant.objects.order_by('-updated')
+        context["species"] = Species.objects.all()
         return context
 
     def post(self, request):
@@ -60,8 +61,8 @@ class plant_view(generic.DetailView):
     
     '''
     Both delete and like button-on-plant-view are POSTing on plant_view, thus it is necessary to provide some logic what to execute when.
-    When we user likes the picture like Ajax sends its url as context then we simply check wheter there is 'url' context, and if there is
-    wheter our plant slug is in that url. If it comes through this we know it is like request, otherwise it is delete request.'''
+    When user likes the picture Ajax sends its url as context then we simply check wheter there is 'url' context, and if there is
+    wheter our plant slug is in that url. If it comes through this we know it is 'like' request, otherwise it is 'delete' request.'''
     def post(self, request, slug):
         plant = get_object_or_404(Plant, slug=slug)
         try_url = 'č'
@@ -176,10 +177,9 @@ class update_plant(LoginRequiredMixin, generic.UpdateView):
             try:
                 to_delete = request.POST['to delete'].split(',')
                 for image in to_delete:
-                    Image.objects.get(pk=int(image)).delete()
+                    Image.objects.filter(pk=int(image)).delete()
             except:
                 pass
-
 
             pictures = request.FILES
             try:
@@ -196,3 +196,37 @@ class update_plant(LoginRequiredMixin, generic.UpdateView):
         context = {'form':form,
                    'plant':plant}
         return render(request, self.template_name, context)
+    
+
+class species_list_view(generic.ListView):
+    template_name = 'plant_collection/species.html'
+    model = Plant
+    def get(self, request, pk):
+        species = get_object_or_404(Species, pk=pk)
+        plants = Plant.objects.filter(species=species)
+        species = Species.objects.all()
+        context = {'species':species,
+                   'plants':plants}
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        plant = request.POST['plant']
+        user = request.POST['user']
+        p = Plant.objects.get(nick_name=plant)
+        u = User.objects.get(username=user)  
+        if u in p.likes.all():
+            p.likes.remove(u)
+        elif not u in p.likes.all():
+            p.likes.add(u)
+        return HttpResponse(p.number_of_likes())
+    
+
+def search(request):
+    print(request.GET)
+    search = request.GET['search']
+    species = Species.objects.filter(name__icontains=search)
+    response = []
+    for specie in species:
+        response.append('<li><a href="/species/'+str(specie.pk)+'">'+specie.name+'</a></li>')
+    return HttpResponse("".join(response)+'</ul>')
+    
