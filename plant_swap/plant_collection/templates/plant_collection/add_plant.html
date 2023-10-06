@@ -57,17 +57,19 @@
                                 </label>
                             </div>
                         </div>
-                        {% if image_error %}
+                    {% if image_error %}
                     <div>
                         <ul>
                             <li class='image-error has-text-danger ml-2'>{{image_error}}</li>
                         </ul>
                     </div>
-                {% endif %}
+                    {% endif %}
                     </div>
+
                     <div class='pt-5'>
                         <input id='submit-btn' class='button is-success' type="submit" value='Submit'>
                     </div>
+                    
                 </div>
             </div>
 

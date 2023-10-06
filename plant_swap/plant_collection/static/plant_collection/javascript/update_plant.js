@@ -70,9 +70,11 @@ function displayImage() {
     files = $(`.input_tag${count}`)[0].files;
     if (files.length > 0) {
         $('.columns').append(`<div class='column is-3'>
-                                <div class="image is-4by3">
-                                <img src="${URL.createObjectURL(files[0])}" alt="image">
-                                <button class='delete' data-delete='${count}' style="position: absolute; top: 0; right: 0;"></button>
+                                <div class='card-image'>
+                                    <div class="image is-4by3">
+                                        <img src="${URL.createObjectURL(files[0])}" alt="image">
+                                        <span class='delete' data-delete='${count}' style="position: absolute; top: 0; right: 0;"></span>
+                                    </div>
                                 </div>
                             </div>`);
     }

@@ -8,6 +8,8 @@ from .forms import add_plant_form, image_form, update_plant_form
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.utils.decorators import method_decorator
 
 #This view is receiving post request only for likes
 class personal_collection(LoginRequiredMixin, generic.ListView):
@@ -36,10 +38,9 @@ class front_page(generic.ListView):
     model = Plant
 
     def get(self, request):
-        print(request.GET)
         context = {}
         context["plants"] = Plant.objects.order_by('-updated')
-        context["species"] = Species.objects.all()
+        context["species"] = Species.objects.all()[:20]
         try:
             plants = request.GET['search']
             context["plants"] = Plant.objects.filter(nick_name__icontains=plants).order_by('-updated')
@@ -56,7 +57,7 @@ class front_page(generic.ListView):
             p.likes.remove(u)
         elif not u in p.likes.all():
             p.likes.add(u)
-        return HttpResponse(p.number_of_likes())
+        return HttpResponse(p.number_of_likes())  
 
 #This view receives post reqests for like and delete buttons
 class plant_view(generic.DetailView):
@@ -231,11 +232,22 @@ class species_list_view(generic.ListView):
     
 
 #This view receives requests only from species search bar
-def search(request):
-    search = request.GET['search']
-    species = Species.objects.filter(name__icontains=search)
-    response = []
-    for specie in species:
-        response.append('<li><a href="/species/'+str(specie.slug)+'">'+specie.name+'</a></li>')
-    return HttpResponse("".join(response)+'</ul>')
+@method_decorator(csrf_exempt, name='dispatch')
+class search(View):
+
+    @csrf_protect
+    def get(self, request):
+        search = request.GET['search']
+        species = Species.objects.filter(name__icontains=search)
+        response = []
+        for specie in species:
+            response.append('<li><a href="/species/'+str(specie.slug)+'">'+specie.name+'</a></li>')
+        return HttpResponse("".join(response)+'</ul>')
     
+    def patch(self, request):
+        print(request)
+        species = Species.objects.all()
+        response = []
+        for specie in species:
+            response.append('<li><a href="/species/'+str(specie.slug)+'">'+specie.name+'</a></li>')
+        return HttpResponse("".join(response)+'</ul>')

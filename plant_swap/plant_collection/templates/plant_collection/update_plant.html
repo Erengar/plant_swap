@@ -2,75 +2,79 @@
 {% block content %}
 {% load widget_tweaks %}
 {% load static %}
-<section class='section mx-6'>
-    <form enctype='multipart/form-data' class='box mx-6' action="{% url 'plant_collection:update_plant' slug=plant.slug %}" method='post'>
+<section class='section mx-0'>
+    <form enctype='multipart/form-data' class='box' action="{% url 'plant_collection:update_plant' slug=plant.slug %}" method='post'>
         {% csrf_token %}
-                    {% for field in form %}
-                        <div class='mx-2'>
-                            <div class='label pt-4'>{{ field.label_tag }}</div>
-                            {% if field.errors %}
-                                {% render_field field class='input is-danger'%}
-                            {% else %}
-                                {{ field }}
-                            {% endif %}
-                            {% if field.errors %}
-                                <div>
-                                    <ul>
-                                        {% for error in field.errors %}
-                                            <li class='has-text-danger'>{{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
+            {% for field in form %}
+                <div class='mx-2'>
+                    <div class='label pt-4'>{{ field.label_tag }}</div>
+                    {% if field.errors %}
+                        {% render_field field class='input is-danger'%}
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                    {% if field.errors %}
+                        <div>
+                            <ul>
+                                {% for error in field.errors %}
+                                    <li class='has-text-danger'>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         </div>
-                    {% endfor %}
+                    {% endif %}
+                </div>
+            {% endfor %}
 
-                    <div class='mt-2 mx-2'>
-                        <span class='is-size-7 has-text-danger'>WARNING! At least one picture must be loaded, otherwise plant will be deleted.<span>
-                        <div class='input_container' id='replicator'>
-                            <div class='field to-hide'>
-                                <div id='file-js-example' class='file is-medium is-boxed'>
-                                    <label class='file-label pt-3'>
-                                        {% for im in image %}{{im}}{% endfor %}
-                                        <span class='file-cta'>
-                                            {% if image_error %}
-                                            <span class='file-icon'>
-                                                <i class='fa-solid fa-image has-text-danger'></i>
-                                            </span>
-                                            <span class='file-label has-text-danger'>
-                                                Upload image...
-                                            </span>
-                                            {% else %}
-                                            <span class='file-icon'>
-                                                <i class='fa-solid fa-image'></i>
-                                            </span>
-                                            <span class='file-label'>
-                                                Upload image...
-                                            </span>
-                                            {% endif %}
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
+            <div class='mt-2 mx-2'>
+                <span class='is-size-7 has-text-danger'>WARNING! At least one picture must be loaded, otherwise plant will be deleted.<span>
+                <div class='input_container' id='replicator'>
+                    <div class='field to-hide'>
+                        <div id='file-js-example' class='file is-medium is-boxed'>
+                            <label class='file-label pt-3'>
+                                {% for im in image %}{{im}}{% endfor %}
+                                <span class='file-cta'>
+                                    {% if image_error %}
+                                    <span class='file-icon'>
+                                        <i class='fa-solid fa-image has-text-danger'></i>
+                                    </span>
+                                    <span class='file-label has-text-danger'>
+                                        Upload image...
+                                    </span>
+                                    {% else %}
+                                    <span class='file-icon'>
+                                        <i class='fa-solid fa-image'></i>
+                                    </span>
+                                    <span class='file-label'>
+                                        Upload image...
+                                    </span>
+                                    {% endif %}
+                                </span>
+                            </label>
                         </div>
                     </div>
 
+                    <div class='pt-4 ml-5'>
+                        <input id='submit-btn' class='button is-success' type="submit" value='Save'>
+                    </div>
 
-        <div class='container pt-5'>
-            <input id='submit-btn' class='button' type="submit" value='Save'>
-        </div>
-    </form>
-
-    <div class='columns is-multiline'>
-        {% for pic in plant.picture.all %}
-            <div class='column is-3'>
-                <div class="image is-4by3">
-                    <img src='{{pic.image.url}}' data-pic='{{pic}}'>
-                    <button class='delete' style="position: absolute; top: 0; right: 0;"></button>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+
+        <div class='columns is-multiline mt-3'>
+            {% for pic in plant.picture.all %}
+                <div class='column is-3'>
+                    <div class='card-image'>
+                        <div class="image is-4by3">
+                            <img src='{{pic.image.url}}' data-pic='{{pic}}'>
+                            <button class='delete' style="position: absolute; top: 0; right: 0;"></button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </form>
+
 </section>
 
 <script type='text/javascript' src="{% static 'plant_collection/javascript/update_plant.js' %}"></script>

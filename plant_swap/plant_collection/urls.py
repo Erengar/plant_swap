@@ -9,5 +9,5 @@ urlpatterns= [
     path('my-collection/add-plant/', views.add_plant.as_view(), name='add_plant'),
     path('<slug:slug>/update/', views.update_plant.as_view(), name='update_plant'),
     path('species/<slug:nam>/', views.species_list_view.as_view(), name='species_list'),
-    re_path(r'species/search/<slug:nam>', views.search, name='search')
+    re_path(r'species/search/<slug:nam>', views.search.as_view(), name='search')
 ]
