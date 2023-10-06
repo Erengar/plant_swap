@@ -9,5 +9,7 @@ urlpatterns= [
     path('my-collection/add-plant/', views.add_plant.as_view(), name='add_plant'),
     path('<slug:slug>/update/', views.update_plant.as_view(), name='update_plant'),
     path('species/<slug:nam>/', views.species_list_view.as_view(), name='species_list'),
-    re_path(r'species/search/<slug:nam>', views.search.as_view(), name='search')
+    path('species/search/bar/', views.search.as_view(), name='search'),
+    path('trade/<str:req>', views.trade.as_view(), name='trade'),
+    path('<slug:slug>/plant-offers/', views.plant_offers.as_view(), name='plant_offers'),
 ]

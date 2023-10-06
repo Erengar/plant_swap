@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Plant, Species, Image
+from .models import Plant, Species, Image, Trade
 
 # Register your models here.
 
@@ -19,3 +19,4 @@ class PlantAdmin(admin.ModelAdmin):
 admin.site.register(Plant, PlantAdmin)
 admin.site.register(Species)
 admin.site.register(Image)
+admin.site.register(Trade)

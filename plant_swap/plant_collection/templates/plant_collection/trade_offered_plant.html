@@ -1,0 +1,19 @@
+<div class='card'>
+    <div class='card-image'>
+        <figure class='image is-4by3'>
+                <img src="{{ plant.picture.all.0.image.url }}">
+        </figure>
+    </div>
+
+    <div class='card-content'>
+        <div class='columns is-mobile'>
+            <div class='column is-half'>
+                <div class='title is-4 offered-plant'>{{plant.nick_name}}</div>
+                <div class='title is-5'>{{plant.owner}}</div>
+            </div>
+            <div class='column is-half'>
+                <div class='is-pulled-right is-size-7 has-text-weight-bold'><i class="fa-solid fa-heart has-text-danger is-size-6"></i> {{plant.number_of_likes}} likes</div>
+            </div>
+        </div>
+    </div>
+</div>

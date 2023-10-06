@@ -4,6 +4,8 @@ from .forms import LoginForm, RegistrationForm
 from django.contrib.auth.models import User
 from django.views import generic, View
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from plant_collection.models import Trade
 
 # Create your views here.
 
@@ -63,3 +65,12 @@ class registration_view(View):
                 login(request, user)
                 return redirect('plant_collection:front_page')
         return render(request, self.template_name, {'form':form})
+    
+class trades_view(LoginRequiredMixin, generic.ListView):
+    template_name = 'accounts/offers.html'
+    model = Trade
+    def get(self, request):
+        req = Trade.objects.filter(recipient=request.user)
+        offered = Trade.objects.filter(initiator=request.user)
+        context = {'offers':offered, 'requests':req}
+        return render(request, self.template_name, context)

@@ -95,11 +95,9 @@ function existing_img() {
     $('.delete').on('click', function(){
         if ($(this).siblings('img').attr('data-pic')) {
         data.push($(this).siblings('img').attr('data-pic'));
-        console.log(data);
         } else {
             unupload = $(this).attr('data-delete');
             $(`.input_tag${unupload}`).attr('disabled', true);
-            console.log(data);
         }
     })
 }

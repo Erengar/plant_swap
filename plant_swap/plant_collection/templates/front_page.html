@@ -9,15 +9,11 @@
                 Search Species
             </p>
             <div class="control has-icons-right">
-                <input class="input is-small" type="text" name='search'
-                placeholder="Search..." hx-trigger='click from:.is-success'
-                hx-target='.menu-list' hx-get="{% url 'plant_collection:search' %}">
+                <input id='ajax-search' class="input is-small" type="text" name='search'
+                placeholder="Search...">
                 <span class="icon is-small is-right">
                     <i class="fa-solid fa-search"></i>
                 </span>
-            </div>
-            <div class="control">
-                <button class="button is-small is-success">Search</button>
             </div>
             <p class='menu-label'>Species</p>   
             <ul class='menu-list'>
@@ -53,13 +49,13 @@
                     <div class='card-image'>
                         <figure class='image is-4by3'>
                             <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
-                                <img src="{{ plant.picture.all.0.image.url }}" alt="" width='500px'>
+                                <img src="{{ plant.picture.all.0.image.url }}">
                             </a>
                         </figure>
                     </div>
                     {% endif %}
 
-                    <div class='card-content columns'>
+                    <div class='card-content columns is-mobile'>
                         <div class='column'>
                             <div class='title is-4 is-align-self-flex-start'>
                                 <a class='has-text-dark' href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
@@ -71,7 +67,7 @@
 
 
                         <div class='column pb-1'>
-                            <div class='has-text-right pb-5'>
+                            <div class='has-text-right pb-3'>
                                 {% if plant.for_trade %}
                                 <span class='icon-text has-text-weight-semibold'>
                                     <span class='icon'>
@@ -119,4 +115,5 @@
     </section>
 </div>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
 {% endblock %}

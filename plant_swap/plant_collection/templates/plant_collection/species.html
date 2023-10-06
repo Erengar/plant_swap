@@ -9,15 +9,11 @@
                 Search Species
             </p>
             <div class="control has-icons-right">
-                <input class="input is-small" type="text" name='search'
-                placeholder="Search..." hx-trigger='click from:.is-success'
-                hx-target='.menu-list' hx-get="{% url 'plant_collection:search' %}">
+                <input id='ajax-search' class="input is-small" type="text" name='search'
+                placeholder="Search...">
                 <span class="icon is-small is-right">
                     <i class="fa-solid fa-search"></i>
                 </span>
-            </div>
-            <div class="control">
-                <button class="button is-small is-success">Search</button>
             </div>
             <p class='menu-label'>Species</p>   
             <ul class='menu-list'>
@@ -117,4 +113,5 @@
     </section>
 </div>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
 {% endblock %}

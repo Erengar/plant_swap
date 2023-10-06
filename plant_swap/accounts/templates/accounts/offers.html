@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class='title is-1 has-text-centered'>My trade offers</div>
+<div class='columns mx-2'>
+
+    <div class='column is-6'>
+        <div class='box'>
+            <div class='columns is-multiline'>
+                <span class='title'>Trade offers made to you</span>
+                {% if requests %}
+                {% for req in requests %}
+                <div class='column is-12 is-narrow'>
+                    <div class='columns'>
+                        <div class='column is-4'>
+                            <div class='card-image'>
+                                <figure class='image is-4by3'>
+                                    <img src="{{ req.plant_offered.picture.all.0.image.url }}">
+                                </figure>
+                            </div>
+                        </div>
+
+                        <div class='column is-8'>
+                            <div class='card-content'>
+                                <div class='title is-size-4 '>Name: <a href="{% url 'plant_collection:plant_view' slug=req.plant_offered.slug%}">{{req.plant_offered.nick_name}}</a></div>
+                                <div class='title is-size-6 has-text-weight-semibold'>Owner: {{req.plant_offered.owner}}</div>
+                                <div class='title is-size-5'>You are being offered: <a href="{% url 'plant_collection:plant_view' slug=req.plant_requested.slug %}">{{req.plant_requested}}</a></div>
+                                <div class='title is-size-6'>Requested: {{req.plant_offered.created}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class='column is-6'>
+        <div class='box'>
+            <div class='columns is-multiline'>
+                <span class='title'>Your trade offers</span>
+                {% if offers %}
+                {% for offer in offers %}
+                <div class='column is-12 is-narrow'>
+                    <div class='columns'>
+                        <div class='column is-4'>
+                            <div class='card-image'>
+                                <figure class='image is-4by3'>
+                                    <img src="{{ offer.plant_requested.picture.all.0.image.url }}">
+                                </figure>
+                            </div>
+                        </div>
+
+                        <div class='column is-8'>
+                            <div class='card-content'>
+                                <div class='title is-size-4 '>Name: <a href="{% url 'plant_collection:plant_view' slug=offer.plant_requested.slug %}">{{offer.plant_requested.nick_name}}</a></div>
+                                <div class='title is-size-6 has-text-weight-semibold'>Owner: {{offer.plant_requested.owner}}</div>
+                                <div class='title is-size-5'>You are offering: <a href="{% url 'plant_collection:plant_view' slug=offer.plant_offered.slug %}">{{offer.plant_offered}}</a></div>
+                                <div class='title is-size-6'>Requested: {{offer.plant_requested.created}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

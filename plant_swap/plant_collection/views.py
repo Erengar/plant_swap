@@ -1,13 +1,13 @@
 from typing import Any
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.views import generic, View
-from .models import Plant, Species, Image
+from .models import Plant, Species, Image, Trade
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .forms import add_plant_form, image_form, update_plant_form
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.utils.decorators import method_decorator
 
@@ -235,9 +235,11 @@ class species_list_view(generic.ListView):
 @method_decorator(csrf_exempt, name='dispatch')
 class search(View):
 
-    @csrf_protect
     def get(self, request):
-        search = request.GET['search']
+        try:
+            search = request.GET['search'].strip()
+        except:
+            raise Http404
         species = Species.objects.filter(name__icontains=search)
         response = []
         for specie in species:
@@ -245,9 +247,51 @@ class search(View):
         return HttpResponse("".join(response)+'</ul>')
     
     def patch(self, request):
-        print(request)
         species = Species.objects.all()
         response = []
         for specie in species:
             response.append('<li><a href="/species/'+str(specie.slug)+'">'+specie.name+'</a></li>')
         return HttpResponse("".join(response)+'</ul>')
+    
+
+#propably not safe
+class trade(LoginRequiredMixin, View):
+    def get(self, request, req,*args, **kwargs):
+        try:
+            plant = get_object_or_404(Plant, nick_name=request.GET['plant'].strip())
+            return render(request, 'plant_collection/trade_offered_plant.html', {'plant':plant})
+        except:
+            pass
+        req_plant = get_object_or_404(Plant, slug=req)
+        return render(request, 'plant_collection/trade.html', {'req':req_plant})
+    
+    #Two plants are posted and trade is made between their owners
+    def post(self, request, *args, **kwargs):
+        offered = get_object_or_404(Plant, nick_name=request.POST['offered'])
+        requested = get_object_or_404(Plant, nick_name=request.POST['requested'])
+        initiator = request.user
+        recipient = requested.owner
+        errors = []
+        if offered.owner == recipient:
+            errors.append('You cannot trade with yourself.')
+        if Trade.objects.filter(plant_offered=offered, plant_requested=requested, initiator=initiator, recipient=recipient):
+            errors.append('You have already made this trade.')
+        if errors:
+            return render(request, 'plant_collection/trade.html', {'req':requested, 'errors':errors})
+        trade = Trade.objects.create(plant_offered=offered, plant_requested=requested, initiator=initiator, recipient=recipient)
+        trade.save()
+        return redirect('plant_collection:personal_collection')
+    
+
+class plant_offers(LoginRequiredMixin, generic.ListView):
+    template_name = 'plant_collection/plant_offers.html'
+    model = Trade
+    def get(self, request, slug):
+        plant = get_object_or_404(Plant, slug=slug)
+        if request.user ==plant.owner:
+            req = Trade.objects.filter(plant_requested=plant)
+            offered = Trade.objects.filter(plant_offered=plant)
+            context = {'offers':offered, 'requests':req, 'plant':plant}
+            return render(request, self.template_name, context)
+        else:
+            return redirect('plant_collection:front_page')
