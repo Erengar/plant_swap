@@ -15,7 +15,9 @@
                         <div class='column is-4'>
                             <div class='card-image'>
                                 <figure class='image is-4by3'>
-                                    <img src="{{ req.plant_offered.picture.all.0.image.url }}">
+                                    <a href="{% url 'plant_collection:plant_view' slug=req.plant_offered.slug%}">
+                                        <img src="{{ req.plant_offered.picture.all.0.image.url }}">
+                                    <a>
                                 </figure>
                             </div>
                         </div>
@@ -24,7 +26,7 @@
                             <div class='card-content'>
                                 <div class='title is-size-4 '>Name: <a href="{% url 'plant_collection:plant_view' slug=req.plant_offered.slug%}">{{req.plant_offered.nick_name}}</a></div>
                                 <div class='title is-size-6 has-text-weight-semibold'>Owner: {{req.plant_offered.owner}}</div>
-                                <div class='title is-size-5'>You are being offered: <a href="{% url 'plant_collection:plant_view' slug=req.plant_requested.slug %}">{{req.plant_requested}}</a></div>
+                                <div class='title is-size-5'>The are interested in: <a href="{% url 'plant_collection:plant_view' slug=req.plant_requested.slug %}">{{req.plant_requested}}</a></div>
                                 <div class='title is-size-6'>Requested: {{req.plant_offered.created}}</div>
                             </div>
                         </div>
@@ -47,7 +49,9 @@
                         <div class='column is-4'>
                             <div class='card-image'>
                                 <figure class='image is-4by3'>
-                                    <img src="{{ offer.plant_requested.picture.all.0.image.url }}">
+                                    <a href="{% url 'plant_collection:plant_view' slug=offer.plant_requested.slug %}">
+                                        <img src="{{ offer.plant_requested.picture.all.0.image.url }}">
+                                    </a>
                                 </figure>
                             </div>
                         </div>

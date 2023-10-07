@@ -10,6 +10,7 @@
       }
       
 </style>
+<link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
 {% if errors %}
 {% for error in errors %}
 <div class="notification is-danger is-light has-text-centered">
@@ -60,13 +61,26 @@
         </form>
 
         <div class='column is-5 mt-6'>
-            <div class='card'>
+            <div class='card carousel_box'>
+
+
 
                 <div class='card-image'>
-                    <figure class='image is-4by3'>
-                            <img src="{{ req.picture.all.0.image.url }}">
-                    </figure>
+
+                    <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
+                        <div class='column arrow' id='left-arrow'></div>
+                        <div class='column arrow' id='right-arrow'></div>
+                    </div>
+
+                    {% for picture in req.picture.all %}
+                    <div class='carousel_image'>
+                        <figure class='image is-4by3'>
+                                <img class='carousel' src="{{ picture.image.url }}">
+                        </figure>
+                    </div>
+                    {% endfor %}
                 </div>
+
 
                 <div class='card-content'>
                     <div class='columns is-mobile'>
@@ -86,4 +100,5 @@
     </div>
 
 <script type='text/javascript' src="{% static 'plant_collection/javascript/trade.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/trade_carousel.js' %}"></script>
 {% endblock content %}

@@ -1,8 +1,18 @@
-<div class='card'>
+<div class='card carousel_box'>
     <div class='card-image'>
-        <figure class='image is-4by3'>
-                <img src="{{ plant.picture.all.0.image.url }}">
-        </figure>
+
+        <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
+            <div class='column arrow' id='left-arrow1'></div>
+            <div class='column arrow' id='right-arrow1'></div>
+        </div>
+
+        {% for picture in plant.picture.all %}
+        <div class='carousel_image1'>
+            <figure class='image is-4by3'>
+                    <img class='carousel' src="{{ picture.image.url }}">
+            </figure>
+        </div>
+        {% endfor %}
     </div>
 
     <div class='card-content'>

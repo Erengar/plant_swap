@@ -15,7 +15,9 @@
                         <div class='column is-4'>
                             <div class='card-image'>
                                 <figure class='image is-4by3'>
-                                    <img src="{{ req.plant_offered.picture.all.0.image.url }}">
+                                    <a href="{% url 'plant_collection:plant_view' slug=req.plant_offered.slug%}">
+                                        <img src="{{ req.plant_offered.picture.all.0.image.url }}">
+                                    </a>
                                 </figure>
                             </div>
                         </div>
@@ -46,7 +48,9 @@
                         <div class='column is-4'>
                             <div class='card-image'>
                                 <figure class='image is-4by3'>
-                                    <img src="{{ offer.plant_requested.picture.all.0.image.url }}">
+                                    <a href="{% url 'plant_collection:plant_view' slug=offer.plant_requested.slug %}">
+                                        <img src="{{ offer.plant_requested.picture.all.0.image.url }}">
+                                    </a>
                                 </figure>
                             </div>
                         </div>
