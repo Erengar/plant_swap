@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'plant_collection/css/trade.css' %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
+{% if errors %}
+{% for error in errors %}
+<div class="notification is-danger is-light has-text-centered">
+    {{ error }}
+</div>
+{% endfor %}
+{% endif %}
+    <div class='columns mx-2'>
+
+        <div class='column is-5 mt-6'>
+            <div class='card carousel_box'>
+
+                <div class='card-image'>
+
+                    <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
+                        <div class='column arrow' id='left-arrow'></div>
+                        <div class='column arrow' id='right-arrow'></div>
+                    </div>
+
+                    {% for picture in trade.plant_offered.picture.all %}
+                    <div class='carousel_image'>
+                        <figure class='image is-4by3'>
+                                <img class='carousel' src="{{ picture.image.url }}">
+                        </figure>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+                <div class='card-content'>
+                    <div class='columns is-mobile'>
+                        <div class='column is-half'>
+                            <div class='title is-4'><a href="{% url 'plant_collection:plant_view' slug=trade.plant_offered.slug %}">{{trade.plant_offered.nick_name}}</a></div>
+                            <div id="offerer" class='title is-5'>{{trade.plant_offered.owner}}</div>
+                        </div>
+                        <div class='column is-half'>
+                            <div class='is-pulled-right is-size-7 has-text-weight-bold'><i class="fa-solid fa-heart has-text-danger is-size-6"></i> {{trade.plant_offered.number_of_likes}} likes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form class='column is-2 custom-vcentered' method="post">
+            {% csrf_token %}
+            {% if trade.accepted and not trade.finalized%}
+            <div class="is-flex container" >
+                {% if trade.plant_offered.owner == user %}
+                    {% if trade.offered_finalized %}
+                    <a><i class="fa-solid fa-circle-check is-size-1 green-check sendable"></i></a>
+                    {% elif not trade.offered_finalized %}
+                    <a><i class="fa-solid fa-circle-check is-size-1 red-check sendable"></i></a>
+                    {% endif %}
+                {% else %}
+                    {% if trade.offered_finalized %}
+                    <i class="fa-solid fa-circle-check is-size-1 green-check-inactive"></i>
+                    {% elif not trade.offered_finalized %}
+                    <i class="fa-solid fa-circle-check is-size-1 red-check-inactive"></i>
+                    {% endif %}
+                {% endif %}
+                {% if trade.plant_requested.owner == user %}
+                    {% if trade.requested_finalized %}
+                    <a><i class="fa-solid fa-circle-check is-size-1 green-check sendable"></i></a>
+                    {% elif not trade.requested_finalized %}
+                    <a><i class="fa-solid fa-circle-check is-size-1 red-check sendable"></i></a>
+                    {% endif %}
+                {% else %}
+                    {% if trade.requested_finalized %}
+                    <i class="fa-solid fa-circle-check is-size-1 green-check-inactive"></i>
+                    {% elif not trade.requested_finalized %}
+                    <i class="fa-solid fa-circle-check is-size-1 red-check-inactive"></i>
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% elif not trade.accepted and not trade.finalized %}
+            <div>
+                <div class='is-flex is-justify-content-center is-vcentered'>
+                    <input class='button is-success is-large' id='accepted-button' type='submit' value='Accept' name='accept'>
+                </div>
+                <div class='is-flex is-justify-content-center is-vcentered mt-6'>
+                    <input class='button is-danger is-large' id='decline-button' type='submit' value='Decline' name='decline'>
+                </div>
+            </div>
+            {% endif %}
+        </form>
+
+
+
+        <div class='column is-5 mt-6'>
+            <div class='card carousel_box'>
+
+                <div class='card-image'>
+
+                    <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
+                        <div class='column arrow' id='left-arrow1'></div>
+                        <div class='column arrow' id='right-arrow1'></div>
+                    </div>
+
+                    {% for picture in trade.plant_requested.picture.all %}
+                    <div class='carousel_image1'>
+                        <figure class='image is-4by3'>
+                                <img class='carousel' src="{{ picture.image.url }}">
+                        </figure>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+                <div class='card-content'>
+                    <div class='columns is-mobile'>
+                        <div class='column is-half'>
+                            <div class='title is-4'><a href="{% url 'plant_collection:plant_view' slug=trade.plant_requested.slug %}">{{trade.plant_requested.nick_name}}</a></div>
+                            <div id="requester" class='title is-5'>{{trade.plant_requested.owner}}</div>
+                        </div>
+                        <div class='column is-half'>
+                            <div class='is-pulled-right is-size-7 has-text-weight-bold'><i class="fa-solid fa-heart has-text-danger is-size-6"></i> {{trade.plant_requested.number_of_likes}} likes</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+<script type='text/javascript' src="{% static 'plant_collection/javascript/trade_carousels.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/trade_finalization.js' %}"></script>
+{% endblock content %}
