@@ -2,6 +2,7 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <section class='section'>
     <div class='box'>
     <div class='columns'>
@@ -48,21 +49,21 @@
             <section class='section is-medium is-justify-content-center'>
 
                 <div class='container is-flex is-justify-content-center is-flex-direction-column'>
-                    <div class='title'>
+                    <div class='title is-size-3-desktop is-size-5-touch'>
                         {{plant.nick_name}}
                     </div>
 
 
                     <div class='block'>
-                        <div class='subtitle is-5'>
+                        <div class='subtitle is-size-5-desktop is-size-6-touch'>
                             Owned by {{plant.owner}}
                         </div>
                     </div>
 
                     {% if plant.species %}
                     <div class='block'>
-                        <div class='subtitle is-6'>
-                            Specie: {{plant.species}}
+                        <div class='subtitle is-size-6-desktop is-size-7-touch'>
+                            Specie: <a href="{% url 'plant_collection:species_list' nam=plant.species|slugify %}" >{{plant.species}}</a>
                         </div>
                     </div>
                     {% endif %}
@@ -88,14 +89,14 @@
                 <section class='container is-flex is-justify-content-center'>
                     <div>
                         {% if plant.for_trade %}
-                        <div class='icon-text has-text-weight-semibold'>
+                        <div class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch'>
                             <span class='icon'>
                                 <i class="fa-solid fa-store"></i>
                             </span>
                             For Trade
                         </div>
                         {% elif not plant.for_trade %}
-                        <span class='icon-text has-text-weight-semibold'>
+                        <span class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch'>
                             <span class='icon'>
                                 <i class="fa-solid fa-store-slash "></i>
                             </span>

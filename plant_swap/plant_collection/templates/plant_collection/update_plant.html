@@ -2,6 +2,7 @@
 {% block content %}
 {% load widget_tweaks %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <section class='section mx-0'>
     <form enctype='multipart/form-data' class='box' action="{% url 'plant_collection:update_plant' slug=plant.slug %}" method='post'>
         {% csrf_token %}

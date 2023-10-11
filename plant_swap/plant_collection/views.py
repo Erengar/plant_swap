@@ -289,8 +289,9 @@ class plant_offers(LoginRequiredMixin, generic.ListView):
     def get(self, request, slug):
         plant = get_object_or_404(Plant, slug=slug)
         if request.user ==plant.owner:
-            req = Trade.objects.filter(plant_requested=plant)
-            offered = Trade.objects.filter(plant_offered=plant)
+            #Showing only trades that are not finalized
+            req = Trade.objects.filter(plant_requested=plant, finalized=False)
+            offered = Trade.objects.filter(plant_offered=plant, finalized=False)
             context = {'offers':offered, 'requests':req, 'plant':plant}
             return render(request, self.template_name, context)
         else:

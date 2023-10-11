@@ -1,15 +1,31 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class='title is-1 has-text-centered'>My trade offers</div>
+<link rel="stylesheet" href="{% static "plant_collection/css/divider.css" %}">
+<style>
+    @media (max-width: 768px) {
+        .columns.mx-2 {
+            margin: 0px !important;
+        }
+        .title.is-size-1-desktop.is-size-4-touch.has-text-centered {
+            margin-bottom: 0;
+        }
+    }
+</style>
+<div class='title is-size-1-desktop is-size-4-touch has-text-centered'>My trade offers</div>
+{% if confirmations %}
+<div class="notification is-success is-light has-text-centered">
+    {{ confirmations }}
+</div>
+{% endif %}
 <div class='columns mx-2'>
 
     <div class='column is-6'>
         <div class='box'>
             <div class='columns is-multiline'>
-                <span class='title'>Trade offers made to you</span>
-                {% if requests %}
+                <span class='title is-size-3-desktop is-size-5-touch'>Trade offers made to you</span>
                 {% for req in requests %}
+                <div class="divider"></div>
                 <div class='column is-12 is-narrow'>
                     <div class='columns'>
                         <div class='column is-4'>
@@ -23,17 +39,22 @@
                         <div class='column is-8'>
                             <a href="{% url 'accounts:trade' pk=req.pk %}">
                                 <div class='card-content'>
-                                    <div class='title is-size-4 '>Name: {{req.plant_offered.nick_name}}</div>
-                                    <div class='title is-size-6 has-text-weight-semibold'>Owner: {{req.plant_offered.owner}}</div>
-                                    <div class='title is-size-5'>They are interested in: {{req.plant_requested}}</div>
-                                    <div class='title is-size-6'>Requested: {{req.plant_offered.created}}</div>
+                                    <div class='title is-size-4-desktop is-size-5-touch'>Name: {{req.plant_offered.nick_name}}</div>
+                                    <div class='title is-size-6-desktop is-size-6-touch has-text-weight-semibold'>Owner: {{req.plant_offered.owner}}</div>
+                                    <div class='title is-size-4-desktop is-size-5-touch'>They are interested in: {{req.plant_requested}}</div>
+                                    <div class='title is-size-7'>Requested: {{req.plant_offered.created}}</div>
                                 </div>
                             </a>
                         </div>
                     </div>
                 </div>
+                {% empty %}
+                <div class="divider"></div>
+                <div class='column is-12 is-narrow'>
+                    You have received no trade offers.
+                </div>
                 {% endfor %}
-                {% endif %}
+                <div class="divider"></div>
             </div>
         </div>
     </div>
@@ -41,10 +62,10 @@
     <div class='column is-6'>
         <div class='box'>
             <div class='columns is-multiline'>
-                <span class='title'>Your trade offers</span>
-                {% if offers %}
+                <span class='title is-size-3-desktop is-size-5-touch'>Your trade offers</span>
                 {% for offer in offers %}
-                <div class='column is-12 is-narrow'>
+                <div class="divider"></div>
+                <div class='column is-12 is-narrow'>      
                     <div class='columns'>
                         <div class='column is-4'>
                             <div class='card-image'>
@@ -57,17 +78,22 @@
                         <div class='column is-8'>
                             <a href="{% url 'accounts:trade' pk=offer.pk %}">
                                 <div class='card-content'>
-                                    <div class='title is-size-4 '>Name: {{offer.plant_requested.nick_name}}</div>
-                                    <div class='title is-size-6 has-text-weight-semibold'>Owner: {{offer.plant_requested.owner}}</div>
-                                    <div class='title is-size-5'>You are offering: {{offer.plant_offered}}</div>
-                                    <div class='title is-size-6'>Requested: {{offer.plant_requested.created}}</div>
+                                    <div class='title is-size-4-desktop is-size-5-touch'>Name: {{offer.plant_requested.nick_name}}</div>
+                                    <div class='title is-size-6-desktop is-size-6-touch has-text-weight-semibold'>Owner: {{offer.plant_requested.owner}}</div>
+                                    <div class='title is-size-4-desktop is-size-5-touch'>You are offering: {{offer.plant_offered}}</div>
+                                    <div class='title is-size-7'>Requested: {{offer.plant_requested.created}}</div>
                                 </div>
                             </a>
                         </div>
                     </div>
                 </div>
+                {% empty %}
+                <div class="divider"></div>
+                <div class='column is-12 is-narrow'>
+                    You have not made any trade offers.
+                </div>
                 {% endfor %}
-                {% endif %}
+                <div class="divider"></div>
             </div>
         </div>
     </div>

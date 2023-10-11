@@ -3,6 +3,22 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'plant_collection/css/trade.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
+<style>
+    @media (max-width: 768px) {
+        .columns.mx-2 {
+            margin: 0px !important;
+        }
+        .column.is-5.mt-6 {
+            margin-top: 0px !important;
+        }
+        .is-flex.is-justify-content-center.is-vcentered.mt-6 {
+            margin-top: 0px !important;
+        }
+        .is-flex.is-justify-content-center.is-vcentered {
+            margin-bottom: 3vw !important;
+        }
+    }
+</style>
 {% if errors %}
 {% for error in errors %}
 <div class="notification is-danger is-light has-text-centered">
@@ -35,8 +51,8 @@
                 <div class='card-content'>
                     <div class='columns is-mobile'>
                         <div class='column is-half'>
-                            <div class='title is-4'><a href="{% url 'plant_collection:plant_view' slug=trade.plant_offered.slug %}">{{trade.plant_offered.nick_name}}</a></div>
-                            <div id="offerer" class='title is-5'>{{trade.plant_offered.owner}}</div>
+                            <div class='title is-size-4-desktop is-size-5-touch'><a id="offerer" href="{% url 'plant_collection:plant_view' slug=trade.plant_offered.slug %}">{{trade.plant_offered.nick_name}}</a></div>
+                            <div class='subtitle is-size-5-desktop is-size-6-touch'>{{trade.plant_offered.owner}}</div>
                         </div>
                         <div class='column is-half'>
                             <div class='is-pulled-right is-size-7 has-text-weight-bold'><i class="fa-solid fa-heart has-text-danger is-size-6"></i> {{trade.plant_offered.number_of_likes}} likes</div>
@@ -49,7 +65,7 @@
         <form class='column is-2 custom-vcentered' method="post">
             {% csrf_token %}
             {% if trade.accepted and not trade.finalized%}
-            <div class="is-flex container" >
+            <div class="is-flex" style='gap:5vw'>
                 {% if trade.plant_offered.owner == user %}
                     {% if trade.offered_finalized %}
                     <a><i class="fa-solid fa-circle-check is-size-1 green-check sendable"></i></a>
@@ -79,12 +95,27 @@
             </div>
             {% elif not trade.accepted and not trade.finalized %}
             <div>
+                {% if trade.accepted == False %}
+                <div class='is-flex is-justify-content-center is-vcentered mt-6'>
+                    <input disabled class='button is-danger is-large is-responsive' id='decline-button' type='submit' value='Declined'>
+                </div>
+                {% elif trade.accepted == null and user == trade.initiator %}
+                <div class='is-flex is-justify-content-center is-vcentered mt-6'>
+                    <input class='button is-danger is-large is-responsive' id='decline-button' type='submit' value='Retract' name='retract'>
+                </div>
+                {% else %}
                 <div class='is-flex is-justify-content-center is-vcentered'>
-                    <input class='button is-success is-large' id='accepted-button' type='submit' value='Accept' name='accept'>
+                    <input class='button is-success is-large is-responsive' id='accepted-button' type='submit' value='Accept' name='accept'>
                 </div>
                 <div class='is-flex is-justify-content-center is-vcentered mt-6'>
-                    <input class='button is-danger is-large' id='decline-button' type='submit' value='Decline' name='decline'>
+                    <input class='button is-danger is-large is-responsive' id='decline-button' type='submit' value='Decline' name='decline'>
                 </div>
+                {% endif %}
+            </div>
+            {% elif trade.finalized %}
+            <div class="is-flex container">
+                <i class="fa-solid fa-circle-check is-size-1 green-check-inactive"></i>
+                <i class="fa-solid fa-circle-check is-size-1 green-check-inactive"></i>
             </div>
             {% endif %}
         </form>
@@ -114,8 +145,8 @@
                 <div class='card-content'>
                     <div class='columns is-mobile'>
                         <div class='column is-half'>
-                            <div class='title is-4'><a href="{% url 'plant_collection:plant_view' slug=trade.plant_requested.slug %}">{{trade.plant_requested.nick_name}}</a></div>
-                            <div id="requester" class='title is-5'>{{trade.plant_requested.owner}}</div>
+                            <div class='title is-size-4-desktop is-size-5-touch'><a id="requester" href="{% url 'plant_collection:plant_view' slug=trade.plant_requested.slug %}">{{trade.plant_requested.nick_name}}</a></div>
+                            <div class='subtitle is-size-5-desktop is-size-6-touch'>{{trade.plant_requested.owner}}</div>
                         </div>
                         <div class='column is-half'>
                             <div class='is-pulled-right is-size-7 has-text-weight-bold'><i class="fa-solid fa-heart has-text-danger is-size-6"></i> {{trade.plant_requested.number_of_likes}} likes</div>

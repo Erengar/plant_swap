@@ -9,6 +9,7 @@ $('.sendable').on('click', function() {
     var offerer = $('#offerer').text();
     var requester = $('#requester').text();
     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+    var self = $(this);
     
     $.ajax({
         type: 'post',
@@ -19,8 +20,9 @@ $('.sendable').on('click', function() {
             requester: requester,
             csrfmiddlewaretoken: csrf,
         },
-        success: function(response) {
-            $(this).replaceWith(response);
+        success: function(response){
+            $(self).removeClass();
+            $(self).addClass(response);
         }
     })
 })

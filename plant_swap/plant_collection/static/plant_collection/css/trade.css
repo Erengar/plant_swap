@@ -6,20 +6,16 @@
 
 .red-check {
     color: #ff3860;
-    border-radius: 50%;
-    border: 3px solid #000000;
-    border-color: hsl(0, 100%, 34%);
+
 }
 
 .green-check {
     color: #00d1b2;
+
 }
 
 .red-check-inactive {
     color: #ff3860;
-    border-radius: 50%;
-    border: 3px solid #000000;
-    border-color: hsl(0, 100%, 34%);
     opacity: 0.4;
 }
 

@@ -75,7 +75,7 @@ class Trade(models.Model):
     plant_requested = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name='trades_requested')
     initiator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='trades_initiated')
     recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='trades_received')
-    accepted = models.BooleanField(default=False, null=True, blank=True)
+    accepted = models.BooleanField(null=True, blank=True)
     offered_finalized = models.BooleanField(default=False)
     requested_finalized = models.BooleanField(default=False)
     finalized = models.BooleanField(default=False)
@@ -87,7 +87,13 @@ class Trade(models.Model):
 
     def decline(self):
         self.accepted = False
-        self.save()
+        self.delete()
+
+    def exchange(self):
+        self.plant_offered.owner = self.recipient
+        self.plant_requested.owner = self.initiator
+        self.plant_offered.save()
+        self.plant_requested.save()
 
     def __str__(self):
         return f'{self.plant_offered} for {self.plant_requested}'
