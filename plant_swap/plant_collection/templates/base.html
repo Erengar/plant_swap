@@ -24,19 +24,17 @@
             {% endif %}
 
 
-            {% if user.is_authenticated %}
-            <a href="{% url 'accounts:logout' %}" class='navbar-item is-hidden-desktop'>
-              <i class="fa-solid fa-power-off"></i>Logout
+
+            <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
             </a>
-            {% else %}
-            <a href="{% url 'accounts:login' %}" class='navbar-item is-hidden-desktop'>
-              <i class="fa-solid fa-power-off"></i>Login/Signup
-            </a>
-            {% endif %}
+            
           </div>
 
               
-          <div class='navbar-menu'>
+          <div class='navbar-menu' id="navMenu">
             <div class='navbar-start'>
               {% if user.is_authenticated %}
               <a href="{% url 'accounts:trades' %}" class='navbar-item is-tab'>
@@ -63,4 +61,5 @@
             {% endblock %}
     </body>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/tabs.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/navbar_burger.js' %}"></script>
 </html>

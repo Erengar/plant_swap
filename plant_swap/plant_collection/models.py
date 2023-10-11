@@ -81,6 +81,9 @@ class Trade(models.Model):
     finalized = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
+    class Meta:
+        unique_together = ['plant_offered', 'plant_requested']
+
     def accept(self):
         self.accepted = True
         self.save()

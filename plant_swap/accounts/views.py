@@ -59,7 +59,10 @@ class trades_view(LoginRequiredMixin, generic.ListView):
         return render(request, self.template_name, context)
     
 
-#This view accepts ajax post request for confirming a trade
+'''
+This view is for showing the trade details and finalizing the trade.
+It receives 2 kinds of POST requests: One for accepting/declining/retracting a trade, and the other for finalizing a trade.
+'''
 class trade_view(LoginRequiredMixin, generic.DetailView):
     template_name = 'accounts/trade.html'
     model = Trade
@@ -71,7 +74,10 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
     
     def post(self, request, pk, *args, **kwargs):
         #This part is for accepting or declining a trade
-        try:
+        decline = request.POST.get('decline', None)
+        accept = request.POST.get('accept', None)
+        retract = request.POST.get('retract', None)
+        if decline:
             request.POST['decline']
             trade = get_object_or_404(Trade, pk=pk)
             trade.decline()
@@ -80,9 +86,7 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
             confirm = 'Trade offer was declined.'
             context = {'offers':offered, 'requests':req, 'confirmations': confirm}
             return render(request, 'accounts/offers.html', context)
-        except:
-            pass
-        try:
+        if accept:
             request.POST['accept']
             trade = get_object_or_404(Trade, pk=pk)
             trade.accept()
@@ -91,9 +95,7 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
             confirm = 'Trade offer was accepted.'
             context = {'offers':offered, 'requests':req, 'confirmations': confirm}
             return render(request, 'accounts/offers.html', context)
-        except:
-            pass
-        try:
+        if retract:
             request.POST['retract']
             trade = get_object_or_404(Trade, pk=pk)
             trade.decline()
@@ -102,8 +104,7 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
             confirm = 'Trade offer was retracted.'
             context = {'offers':offered, 'requests':req, 'confirmations': confirm}
             return render(request, 'accounts/offers.html', context)
-        except:
-            pass
+
 
         #This part is for finalizing a trade
         offerer = get_object_or_404(Plant, nick_name=request.POST['offerer'])
@@ -125,6 +126,7 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
             trade.save()
             trade.exchange()
 
+        #Update trade status
         #trade.initiator/recipient returns django model object, thus it must be first converted to string before comparison
         if finalize and request.user.username == str(trade.initiator):
             trade.offered_finalized = True

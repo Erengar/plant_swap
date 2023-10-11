@@ -1,4 +1,4 @@
-$('.sendable').on('click', function() {
+$('.sendable').on('click', _.throttle(function() {
 
     if($(this).hasClass('red-check')) {
         var finalize = true;
@@ -25,4 +25,4 @@ $('.sendable').on('click', function() {
             $(self).addClass(response);
         }
     })
-})
+}, 300));
