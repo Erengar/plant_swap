@@ -11,6 +11,10 @@
             margin-bottom: 0;
         }
     }
+    .trade-offer:hover {
+        color:#E3B448;
+        background-color: #F5F5F5;
+    }
 </style>
 <div class='title is-size-1-desktop is-size-4-touch has-text-centered'>{{plant.nick_name}} trades</div>
 <div class='columns mx-2'>
@@ -21,7 +25,7 @@
                 <span class='title is-size-3-desktop is-size-5-touch'>Trade offers made to you</span>
                 {% for req in requests %}
                 <div class="divider"></div>
-                <div class='column is-12 is-narrow'>
+                <div class='column is-12 is-narrow trade-offer'>
                     <div class='columns'>
                         <div class='column is-4'>
                             <div class='card-image'>
@@ -59,7 +63,7 @@
                 <span class='title is-size-3-desktop is-size-5-touch'>Your trade offers</span>
                 {% for offer in offers %}
                 <div class="divider"></div>
-                <div class='column is-12 is-narrow'>
+                <div class='column is-12 is-narrow trade-offer'>
                     <div class='columns'>
                         <div class='column is-4'>
                             <div class='card-image'>

@@ -37,7 +37,7 @@
                         {% csrf_token %}
                         <div class='box'>
                             <div class='block'>Are you sure you want to delete {{plant.nick_name}}?</div>
-                            <input class='button' type='submit' value='Yes, I am sure'></input>
+                            <input class='button mustard-button' type='submit' value='Yes, I am sure'></input>
                         </div>
                     </form>
                 </div>
@@ -108,18 +108,18 @@
                         {% if user == plant.owner %}
                         <div>
                             <a href="{% url 'plant_collection:plant_offers' slug=plant.slug %}">
-                                <button class='button is-success is-large is-responsive mt-2'>See Offers</button>
+                                <button class='button mustard-button is-large is-responsive mt-2'>See Offers</button>
                         </div>
                         {% elif not user == plant.owner %}
                         {% if plant.for_trade %}
                         <div>
                             <a href="{% url 'plant_collection:trade' req=plant.slug %}">
-                                <button class='button is-success is-large is-responsive mt-2'>Offer trade</button>
+                                <button class='button mustard-button is-large is-responsive mt-2'>Offer trade</button>
                             </a>
                         </div>
                         {% elif not plant.for_trade %}
                         <div>
-                            <button class='button is-success is-large is-responsive mt-2' disabled>
+                            <button class='button mustard-button is-large is-responsive mt-2' disabled>
                                 Offer trade
                             </button>
                         </div>

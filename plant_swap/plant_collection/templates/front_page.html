@@ -12,15 +12,15 @@
                 <input id='ajax-search' class="input is-small" type="text" name='search'
                 placeholder="Search...">
                 <span class="icon is-small is-right">
-                    <i class="fa-solid fa-search"></i>
+                    <i class="fa-solid fa-search mustard"></i>
                 </span>
             </div>
             <p class='menu-label'>Species</p>   
             <ul class='menu-list'>
                 {% for specie in species %}
-                <li><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}">{{specie}}</a></li>
+                <li><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}" class='forest-green'>{{specie}}</a></li>
                 {% endfor %}
-                <li><a id='htmx-dud' hx-patch="{% url 'plant_collection:search' %}" hx-trigger='click' hx-target='.menu-list'>...</a></li>
+                <li><a id='htmx-dud' hx-patch="{% url 'plant_collection:search' %}" hx-trigger='click' hx-target='.menu-list' class='forest-green'>...</a></li>
             </ul>
         </aside>
     </div>
@@ -32,7 +32,7 @@
                 <input class="input is-small" type="text" name='search'
                 placeholder="Search for plants...">
                 <span class="icon is-small is-right" type='submit'>
-                    <i class="fa-solid fa-search"></i>
+                    <i class="fa-solid fa-search mustard"></i>
                 </span>
             </div>
         </form>
@@ -58,7 +58,7 @@
                     <div class='card-content columns is-mobile'>
                         <div class='column'>
                             <div class='title is-size-4-desktop is-size-5-touch is-align-self-flex-start'>
-                                <a class='has-text-dark' href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
+                                <a class='' href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
                             </div>
                             <div class='subtitle is-size-5-desktop is-size-6-touch'>
                                 {{plant.owner}}
