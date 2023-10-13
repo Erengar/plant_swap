@@ -18,7 +18,7 @@
     <div class='card-content'>
         <div class='columns is-mobile'>
             <div class='column is-half'>
-                <div class='title is-size-4-desktop is-size-5-touch offered-plant'>{{plant.nick_name}}</div>
+                <div class='title is-size-4-desktop is-size-5-touch offered-plant'><a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a></div>
                 <div class='subtitle is-size-5-desktop is-size-6-touch'>Owner: {{plant.owner}}</div>
             </div>
             <div class='column is-half'>

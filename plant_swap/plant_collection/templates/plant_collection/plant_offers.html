@@ -26,25 +26,25 @@
                 {% for req in requests %}
                 <div class="divider"></div>
                 <div class='column is-12 is-narrow trade-offer'>
-                    <div class='columns'>
-                        <div class='column is-4'>
-                            <div class='card-image'>
-                                <figure class='image is-4by3'>
-                                        <img src="{{ req.plant_offered.picture.all.0.image.url }}">
-                                </figure>
+                    <a href="{% url 'accounts:trade' pk=req.pk %}">
+                        <div class='columns'>
+                            <div class='column is-4'>
+                                <div class='card-image'>
+                                    <figure class='image is-4by3'>
+                                            <img src="{{ req.plant_offered.picture.all.0.image.url }}">
+                                    </figure>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class='column is-8'>
-                            <a href="{% url 'accounts:trade' pk=req.pk %}">
+                            <div class='column is-8'>
                                 <div class='card-content'>
                                     <div class='title is-size-4-desktop is-size-5-touch'>Name: {{req.plant_offered.nick_name}}</div>
                                     <div class='title is-size-6-desktop is-size-6-touch has-text-weight-semibold'>Owner: {{req.plant_offered.owner}}</div>
                                     <div class='title is-size-7'>Requested: {{req.plant_offered.created}}</div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 {% empty %}
                 <div class="divider"></div>
@@ -64,25 +64,25 @@
                 {% for offer in offers %}
                 <div class="divider"></div>
                 <div class='column is-12 is-narrow trade-offer'>
-                    <div class='columns'>
-                        <div class='column is-4'>
-                            <div class='card-image'>
-                                <figure class='image is-4by3'>
-                                        <img src="{{ offer.plant_requested.picture.all.0.image.url }}">
-                                </figure>
+                    <a href="{% url 'accounts:trade' pk=offer.pk %}">
+                        <div class='columns'>
+                            <div class='column is-4'>
+                                <div class='card-image'>
+                                    <figure class='image is-4by3'>
+                                            <img src="{{ offer.plant_requested.picture.all.0.image.url }}">
+                                    </figure>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class='column is-8'>
-                            <a href="{% url 'accounts:trade' pk=offer.pk %}">
+                            <div class='column is-8'>
                                 <div class='card-content'>
                                     <div class='title is-size-4-desktop is-size-5-touch '>Name: {{offer.plant_requested.nick_name}}</div>
                                     <div class='title is-size-6-desktop is-size-6-touch has-text-weight-semibold'>Owner: {{offer.plant_requested.owner}}</div>
                                     <div class='title is-size-7'>Requested: {{offer.plant_requested.created}}</div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 {% empty %}
                 <div class="divider"></div>

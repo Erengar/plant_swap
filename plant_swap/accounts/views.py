@@ -55,7 +55,6 @@ class trades_view(LoginRequiredMixin, generic.ListView):
         req = Trade.objects.filter(recipient=request.user, finalized=False)
         offered = Trade.objects.filter(initiator=request.user, finalized=False)
         context = {'offers':offered, 'requests':req}
-        print(req, offered)
         return render(request, self.template_name, context)
     
 
@@ -146,3 +145,25 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
             return HttpResponse("fa-solid fa-circle-check is-size-1 red-check sendable")
         else:
             raise Http404("You are not authorized to do that")
+        
+
+'''
+This view is for showing plants user have liked. It receives a POST request when user clicks like button.
+'''
+class liked_list(LoginRequiredMixin, generic.ListView):
+    template_name = 'accounts/like_list.html'
+    model = Plant
+    def get(self, request):
+        context = {'plants':Plant.objects.filter(likes=request.user).order_by('-updated')}
+        return render(request, self.template_name, context)
+    
+    def post(self, request):
+        plant = request.POST['plant']
+        user = request.POST['user']
+        p = Plant.objects.get(nick_name=plant)
+        u = User.objects.get(username=user)
+        if u in p.likes.all():
+            p.likes.remove(u)
+        elif not u in p.likes.all():
+            p.likes.add(u)
+        return HttpResponse(p.number_of_likes())

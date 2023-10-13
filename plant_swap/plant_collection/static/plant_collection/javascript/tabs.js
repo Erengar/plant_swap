@@ -10,4 +10,6 @@ if (url.includes("my-collection")) {
     $('a[href="/species/' + myspecie + '/"]').addClass("sage-green");
 } else if (url.includes('accounts/trades')) {
     $('a[href="/accounts/trades/"]').addClass("navbar-active");
+} else if (url.includes('accounts/likes')) {
+    $('a[href="/accounts/likes/"]').addClass("navbar-active");
 }

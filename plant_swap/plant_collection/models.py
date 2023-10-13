@@ -12,7 +12,6 @@ from django.db.models.signals import pre_save, post_delete
 
     
 
-# Create your models here.
 
 class Species(models.Model):
     name = models.CharField(max_length=64)

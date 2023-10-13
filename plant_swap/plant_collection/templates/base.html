@@ -6,43 +6,16 @@
         <link rel="stylesheet" href="{% static "plant_collection/css/base.css" %}">
         <link rel="stylesheet" href="{% static 'plant_collection/css/hover.css' %}">
         <link rel="stylesheet" href="{% static 'plant_collection/css/divider.css' %}">
+        <link rel="icon" href="{% static 'plant_collection/favicon/favicon.png' %}">
+        <link rel="stylesheet" href="{% static 'plant_collection/css/coloring.css' %}">
         <script src="https://kit.fontawesome.com/b2e6637db0.js" crossorigin="anonymous"></script>
         <script type='text/javascript' src="{% static 'plant_collection/javascript/jquery.js' %}"></script>
         <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
-        <style>
-          .forest-green {
-            color: #3A6B35 !important;
-          }
-
-          .mustard {
-            color: #E3B448 !important;
-          }
-
-          .sage-green {
-            background-color: #CBD18F !important;
-          }
-          
-          .mustard-button {
-            background-color: #E3B448 !important;
-          }
-          
-          .navbar-active {
-            border-bottom: 3px solid #3A6B35 !important;
-          }
-
-          .navbar-item:hover {
-            background-color: #CBD18F !important;
-            border-bottom: 1px solid #3A6B35 !important;
-          }
-          
-          a {
-            color: #3A6B35 !important;
-          }
-        </style>
     </head>
     <body>
-        <nav class='navbar sage-green is-transparent' role='navigation' style='position:sticky !important;'>
+      <div style='position: sticky; top:0px; z-index: 2;'>
+        <nav class='navbar sage-green' role='navigation'>
 
           <div class='navbar-brand'>
             <a href="{% url 'plant_collection:front_page' %}" class='navbar-item is-tab forest-green'>
@@ -71,6 +44,9 @@
               <a href="{% url 'accounts:trades' %}" class='navbar-item is-tab forest-green'>
                 <i class="fa-solid fa-handshake"></i>My Trade Offers
               </a>
+              <a href="{% url 'accounts:liked_list' %}" class='navbar-item is-tab forest-green'>
+                <i class="fa-solid fa-heart"></i>Liked Plants
+              </a>
               {% endif %}
             </div>
             <div class='navbar-end'>
@@ -87,10 +63,9 @@
           </div>
         </nav>
         <div class='divider'></div>
-        <div class="sage-g">
+      </div>
             {% block content %}
             {% endblock %}
-        </div>
     </body>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/tabs.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/navbar_burger.js' %}"></script>

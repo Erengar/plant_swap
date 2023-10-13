@@ -16,7 +16,7 @@
                 </span>
             </div>
             <p class='menu-label'>Species</p>   
-            <ul class='menu-list'>
+            <ul class='menu-list' style='overflow:auto; height:50vw; scrollbar-width: thin;'>
                 {% for specie in species %}
                 <li><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}" class='forest-green'>{{specie}}</a></li>
                 {% endfor %}
@@ -58,7 +58,7 @@
                     <div class='card-content columns is-mobile'>
                         <div class='column'>
                             <div class='title is-size-4-desktop is-size-5-touch is-align-self-flex-start'>
-                                <a class='' href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
+                                <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
                             </div>
                             <div class='subtitle is-size-5-desktop is-size-6-touch'>
                                 {{plant.owner}}

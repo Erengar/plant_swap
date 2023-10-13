@@ -5,21 +5,21 @@
   }
 
 .red-check {
-    color: #ff3860;
+    color: hsl(0, 66%, 35%);
 
 }
 
 .green-check {
-    color: #00d1b2;
+    color: #3A6B35;
 
 }
 
 .red-check-inactive {
-    color: #ff3860;
+    color: hsl(0, 66%, 35%);
     opacity: 0.4;
 }
 
 .green-check-inactive {
-    color: #00d1b2;
+    color: #3A6B35;
     opacity: 0.4;
 }

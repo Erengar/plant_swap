@@ -97,18 +97,18 @@
             <div>
                 {% if trade.accepted == False %}
                 <div class='is-flex is-justify-content-center is-vcentered mt-6'>
-                    <input disabled class='button is-danger is-large is-responsive' id='decline-button' type='submit' value='Declined'>
+                    <input disabled class='button decline-button is-large is-responsive' id='decline-button' type='submit' value='Declined'>
                 </div>
                 {% elif trade.accepted == null and user == trade.initiator %}
                 <div class='is-flex is-justify-content-center is-vcentered mt-6'>
-                    <input class='button is-danger is-large is-responsive' id='decline-button' type='submit' value='Retract' name='retract'>
+                    <input class='button decline-button is-large is-responsive' id='decline-button' type='submit' value='Retract' name='retract'>
                 </div>
                 {% else %}
                 <div class='is-flex is-justify-content-center is-vcentered'>
-                    <input class='button is-success is-large is-responsive' id='accepted-button' type='submit' value='Accept' name='accept'>
+                    <input class='button forest-green-button is-large is-responsive' id='accepted-button' type='submit' value='Accept' name='accept'>
                 </div>
                 <div class='is-flex is-justify-content-center is-vcentered mt-6'>
-                    <input class='button is-danger is-large is-responsive' id='decline-button' type='submit' value='Decline' name='decline'>
+                    <input class='button decline-button is-large is-responsive' id='decline-button' type='submit' value='Decline' name='decline'>
                 </div>
                 {% endif %}
             </div>

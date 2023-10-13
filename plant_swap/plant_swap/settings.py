@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'tagging',
     'crispy_forms',
     'widget_tweaks',
+    'social_django',
 
 
     'plant_collection',
@@ -143,3 +144,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 CRISPY_ALLOWED_TEMPLATE_PACKS = ('bulma',)
 
 CRISPY_TEMPLATE_PACK = 'bulma'
+
+
+#Social logins
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)

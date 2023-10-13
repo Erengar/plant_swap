@@ -1,40 +1,9 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends "base.html" %}
 {% load static %}
+{% block content %}
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
-<style>
-    @media (max-width: 768px) {
-        .add-plant-center {
-            margin-top: 25vw;
-            margin-bottom: 25vw;            
-        }
-
-        .card.hover.is-flex {
-            margin-top: 5vw;
-        }
-    }
-</style>
-<section class='section'>
-    <div class='columns is-multiline'>
-        <div class='column is-3-desktop'>
-                <a href="{% url 'plant_collection:add_plant' %}">
-                    <div class='card hover is-flex' style='height:100% !important'>
-                        <div style='position:flex; margin:auto'>
-                            <div class='card-image is-flex-direction-column add-plant-center'>
-                                <figure class='image is-96x96' style='margin:auto'>
-                                    <img src="/media/pics/add-image.png">
-                                </figure>
-                                <div class='card-content'>
-                                    <div class='title is-4'>
-                                        Add new plant
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </a>
-        </div>
+<section class="section">
+    <div class="columns is-multiline">
         {% if plants %}
         {% for plant in plants %}
         <div class='column is-3-desktop is-full-mobile'>
@@ -105,4 +74,4 @@
     </div>
 </section>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
-{% endblock %}
+{% endblock content %}

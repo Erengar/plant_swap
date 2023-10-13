@@ -1,18 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
 {% load widget_tweaks %}
-<link rel="stylesheet" href="{% static "plant_collection/css/base.css" %}">
 {% block content %}
 <div class='container'>
     <form class='box mt-6' action="{% url 'accounts:registration' %}" method='post'>
-        <h1 class='title' >Registration</h1>
+        <h1 class='title forest-green' >Registration</h1>
         {% csrf_token %}
         {% for field in form %}
             <div class='label pt-3'>{{ field.label_tag }}</div>
             {% if field.errors %}
                 {% render_field field class='input is-danger'%}
             {% else %}
+            <div class="control has-icons-left">
                 {{ field }}
+                <span class="icon is-small is-left">
+                    {% if field.label_tag == '<label for="id_username">User name:</label>' %}
+                    <i class="fa-solid fa-user"></i>
+                    {% elif field.label_tag == '<label for="id_email">Email address:</label>' %}
+                    <i class="fa-solid fa-envelope"></i>
+                    {% else %}
+                    <i class="fa-solid fa-lock"></i>
+                    {% endif %}
+                </span>
+            </div>
             {% endif %}
             {% if field.errors %}
                 <div>
@@ -31,7 +41,7 @@
             {{ password_valid }}
         </ul>
         <div class='container pt-5'>
-            <input class='button' type="submit" value='Submit'>
+            <input class='button forest-green-button' type="submit" value='Submit'>
             <a class='button' href="{% url 'accounts:login' %}">Login</a>
         </div>
     </form>
