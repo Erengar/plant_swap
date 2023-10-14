@@ -167,3 +167,9 @@ class liked_list(LoginRequiredMixin, generic.ListView):
         elif not u in p.likes.all():
             p.likes.add(u)
         return HttpResponse(p.number_of_likes())
+    
+
+class messages_view(LoginRequiredMixin, generic.ListView):
+
+    def get(self, request):
+        pass
