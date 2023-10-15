@@ -1,0 +1,21 @@
+@media (max-width: 768px) {
+    .dot {
+        display: block;
+        position: relative;
+        background-color: hsl(0, 66%, 35%);
+        color: white;
+        border-radius: 50%;
+        height: 13px;
+        width: 13px;
+    }
+}
+
+@media (min-width: 768px) {
+    .dot {
+        background-color: hsl(0, 66%, 35%);
+        border-radius: 50%;
+        height: 0.7vw;
+        width: 0.7vw;
+        color: white;
+    }     
+} 

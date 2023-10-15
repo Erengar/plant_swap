@@ -4,21 +4,21 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <style>
     .delete-button {
-        margin-top: 1vw;
+        margin-top: 2vw;
         margin-bottom: 1vw;
     }
 </style>
 <section class='section'>
     <form class='box' method='post' action="{% url 'accounts:messages' %}">
         {% csrf_token %}
-        <a href="{% url 'accounts:write_message' %}" ><div class='button forest-green-button'>Write a Message</div></a>
-        <input type="submit" value='Delete Selected' class='button decline-button'>
+        <a href="{% url 'accounts:write_message' %}" ><div class='button forest-green-button is-responsive'>Write a Message</div></a>
+        <div class="delete-button"><input type="submit" value='Delete Selected' class='button decline-button is-responsive'></div>
 
         <div>
             <table class='table is-hoverable is-fullwidth'>
                 <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
+                        <th><input type="checkbox" id="select-all"></th>
                         <th>From</th>
                         <th>Subject</th>
                         <th>Date</th>
@@ -28,7 +28,7 @@
                     {% for message in messages %}
                     {% if not message.read %}
                     <tr class='has-text-weight-bold is-size-6-desktop is-size-7-touch'>
-                        <td><input type="checkbox"></td>
+                        <td style="width:0"><input name="{{message.slug_subject}}" type="checkbox" class='message-checkbox'></td>
                         <td style='width:10vw'>{{ message.sender }}</td>
                         <td><a href="{% url 'accounts:message' slug=message.slug_subject %}">{{ message.subject }}</a></td>
                         {% if message.older %}
@@ -39,7 +39,7 @@
                     </tr>
                     {% else %}
                     <tr class="is-size-6-desktop is-size-7-touch">
-                        <td style="width:0"><input name="{{message.slug_subject}}" type="checkbox"></td>
+                        <td style="width:0"><input name="{{message.slug_subject}}" type="checkbox" class='message-checkbox'></td>
                         <td style='width:10vw'>{{ message.sender }}</td>
                         <td><a href="{% url 'accounts:message' slug=message.slug_subject %}">{{ message.subject }}</a></td>
                         {% if message.older %}
@@ -56,4 +56,5 @@
 
     </form>
 </section>
+<script type='text/javascript' src="{% static 'accounts/javascript/select_all_messages_delete.js' %}"></script>
 {% endblock content %}

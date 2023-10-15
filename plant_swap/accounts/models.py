@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from datetime import date
 from django.utils.text import slugify
+from django.contrib.auth.models import User
+
 
 
 class Message(models.Model):
@@ -16,6 +18,9 @@ class Message(models.Model):
     @property
     def older(self):
         return date.today() > self.date_sent.date()
+    
+    def number_of_unread_messages(self):
+        return self.objects.filter(read=False).count()
 
     def __str__(self):
         return self.subject
