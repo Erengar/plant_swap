@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout,authenticate
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, MessageForm
 from django.contrib.auth.models import User
 from django.views import generic, View
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from plant_collection.models import Trade, Plant
 from django.http import Http404, HttpResponse
+from .models import Message
 
 # Create your views here.
 
@@ -169,7 +170,91 @@ class liked_list(LoginRequiredMixin, generic.ListView):
         return HttpResponse(p.number_of_likes())
     
 
+'''
+This receives receives GET and POST requests. It show all messages and allows delete of messages.
+'''
 class messages_view(LoginRequiredMixin, generic.ListView):
-
     def get(self, request):
-        pass
+        messages = Message.objects.filter(receiver=request.user).order_by('-date_sent')
+        context = {'messages':messages}
+        return render(request, 'accounts/messages.html', context)
+    
+    def post(self, request):
+        for req in request.POST:
+            if req != 'csrfmiddlewaretoken':
+                m = Message.objects.get(slug_subject=req)
+                m.delete()
+        return redirect('accounts:messages')
+
+'''
+This receives only GET request, but need additional parameter for identifying message to display.
+It is for showing the message. It also marks the message as read.
+'''
+class message_view(LoginRequiredMixin, generic.DetailView):
+    def get(self, request, slug):
+        message = get_object_or_404(Message, slug_subject=slug)
+        if request.user != message.receiver and request.user != message.sender:
+            raise Http404("You are not authorized to do that")
+        message.read = True
+        message.save()
+        context = {'message':message}
+        return render(request, 'accounts/message.html', context)
+
+
+
+'''
+This view receives both GET and POST requests. It is for writing a message. It is utilizing django forms.
+'''
+class write_message_view(LoginRequiredMixin, generic.CreateView):
+    def get(self, request):
+        form = MessageForm
+        context = {'form':form}
+        return render(request, 'accounts/write_message.html', context)
+    
+    def post(self, request):
+        form = MessageForm(request.POST)
+        if request.POST['receiver'] == request.user.username:
+            form.add_error('receiver', 'You cannot send a message to yourself.')
+        if form.is_valid():
+            subject = request.POST['subject']
+            body = request.POST['message']
+            receiver = request.POST['receiver']
+            sender = request.user
+            r = User.objects.get(username=receiver)
+            m = Message.objects.create(subject=subject,
+                                       body=body,
+                                       sender=sender,
+                                       receiver=r)
+            m.save()
+            return redirect('accounts:messages')
+        else:
+            return render(request, 'accounts/write_message.html', {'form':form})
+        
+
+class reply_message_view(LoginForm, generic.CreateView):
+    def get(self, request, slug):
+        message = get_object_or_404(Message, slug_subject=slug)
+        form = MessageForm(initial={'receiver':message.sender.username,
+                                    'subject':'Re: ' + message.subject,
+                                    'message':'''\n----------------------------------------\nPrevious message: \n''' + message.body})
+        context = {'form':form}
+        return render(request, 'accounts/write_message.html', context)
+    
+    def post(self, request):
+        form = MessageForm(request.POST)
+        if request.POST['receiver'] == request.user.username:
+            form.add_error('receiver', 'You cannot send a message to yourself.')
+        if form.is_valid():
+            subject = request.POST['subject']
+            body = request.POST['message']
+            receiver = request.POST['receiver']
+            sender = request.user
+            r = User.objects.get(username=receiver)
+            m = Message.objects.create(subject=subject,
+                                       body=body,
+                                       sender=sender,
+                                       receiver=r)
+            m.save()
+            return redirect('accounts:messages')
+        else:
+            return render(request, 'accounts/write_message.html', {'form':form})

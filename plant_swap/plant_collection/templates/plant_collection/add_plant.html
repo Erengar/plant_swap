@@ -2,6 +2,7 @@
 {% block content %}
 {% load static %}
 {% load widget_tweaks %}
+<link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/add_plant.css' %}">
 <section class='section'>
     <form enctype='multipart/form-data' class='box' action="{% url 'plant_collection:add_plant' %}" method='post'>

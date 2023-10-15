@@ -12,4 +12,6 @@ if (url.includes("my-collection")) {
     $('a[href="/accounts/trades/"]').addClass("navbar-active");
 } else if (url.includes('accounts/likes')) {
     $('a[href="/accounts/likes/"]').addClass("navbar-active");
+} else if (url.includes('/accounts/messages/')) {
+    $('a[href="/accounts/messages/"]').addClass("navbar-active");
 }

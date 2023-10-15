@@ -17,3 +17,8 @@ def upper_lower(value):
 def unique_email(value):
     if User.objects.filter(email=value).exists():
         raise forms.ValidationError('Email adress is already taken.')
+    
+
+def existing_user(value):
+    if not User.objects.filter(username=value).exists():
+        raise forms.ValidationError('User does not exist.')

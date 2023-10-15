@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
+<section class='section'>
+    <form class='box' method='post' action="{% url 'accounts:write_message' %}">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class='label pt-3'>{{ field.label_tag }}</div>
+            {% if field.errors %}
+                {% render_field field class='input is-danger'%}
+            {% else %}
+                {{ field }}
+            {% endif %}
+            {% if field.errors %}
+                <div>
+                    <ul>
+                        {% for error in field.errors %}
+                            <li class='has-text-danger'>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="pt-5">
+            <input class="button mustard-button" type="submit" value="Send">
+        </div>
+    </form>
+</section>
+{% endblock content %}

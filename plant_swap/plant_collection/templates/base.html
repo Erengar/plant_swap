@@ -50,9 +50,11 @@
               {% endif %}
             </div>
             <div class='navbar-end'>
-                <a href="" class='navbar-item forest-green is-tab'>
-                  <i class="fa-solid fa-envelope"></i>Messages
+                {% if user.is_authenticated %}
+                <a href="{% url 'accounts:messages' %}" class='navbar-item forest-green is-tab'>
+                  <span class="icon-text"><span class="icon"><i class="fa-solid fa-envelope"></i></span><span>Messages</span></span>
                 </a>
+                {% endif %}
                 {% if user.is_authenticated %}
                 <a href="{% url 'accounts:logout' %}" class='navbar-item forest-green is-tab'>
                   <span class='icon-text'><span class='icon'><i class="fa-solid fa-power-off"></i></span><span>Logout</span></span>

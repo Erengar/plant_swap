@@ -139,13 +139,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 
-#Settings for crispy forms
-
-CRISPY_ALLOWED_TEMPLATE_PACKS = ('bulma',)
-
-CRISPY_TEMPLATE_PACK = 'bulma'
-
-
 #Social logins
 
 AUTHENTICATION_BACKENDS = (

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
+<section class='section'>
+    <div class='box'>
+        <div class='has-text-weight-semibold'>
+            <div>From: <span class="has-text-weight-medium">{{message.sender}}</span></div>
+            <div>To: <span class="has-text-weight-medium">{{message.receiver}}</span></div>
+            <div>Subject: <span class="has-text-weight-medium">{{message.subject}}</span></div>
+            <div class='divider'></div>
+            Content:
+            <div class='content has-text-weight-medium'>
+                {{message.body}}
+            </div>
+        </div>
+        <a href="{% url 'accounts:reply_message' slug=message.slug_subject %}"><button class='button mustard-button mt-6'>Reply</button></a>
+    </div>
+</section>
+{% endblock content %}

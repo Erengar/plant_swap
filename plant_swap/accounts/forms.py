@@ -1,9 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator
-from .validators import unique_username, numbers_and_letters, upper_lower, unique_email
+from .validators import unique_username, numbers_and_letters, upper_lower, unique_email, existing_user
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from .models import Message
 
 
 class LoginForm(AuthenticationForm):
@@ -59,3 +60,26 @@ class RegistrationForm(forms.Form):
         confirm_password = data.get('confirm_password')
         if password != confirm_password:
             raise forms.ValidationError('Password and Confirm password do not match!')
+        
+
+class MessageForm(forms.Form):
+    receiver = forms.CharField(max_length=14,
+                               validators=[existing_user],
+                               widget=forms.TextInput(attrs={
+                                   'class':'input',
+                                   'placeholder':'Enter the username of the recipient',
+                            }))
+    subject = forms.CharField(max_length=32,
+                              widget=forms.TextInput(attrs={
+                                  'class':'input',
+                                  'placeholder':'Enter the subject of your message',
+                            }))
+    message = forms.CharField(max_length=500,
+                              widget=forms.Textarea(attrs={
+                                  'class':'textarea',
+                                  'placeholder':'Enter your message here',
+                                  'rows':5,
+                            }))
+    class Meta:
+        model = Message
+        fields = ['receiver','subject','message']
