@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
     <head>
         {% load static %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,72 +13,80 @@
         <script type='text/javascript' src="{% static 'plant_collection/javascript/jquery.js' %}"></script>
         <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
+        <style>
+            .back-image {
+                background-image: url('{% static "plant_collection/background/plant.jpg" %}');
+                background-size: cover;
+            }
+        </style>               
     </head>
     <body>
-      <div style='position: sticky; top:0px; z-index: 2;'>
-        <nav class='navbar sage-green' role='navigation'>
+        <div style='position: sticky; top:0px; z-index: 2;'>
+            <nav class='navbar sage-green' role='navigation'>
 
-          <div class='navbar-brand'>
-            <a href="{% url 'plant_collection:front_page' %}" class='navbar-item is-tab forest-green'>
-              <i class="fa-solid fa-house"></i>Home
-            </a>
-            {% if user.is_authenticated %}
-            <a href="{% url 'plant_collection:personal_collection' %}" class='navbar-item is-tab forest-green'>
-              <i class="fa-solid fa-leaf"></i>My collection
-            </a>
-            {% endif %}
-
-
-
-            <a role="button" class="navbar-burger forest-green" data-target="navMenu" aria-label="menu" aria-expanded="false">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </a>
-            
-          </div>
-
-              
-          <div class='navbar-menu sage-green' id="navMenu">
-            <div class='navbar-start'>
-              {% if user.is_authenticated %}
-              <a href="{% url 'accounts:trades' %}" class='navbar-item is-tab forest-green'>
-                <i class="fa-solid fa-handshake"></i>My Trade Offers
-              </a>
-              <a href="{% url 'accounts:liked_list' %}" class='navbar-item is-tab forest-green'>
-                <i class="fa-solid fa-heart"></i>Liked Plants
-              </a>
-              {% endif %}
-            </div>
-            <div class='navbar-end'>
+            <div class='navbar-brand'>
+                <a href="{% url 'plant_collection:front_page' %}" class='navbar-item is-tab forest-green'>
+                <i class="fa-solid fa-house"></i>Home
+                </a>
                 {% if user.is_authenticated %}
-                <a href="{% url 'accounts:messages' %}" class='navbar-item forest-green is-tab'>
-                  <span class="icon-text"><span class="icon"><i class="fa-solid fa-envelope"></i></span><span>Messages</span>
-                  {% for message in user.received_messages.all %}
-                    {% if message.read == False %}
-                      <span class='dot'></span>
+                <a href="{% url 'plant_collection:personal_collection' %}" class='navbar-item is-tab forest-green'>
+                <i class="fa-solid fa-leaf"></i>My collection
+                </a>
+                {% endif %}
+
+
+
+                <a role="button" class="navbar-burger forest-green" data-target="navMenu" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                </a>
+                
+            </div>
+
+                
+            <div class='navbar-menu sage-green' id="navMenu">
+                <div class='navbar-start'>
+                {% if user.is_authenticated %}
+                <a href="{% url 'accounts:trades' %}" class='navbar-item is-tab forest-green'>
+                    <i class="fa-solid fa-handshake"></i>My Trade Offers
+                </a>
+                <a href="{% url 'accounts:liked_list' %}" class='navbar-item is-tab forest-green'>
+                    <i class="fa-solid fa-heart"></i>Liked Plants
+                </a>
+                {% endif %}
+                </div>
+                <div class='navbar-end'>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:messages' %}" class='navbar-item forest-green is-tab'>
+                    <span class="icon-text"><span class="icon"><i class="fa-solid fa-inbox"></i></span><span>Messages</span>
+                    {% for message in user.received_messages.all %}
+                        {% if message.read == False %}
+                        <span class='dot'></span>
+                        {% endif %}
+                    {% endfor %}
+                    </span>
+
+                    </a>
                     {% endif %}
-                  {% endfor %}
-                </span>
-
-                </a>
-                {% endif %}
-                {% if user.is_authenticated %}
-                <a href="{% url 'accounts:logout' %}" class='navbar-item forest-green is-tab'>
-                  <span class='icon-text'><span class='icon'><i class="fa-solid fa-power-off"></i></span><span>Logout</span></span>
-                </a>
-                {% else %}
-                <a href="{% url 'accounts:login' %}" class='navbar-item forest-green is-tab'>
-                  <span class='icon-text'><span class='icon'><i class="fa-solid fa-user"></i></span><span>Login/Signup</span></span>
-                </a>
-                {% endif %}
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:logout' %}" class='navbar-item forest-green is-tab'>
+                    <span class='icon-text'><span class='icon'><i class="fa-solid fa-power-off"></i></span><span>Logout</span></span>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'accounts:login' %}" class='navbar-item forest-green is-tab'>
+                    <span class='icon-text'><span class='icon'><i class="fa-solid fa-user"></i></span><span>Login/Signup</span></span>
+                    </a>
+                    {% endif %}
+                </div>
             </div>
-          </div>
-        </nav>
+            </nav>
         <div class='divider'></div>
-      </div>
+        </div>
+        <div class='back-image' >
             {% block content %}
             {% endblock %}
+        </div>
     </body>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/tabs.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/navbar_burger.js' %}"></script>

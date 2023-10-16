@@ -206,12 +206,15 @@ class message_view(LoginRequiredMixin, generic.DetailView):
 This view receives both GET and POST requests. It is for writing a message. It is utilizing django forms.
 '''
 class write_message_view(LoginRequiredMixin, generic.CreateView):
-    def get(self, request):
-        form = MessageForm
+    def get(self, request, name):
+        if name== '@':
+            form = MessageForm
+        else:
+            form = MessageForm(initial={'receiver':name})
         context = {'form':form}
         return render(request, 'accounts/write_message.html', context)
     
-    def post(self, request):
+    def post(self, request, name):
         form = MessageForm(request.POST)
         if request.POST['receiver'] == request.user.username:
             form.add_error('receiver', 'You cannot send a message to yourself.')
@@ -231,6 +234,9 @@ class write_message_view(LoginRequiredMixin, generic.CreateView):
             return render(request, 'accounts/write_message.html', {'form':form})
         
 
+'''
+This is variation of write_message_view. It is for replying to a message. It receives only GET and POST request.
+'''
 class reply_message_view(LoginForm, generic.CreateView):
     def get(self, request, slug):
         message = get_object_or_404(Message, slug_subject=slug)

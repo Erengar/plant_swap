@@ -1,29 +1,5 @@
 var data = []
 
-/*Set lower opacity on unselected pictures and store them in data so we can inform server what to delete.
-Then insert given data into hidden input.*/
-/*
-$('img').on('click', function() {
-    if ($(this).css('opacity') == 1) {
-        $(this).css('opacity', 0.5);
-        image_name = $(this).attr('data-pic');
-        data.push(image_name);
-        console.log(data)
-    } else if ($(this).css('opacity') == 0.5) {
-        $(this).css('opacity', 1);
-        image_name = $(this).attr('data-pic');
-        data = data.filter(function(e) { return e!== image_name});
-        console.log(data)
-    }
-    $("#submit-btn > input[name='to delete']").remove();
-    $("#submit-btn").append(`<input name='to delete' value="${data}" hidden>`);
-})
-*/
-/*
-$('button').on('click', function() {
-
-})
-*/
 
 let count = 0
 hide()
@@ -72,7 +48,7 @@ function displayImage() {
         $('.columns').append(`<div class='column is-3'>
                                 <div class='card-image'>
                                     <div class="image is-4by3">
-                                        <img src="${URL.createObjectURL(files[0])}" alt="image">
+                                        <img src="${URL.createObjectURL(files[0])}" alt="Picture of a plant">
                                         <span class='delete' data-delete='${count}' style="position: absolute; top: 0; right: 0;"></span>
                                     </div>
                                 </div>

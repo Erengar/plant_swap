@@ -1,6 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
+<style>
+    .column.is-11 {
+        padding: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .search-bar {
+        width: 80%;
+        margin-top: 2px;
+        margin-bottom: 15px;
+        padding-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media screen and (max-width: 768px) {
+        .search-bar {
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+    }
+</style>
 <div class='columns is-mobile'>  
     <div class='column is-1 mt-3 pl-5 is-hidden-touch'>
         <aside class='menu'>
@@ -24,9 +47,9 @@
         </aside>
     </div>
 
-    <div class='column is-11 ml-4'>
+    <div class='column is-11'>
 
-        <form class='container my-2' method'get' action="{% url 'plant_collection:front_page' %}">
+        <form class='search-bar' method'get' action="{% url 'plant_collection:front_page' %}">
             <div class="control has-icons-right">
                 <input class="input is-small" type="text" name='search'
                 placeholder="Search for plants...">
@@ -37,7 +60,7 @@
         </form>
 
 
-        <section class='section px-0 pt-0'>
+
         <div class='columns is-multiline'>
             {% if plants %}
             {% for plant in plants %}
@@ -48,7 +71,7 @@
                     <div class='card-image'>
                         <figure class='image is-4by3'>
                             <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
-                                <img src="{{ plant.picture.all.0.image.url }}">
+                                <img src="{{ plant.picture.all.0.image.url }}" alt="Picture of a plant">
                             </a>
                         </figure>
                     </div>
@@ -60,7 +83,16 @@
                                 <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
                             </div>
                             <div class='subtitle is-size-5-desktop is-size-6-touch'>
-                                {{plant.owner}}
+                                {% if user == plant.owner %}
+                                <span>{{plant.owner}}</span>
+                                {% else %}
+                                <span class='icon-text'>
+                                    <span>{{plant.owner}}</span>
+                                    <span class='icon'>
+                                        <a href="{% url 'accounts:write_message' name=plant.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
+                                    </span>
+                                </span>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -111,7 +143,6 @@
             {% endfor %}
             {% endif %}
         </div>
-    </section>
 </div>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>

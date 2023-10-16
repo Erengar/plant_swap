@@ -41,7 +41,7 @@
                     {% for picture in trade.plant_offered.picture.all %}
                     <div class='carousel_image'>
                         <figure class='image is-4by3'>
-                                <img class='carousel' src="{{ picture.image.url }}">
+                                <img class='carousel' src="{{ picture.image.url }}" alt="Picture of a plant">
                         </figure>
                     </div>
                     {% endfor %}
@@ -52,7 +52,18 @@
                     <div class='columns is-mobile'>
                         <div class='column is-half'>
                             <div class='title is-size-4-desktop is-size-5-touch'><a id="offerer" href="{% url 'plant_collection:plant_view' slug=trade.plant_offered.slug %}">{{trade.plant_offered.nick_name}}</a></div>
-                            <div class='subtitle is-size-5-desktop is-size-6-touch'>{{trade.plant_offered.owner}}</div>
+                            <div class='subtitle is-size-5-desktop is-size-6-touch'>
+                                {% if user == trade.plant_offered.owner %}
+                                <span>{{trade.plant_offered.owner}}</span>
+                                {% else %}
+                                <span class='icon-text'>
+                                    <span>{{trade.plant_offered.owner}}</span>
+                                    <span class='icon'>
+                                        <a href="{% url 'accounts:write_message' name=trade.plant_offered.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
+                                    </span>
+                                </span>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class='column is-half'>
                             <div class='is-pulled-right is-size-7 has-text-weight-bold'><i class="fa-solid fa-heart has-text-danger is-size-6"></i> {{trade.plant_offered.number_of_likes}} likes</div>
@@ -135,7 +146,7 @@
                     {% for picture in trade.plant_requested.picture.all %}
                     <div class='carousel_image1'>
                         <figure class='image is-4by3'>
-                                <img class='carousel' src="{{ picture.image.url }}">
+                                <img class='carousel' src="{{ picture.image.url }}" alt="Picture of a plant">
                         </figure>
                     </div>
                     {% endfor %}
@@ -146,7 +157,18 @@
                     <div class='columns is-mobile'>
                         <div class='column is-half'>
                             <div class='title is-size-4-desktop is-size-5-touch'><a id="requester" href="{% url 'plant_collection:plant_view' slug=trade.plant_requested.slug %}">{{trade.plant_requested.nick_name}}</a></div>
-                            <div class='subtitle is-size-5-desktop is-size-6-touch'>{{trade.plant_requested.owner}}</div>
+                            <div class='subtitle is-size-5-desktop is-size-6-touch'>
+                                {% if user == trade.plant_requested.owner %}
+                                <span>{{trade.plant_requested.owner}}</span>
+                                {% else %}
+                                <span class='icon-text'>
+                                    <span>{{trade.plant_requested.owner}}</span>
+                                    <span class='icon'>
+                                        <a href="{% url 'accounts:write_message' name=trade.plant_requested.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
+                                    </span>
+                                </span>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class='column is-half'>
                             <div class='is-pulled-right is-size-7 has-text-weight-bold'><i class="fa-solid fa-heart has-text-danger is-size-6"></i> {{trade.plant_requested.number_of_likes}} likes</div>

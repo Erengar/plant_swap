@@ -22,7 +22,7 @@
                         <div style='position:flex; margin:auto'>
                             <div class='card-image is-flex-direction-column add-plant-center'>
                                 <figure class='image is-96x96' style='margin:auto'>
-                                    <img src="/media/pics/add-image.png">
+                                    <img src="/media/pics/add-image.png" alt="Add a new plant">
                                 </figure>
                                 <div class='card-content'>
                                     <div class='title is-4'>
@@ -44,7 +44,7 @@
                 <div class='card-image'>
                     <figure class='image is-4by3'>
                         <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
-                            <img src="{{ plant.picture.all.0.image.url }}" alt="" width='500px'>
+                            <img src="{{ plant.picture.all.0.image.url }}" alt="Picture of a plant" width='500px'>
                         </a>
                     </figure>
                 </div>

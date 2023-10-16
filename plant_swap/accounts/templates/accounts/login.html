@@ -1,42 +1,40 @@
 {% extends "base.html" %}
 {% load static %}
 {% load widget_tweaks %}
-<link rel="stylesheet" href="{% static "plant_collection/css/base.css" %}">
 {% block content %}
-    <div class='container'>
-        <form class='box mt-6' action="{% url 'accounts:login' %}" method='post'>
-            <h1 class='title forest-green'>Login</h1>
-            {% csrf_token %}
-            {% for field in form %}
-            <div class='label'>{{ field.label_tag }}</div>
-            {% if field.errors %}
-                {% render_field field class='input is-danger'%}
-            {% else %}
-            <div class="control has-icons-left">
-                {{ field }}
-                <span class="icon is-small is-left">
-                    {% if field.label_tag == '<label for="id_username">User name:</label>' %}
-                    <i class="fa-solid fa-user"></i>
-                    {% elif field.label_tag == '<label for="id_password">Password:</label>' %}
-                    <i class="fa-solid fa-lock"></i>
-                    {% endif %}
-                </span>
-            </div>
+<link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
+<form class='box mt-6 need-max' action="{% url 'accounts:login' %}" method='post'>
+    <h1 class='title forest-green'>Login</h1>
+    {% csrf_token %}
+    {% for field in form %}
+    <div class='label'>{{ field.label_tag }}</div>
+    {% if field.errors %}
+        {% render_field field class='input is-danger'%}
+    {% else %}
+    <div class="control has-icons-left">
+        {{ field }}
+        <span class="icon is-small is-left">
+            {% if field.label_tag == '<label for="id_username">User name:</label>' %}
+            <i class="fa-solid fa-user"></i>
+            {% elif field.label_tag == '<label for="id_password">Password:</label>' %}
+            <i class="fa-solid fa-lock"></i>
             {% endif %}
-            {% if field.errors %}
-                <div>
-                    <ul>
-                        {% for error in field.errors %}
-                            <li class='has-text-danger'>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-            {% endfor %}
-            <div class='container pt-5'>
-                <input class='button forest-green-button' type="submit" value='Submit'>
-                <a class='button' href="{% url 'accounts:registration' %}">Registration</a>
-            </div>
-        </form>
+        </span>
     </div>
+    {% endif %}
+    {% if field.errors %}
+        <div>
+            <ul>
+                {% for error in field.errors %}
+                    <li class='has-text-danger'>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% endfor %}
+    <div class='container pt-5'>
+        <input class='button forest-green-button' type="submit" value='Submit'>
+        <a class='button' href="{% url 'accounts:registration' %}">Registration</a>
+    </div>
+</form>
 {% endblock %}

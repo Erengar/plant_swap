@@ -47,7 +47,7 @@
                     <div class='card-image'>
                         <figure class='image is-4by3'>
                             <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
-                                <img src="{{ plant.picture.all.0.image.url }}" alt="" width='500px'>
+                                <img src="{{ plant.picture.all.0.image.url }}" alt="Picture of a plant" width='500px'>
                             </a>
                         </figure>
                     </div>
@@ -59,7 +59,16 @@
                                 <a class='has-text-dark' href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
                             </div>
                             <div class='subtitle is-5'>
-                                {{plant.owner}}
+                                {% if user == plant.owner %}
+                                <span>{{plant.owner}}</span>
+                                {% else %}
+                                <span class='icon-text'>
+                                    <span>{{plant.owner}}</span>
+                                    <span class='icon'>
+                                        <a href="{% url 'accounts:write_message' name=plant.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
+                                    </span>
+                                </span>
+                                {% endif %}
                             </div>
                         </div>
 

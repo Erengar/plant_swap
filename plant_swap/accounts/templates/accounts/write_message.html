@@ -3,8 +3,9 @@
 {% load widget_tweaks %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
+<link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
 <section class='section'>
-    <form class='box' method='post' action="{% url 'accounts:write_message' %}">
+    <form class='box need-max-message' method='post' action="{% url 'accounts:write_message' name='@' %}">
         {% csrf_token %}
         {% for field in form %}
             <div class='label pt-3'>{{ field.label_tag }}</div>

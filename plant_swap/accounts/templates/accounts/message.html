@@ -2,8 +2,9 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
+<link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
 <section class='section'>
-    <div class='box'>
+    <div class='box need-max-message'>
         <div class='has-text-weight-semibold'>
             <div>From: <span class="has-text-weight-medium">{{message.sender}}</span></div>
             <div>To: <span class="has-text-weight-medium">{{message.receiver}}</span></div>
