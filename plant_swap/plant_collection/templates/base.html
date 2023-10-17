@@ -18,6 +18,12 @@
                 background-image: url('{% static "plant_collection/background/plant.jpg" %}');
                 background-size: cover;
             }
+            .footer {
+                bottom:0;
+            }
+            body {
+                font-family:  Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+            }
         </style>               
     </head>
     <body>
@@ -83,10 +89,17 @@
             </nav>
         <div class='divider'></div>
         </div>
-        <div class='back-image' >
+        <div class='back-image' style='min-height:900px; overflow:hidden;'>
             {% block content %}
             {% endblock %}
         </div>
+        <footer class="footer">
+            <div class="content has-text-centered">
+              <p>
+                Plant swap by Adam Kubik.
+              </p>
+            </div>
+          </footer>
     </body>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/tabs.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/navbar_burger.js' %}"></script>

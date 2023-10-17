@@ -56,7 +56,16 @@
 
                     <div class='block'>
                         <div class='subtitle is-size-5-desktop is-size-6-touch'>
-                            Owned by {{plant.owner}}
+                            {% if user == plant.owner %}
+                                <span>Owned by <strong>{{plant.owner}}</strong></span>
+                            {% else %}
+                                <span class='icon-text'>
+                                    <span>Owned by <strong>{{plant.owner}}</strong></span>
+                                    <span class='icon'>
+                                        <a href="{% url 'accounts:write_message' name=plant.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
+                                    </span>
+                                </span>
+                            {% endif %}
                         </div>
                     </div>
 

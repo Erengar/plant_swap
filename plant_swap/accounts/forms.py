@@ -64,6 +64,7 @@ class RegistrationForm(forms.Form):
 
 class MessageForm(forms.Form):
     receiver = forms.CharField(max_length=14,
+                               label='To:',
                                validators=[existing_user],
                                widget=forms.TextInput(attrs={
                                    'class':'input field-need-max',
