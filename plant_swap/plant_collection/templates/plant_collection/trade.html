@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
+{% block header %}
+<title>Trade - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
 <style>
     .custom-vcentered {
         display: flex;
@@ -10,7 +12,8 @@
       }
       
 </style>
-<link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
+{% endblock %}
+{% block content %}
 {% if errors %}
 {% for error in errors %}
 <div class="notification is-danger is-light has-text-centered">

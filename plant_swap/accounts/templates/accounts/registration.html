@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 {% load widget_tweaks %}
-{% block content %}
+{% block header %}
+<title>Registration - Plant Swap</title>
 <link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
+{% endblock %}
+{% block content %}
 <form class='box mt-6 need-max' action="{% url 'accounts:registration' %}" method='post'>
     <h1 class='title forest-green' >Registration</h1>
     {% csrf_token %}

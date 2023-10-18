@@ -1,9 +1,12 @@
 {% extends "base.html" %}
-{% block content %}
 {% load static %}
 {% load widget_tweaks %}
+{% block header %}
+<title>Add Plant - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/add_plant.css' %}">
+{% endblock %}
+{% block content %}
 <section class='section'>
     <form enctype='multipart/form-data' class='box' action="{% url 'plant_collection:add_plant' %}" method='post'>
         <div class='columns'>

@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% load widget_tweaks %}
-{% block content %}
+{% block header %}
+<title>Message - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
+{% endblock %}
+{% block content %}
 <section class='section'>
     <form class='box need-max-message' method='post' action="{% url 'accounts:write_message' name='@' %}">
         {% csrf_token %}

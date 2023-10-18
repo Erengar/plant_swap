@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+{% block header %}
+<title>My Plants - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
 <style>
     @media (max-width: 768px) {
         .add-plant-center {
@@ -14,6 +17,7 @@
         }
     }
 </style>
+{% endblock %}
 <section class='section'>
     <div class='columns is-multiline'>
         <div class='column is-3-desktop'>
@@ -105,4 +109,5 @@
     </div>
 </section>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
 {% endblock %}

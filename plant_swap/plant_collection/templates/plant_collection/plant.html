@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
+{% block header %}
+<title>{{plant.nick_name}} - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
+{% endblock %}
 <section class='section'>
     <div class='box'>
     <div class='columns'>
@@ -147,4 +151,5 @@
 <script type='text/javascript' src="{% static 'plant_collection/javascript/plant_carousel.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/delete_modal.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
 {% endblock %}

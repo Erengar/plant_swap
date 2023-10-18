@@ -3,6 +3,7 @@
     <head>
         {% load static %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8">
         <link rel="stylesheet" href="{% static "plant_collection/css/base.css" %}">
         <link rel="stylesheet" href="{% static 'plant_collection/css/hover.css' %}">
         <link rel="stylesheet" href="{% static 'plant_collection/css/divider.css' %}">
@@ -24,7 +25,13 @@
             body {
                 font-family:  Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
             }
-        </style>               
+            html {
+                scrollbar-width: thin;
+                scrollbar-color: #4A4A4A #EDEDED;
+            }
+            
+        </style>
+        {% block header %}{% endblock header %}         
     </head>
     <body>
         <div style='position: sticky; top:0px; z-index: 2;'>

@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
+{% block header %}
+<title>{{message.subject}} - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
+{% endblock %}
+{% block content %}
 <section class='section'>
     <div class='box need-max-message'>
         <div class='has-text-weight-semibold'>

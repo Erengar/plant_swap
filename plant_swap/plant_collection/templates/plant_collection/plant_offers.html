@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
+{% block header %}
+<title>{{plant.nick_name}} - Trade Offers - Plant Swap</title>
 <link rel="stylesheet" href="{% static "plant_collection/css/divider.css" %}">
 <style>
     @media (max-width: 768px) {
@@ -21,6 +22,8 @@
         background-color: #F5F5F5;
     }
 </style>
+{% endblock %}
+{% block content %}
 <div class='title is-size-1-desktop is-size-4-touch has-text-centered'>{{plant.nick_name}} trades</div>
 
 <div class='columns mx-2'>

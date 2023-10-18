@@ -1,7 +1,9 @@
 {% extends "base.html" %}
-
-{% block content %}
 {% load static %}
+{% block header %}
+<title>{{plants.0.species}} - Plant Swap</title>
+{% endblock %}
+{% block content %}
 <div class='columns'>  
     <div class='column is-1 mt-3 pl-5'>
         <aside class='menu'>

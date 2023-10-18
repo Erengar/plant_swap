@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
+{% block header %}
+<title>Liked Plants - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
+{% endblock %}
+{% block content %}
 <section class="section">
     <div class="columns is-multiline">
         {% if plants %}
@@ -83,4 +87,5 @@
     </div>
 </section>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
 {% endblock content %}
