@@ -2,6 +2,7 @@
 {% load static %}
 {% block header %}
 <title>{{plants.0.species}} - Plant Swap</title>
+<link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
 {% endblock %}
 {% block content %}
 <div class='columns'>  
@@ -117,7 +118,7 @@
             </div>
             {% empty %}
             <div class='column is-3-desktop is-full-mobile'>
-                No plants :(
+                <h1>No plants :(</h1>
             </div>
             {% endfor %}
             {% endif %}
@@ -126,4 +127,5 @@
 </div>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
 {% endblock %}

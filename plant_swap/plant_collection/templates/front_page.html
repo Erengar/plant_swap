@@ -2,6 +2,7 @@
 {% load static %}
 {% block header %}
 <title>Plant Swap</title>
+<link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
 <style>
     .column.is-11 {
         padding: 0;
@@ -82,7 +83,7 @@
 
                     <div class='card-content columns is-mobile'>
                         <div class='column'>
-                            <div class='title is-size-4-desktop is-size-5-touch is-align-self-flex-start'>
+                            <div class='title is-size-4-desktop is-size-5-touch'>
                                 <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
                             </div>
                             <div class='subtitle is-size-5-desktop is-size-6-touch'>
