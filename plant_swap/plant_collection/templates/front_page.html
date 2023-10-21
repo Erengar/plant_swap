@@ -21,7 +21,7 @@
 
     @media screen and (max-width: 768px) {
         .search-bar {
-            margin-top: 10px;
+            margin-top: 10px
             padding-top: 10px;
         }
     }
@@ -153,8 +153,23 @@
             {% endfor %}
             {% endif %}
         </div>
+    </div>
 </div>
+<nav class='pagination is-vcentered' role='navigation' aria-label='pagination'>
+    <ul class='pagination-list is-justify-content-center'>
+        {% for page in pages %}
+        <li>
+            {% if page == current_page %}
+            <a class='pagination-link is-current'>{{ page }}</a>
+            {% else %}
+            <a class='pagination-link'>{{ page }}</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/front_page_pagination.js' %}"></script>
 {% endblock %}

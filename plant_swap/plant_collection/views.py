@@ -39,7 +39,7 @@ class personal_collection(LoginRequiredMixin, generic.ListView):
 
 '''
 This view shows all plants by time of adding. You can also like plants here.
-It is receiving 3 kinds of get requests: front page, front page with unrolled species bar and front page with search specified.
+It is receiving 4 kinds of get requests: front page, front page with unrolled species bar, front page with search specified and front page pagination ajax.
 This view is recieving post request only for likes.
 '''
 class front_page(generic.ListView):
@@ -48,8 +48,15 @@ class front_page(generic.ListView):
 
     def get(self, request):
         context = {}
-        context["plants"] = Plant.objects.order_by('-updated')
         context["species"] = Species.objects.all()[:20]
+        context['pages'] = range(1, Plant.objects.count()//8+2)
+        #This is for pagination response
+        if request.GET.get('page'):
+            context['current_page']=int(request.GET.get('page'))
+            context["plants"] = Plant.objects.order_by('-updated')[(context['current_page']-1)*8:context['current_page']*8]
+            return render(request, 'plant_collection/front_page_ajax_response.html', context)
+        context['current_page']=1
+        context["plants"] = Plant.objects.order_by('-updated')[:8]
         #This is for search bar request
         try:
             plants = request.GET['search']
