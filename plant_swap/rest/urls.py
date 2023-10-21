@@ -4,6 +4,7 @@ from rest import views
 
 router = routers.DefaultRouter()
 router.register(r'species', views.SpeciesViewSet)
+router.register(r'plants', views.PlantViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
