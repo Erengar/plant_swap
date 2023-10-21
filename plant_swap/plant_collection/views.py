@@ -159,7 +159,7 @@ class plant_view(generic.DetailView):
                 p.likes.add(u)
             return HttpResponse(p.number_of_likes())
         #If user is not liking plant, he is deleting it, 
-        #we double-check(user that does not own plant should now even see button for deleting)
+        #we double-check(user that does not own plant should not even see button for deleting)
         #wheter he is owner of plant and if he is we delete it.
         elif request.user == plant.owner:
             plant.delete()
@@ -236,7 +236,7 @@ class update_plant(LoginRequiredMixin, generic.UpdateView):
     
     def post(self, request, slug):
         plant = get_object_or_404(Plant, slug=slug)
-        #Dont know if this is needed it here, but just to be sure
+        #Dont know if this is needed in here, but just to be sure
         if request.user != plant.owner:
             return redirect('plant_collection:front_page')
         form = update_plant_form(request.POST)
@@ -248,7 +248,6 @@ class update_plant(LoginRequiredMixin, generic.UpdateView):
         check_minlength = (len(request.POST['nick_name'])>3)
         if check_unique and check_minlength:
             plant.nick_name = request.POST['nick_name']
-            #These can be also achieved with if statements
             species = request.POST.get('species', None)
             if species:
                 plant.species = Species.objects.get(pk=request.POST['species'])

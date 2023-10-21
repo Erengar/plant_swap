@@ -145,7 +145,7 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
             trade.save()
             return HttpResponse("fa-solid fa-circle-check is-size-1 red-check sendable")
         else:
-            raise Http404("You are not authorized to do that")
+            raise Http404("You are not authorized to do that.")
         
 
 '''
@@ -194,7 +194,7 @@ class message_view(LoginRequiredMixin, generic.DetailView):
     def get(self, request, slug):
         message = get_object_or_404(Message, slug_subject=slug)
         if request.user != message.receiver and request.user != message.sender:
-            raise Http404("You are not authorized to do that")
+            raise Http404("You are not authorized to do that.")
         message.read = True
         message.save()
         context = {'message':message}
