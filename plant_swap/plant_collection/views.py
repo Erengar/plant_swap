@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.utils.decorators import method_decorator
+from django.db.models import Q
 
 
 '''
@@ -52,7 +53,8 @@ class front_page(generic.ListView):
         #This is for search bar request
         try:
             plants = request.GET['search']
-            context["plants"] = Plant.objects.filter(nick_name__icontains=plants).order_by('-updated')
+            #This is for search bar request, we are searching for plants that have given string in their nick_name, owner or species name
+            context["plants"] = Plant.objects.filter(Q(nick_name__icontains=plants) | Q(owner__username__icontains=plants) | Q(species__name__icontains=plants)).order_by('-updated')
         except:
             pass
         return render(request, self.template_name, context)
