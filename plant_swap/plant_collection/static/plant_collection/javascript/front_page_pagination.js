@@ -7,7 +7,7 @@ $('.pagination-link').on('click', function(){
             'page': page
         },
         success: function(data){
-            $('.column.is-11').html(data);
+            $('#plants-dump').html(data);
             $('.pagination-link').removeClass('is-current');
             $(pag).addClass('is-current');
         }

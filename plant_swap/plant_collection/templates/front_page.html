@@ -18,11 +18,17 @@
         margin-left: auto;
         margin-right: auto;
     }
+    .pagination {
+        width:auto;
+    }
 
     @media screen and (max-width: 768px) {
         .search-bar {
             margin-top: 10px
             padding-top: 10px;
+        }
+        .pagination {
+            margin-top:3rem;
         }
     }
 
@@ -48,7 +54,7 @@
                 </span>
             </div>
             <p class='menu-label'>Species</p>   
-            <ul class='menu-list' style='overflow:auto; height:50vw; scrollbar-width: thin;'>
+            <ul class='menu-list' style='overflow:auto; height:145vh; scrollbar-width: thin;'>
                 {% for specie in species %}
                 <li><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}" class='forest-green'>{{specie}}</a></li>
                 {% endfor %}
@@ -56,7 +62,6 @@
             </ul>
         </aside>
     </div>
-
     <div class='column is-11'>
 
         <form class='search-bar' method'get' action="{% url 'plant_collection:front_page' %}">
@@ -68,108 +73,13 @@
                 </span>
             </div>
         </form>
-
-
-
-        <div class='columns is-multiline'>
-            {% if plants %}
-            {% for plant in plants %}
-            <div class='column is-3-desktop is-full-mobile'>
-                <div class='card hover'>
-
-                    {% if plant.picture %}
-                    <div class='card-image'>
-                        <figure class='image is-4by3'>
-                            <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
-                                <img src="{{ plant.picture.all.0.image.url }}" alt="Picture of a plant">
-                            </a>
-                        </figure>
-                    </div>
-                    {% endif %}
-
-                    <div class='card-content columns is-mobile'>
-                        <div class='column'>
-                            <div class='title is-size-4-desktop is-size-5-touch'>
-                                <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
-                            </div>
-                            <div class='subtitle is-size-5-desktop is-size-6-touch'>
-                                {% if user == plant.owner %}
-                                <span>{{plant.owner}}</span>
-                                {% else %}
-                                <span class='icon-text'>
-                                    <span>{{plant.owner}}</span>
-                                    <span class='icon'>
-                                        <a href="{% url 'accounts:write_message' name=plant.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
-                                    </span>
-                                </span>
-                                {% endif %}
-                            </div>
-                        </div>
-
-
-                        <div class='column pb-1'>
-                            <div class='has-text-right pb-3'>
-                                {% if plant.for_trade %}
-                                <span class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch'>
-                                    <span class='icon'>
-                                        <i class="fa-solid fa-store"></i>
-                                    </span>
-                                    For Trade
-                                </span>
-                                {% else %}
-                                <span class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch'>
-                                    <span class='icon'>
-                                        <i class="fa-solid fa-store-slash "></i>
-                                    </span>
-                                    Not for Trade
-                                </span>
-                                {% endif %}
-                            </div>
-
-                            <div class='has-text-right'>
-                                {% csrf_token %}
-                                {% if not user in plant.likes.all %}
-                                <div>
-                                    <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
-                                </div>
-                                {% elif user in plant.likes.all %}
-                                <div>
-                                    <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
-                                </div>
-                                {% endif %}
-                                <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
-                                    {{ plant.number_of_likes }} like/s
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class='column is-3-desktop is-full-mobile'>
-                No plants :(
-            </div>
-            {% endfor %}
-            {% endif %}
+        <div id='plants-dump'>
+{% include "plant_collection/front_page_plants.html" %}
         </div>
     </div>
 </div>
-<nav class='pagination is-vcentered' role='navigation' aria-label='pagination'>
-    <ul class='pagination-list is-justify-content-center'>
-        {% for page in pages %}
-        <li>
-            {% if page == current_page %}
-            <a class='pagination-link is-current'>{{ page }}</a>
-            {% else %}
-            <a class='pagination-link'>{{ page }}</a>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-</nav>
+{% include "plant_collection/front_page_pagination.html" %}
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
-<script type='text/javascript' src="{% static 'plant_collection/javascript/front_page_pagination.js' %}"></script>
 {% endblock %}
