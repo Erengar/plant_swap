@@ -12,10 +12,12 @@
     <div class='columns'>
         <div class='column is-half'>
             <div class='carousel_box' style='position: relative;'>
+                {% if plant.picture.all.count > 1 %}
                 <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
                     <div class='column arrow' id='left-arrow'></div>
                     <div class='column arrow' id='right-arrow'></div>
                 </div>
+                {% endif %}
                     {% for picture in plant.picture.all %}
                     <div class='carousel_image'>
                         <figure class='image is-4by3'>

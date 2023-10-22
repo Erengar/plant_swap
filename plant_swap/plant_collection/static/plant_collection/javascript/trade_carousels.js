@@ -1,6 +1,7 @@
 const pictures = document.querySelectorAll('.carousel_image');
 const rightBtn = document.getElementById('right-arrow');
 const leftBtn = document.getElementById('left-arrow');
+
 var position = 0;
 
 
@@ -15,25 +16,27 @@ function hide() {
     }
 }
 
-rightBtn.addEventListener('click', () => {
-    hide();
-    if (position == pictures.length-1) {
-        position = 0;
-    } else {
-        position ++;
-    }
-    pictures[position].removeAttribute('hidden');
-})
+if(rightBtn && leftBtn) {
+    rightBtn.addEventListener('click', () => {
+        hide();
+        if (position == pictures.length-1) {
+            position = 0;
+        } else {
+            position ++;
+        }
+        pictures[position].removeAttribute('hidden');
+    })
 
-leftBtn.addEventListener('click', () => {
-    hide();
-    if (position == 0) {
-        position = pictures.length-1;
-    } else {
-        position --;
-    }
-    pictures[position].removeAttribute('hidden');
-})
+    leftBtn.addEventListener('click', () => {
+        hide();
+        if (position == 0) {
+            position = pictures.length-1;
+        } else {
+            position --;
+        }
+        pictures[position].removeAttribute('hidden');
+    })
+}
 
 
 
@@ -53,22 +56,23 @@ function hide1() {
     }
 }
 
-rightBtn1.addEventListener('click', () => {
-    hide1();
-    if (position1 == pictures1.length-1) {
-        position1 = 0;
-    } else {
-        position1 ++;
-    }
-    pictures1[position1].removeAttribute('hidden');
-})
+if (rightBtn1 && leftBtn1){
+    rightBtn1.addEventListener('click', () => {
+        hide1();
+        if (position1 == pictures1.length-1) {
+            position1 = 0;
+        } else {
+            position1 ++;
+        }
+        pictures1[position1].removeAttribute('hidden');
+    })
 
-leftBtn1.addEventListener('click', () => {
-    hide1();
-    if (position1 == 0) {
-        position1 = pictures1.length-1;
-    } else {
-        position1 --;
-    }
-    pictures1[position1].removeAttribute('hidden');
-});
+    leftBtn1.addEventListener('click', () => {
+        hide1();
+        if (position1 == 0) {
+            position1 = pictures1.length-1;
+        } else {
+            position1 --;
+        }
+        pictures1[position1].removeAttribute('hidden');
+    });}

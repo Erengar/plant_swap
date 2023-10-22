@@ -70,11 +70,12 @@
 
 
                 <div class='card-image'>
-
+                    {% if req.picture.count > 1%}
                     <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
                         <div class='column arrow' id='left-arrow'></div>
                         <div class='column arrow' id='right-arrow'></div>
                     </div>
+                    {% endif %}
 
                     {% for picture in req.picture.all %}
                     <div class='carousel_image'>
