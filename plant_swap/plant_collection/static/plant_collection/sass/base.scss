@@ -1,1 +1,34 @@
-@import "../../../../../bulma/bulma.sass";
+@import "../../../../../bulma/sass/utilities/_all.sass";
+
+@import "../../../../../bulma/sass/components/card.sass";
+@import "../../../../../bulma/sass/components/dropdown.sass";
+@import "../../../../../bulma/sass/components/modal.sass";
+@import "../../../../../bulma/sass/components/navbar.sass";
+@import "../../../../../bulma/sass/components/pagination.sass";
+
+
+@import "../../../../../bulma/sass/elements/box.sass";
+@import "../../../../../bulma/sass/elements/button.sass";
+@import "../../../../../bulma/sass/elements/container.sass";
+@import "../../../../../bulma/sass/elements/content.sass";
+@import "../../../../../bulma/sass/elements/icon.sass";
+@import "../../../../../bulma/sass/elements/image.sass";
+@import "../../../../../bulma/sass/elements/title.sass";
+
+
+@import "../../../../../bulma/sass/form/_all.sass";
+
+
+@import "../../../../../bulma/sass/grid/columns.sass";
+
+
+@import "../../../../../bulma/sass/helpers/flexbox.sass";
+@import "../../../../../bulma/sass/helpers/float.sass";
+@import "../../../../../bulma/sass/helpers/position.sass";
+@import "../../../../../bulma/sass/helpers/spacing.sass";
+@import "../../../../../bulma/sass/helpers/typography.sass";
+@import "../../../../../bulma/sass/helpers/visibility.sass";
+
+
+@import "../../../../../bulma/sass/layout/footer.sass";
+@import "../../../../../bulma/sass/layout/section.sass";
