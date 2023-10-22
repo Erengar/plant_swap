@@ -24,7 +24,7 @@
 
     @media screen and (max-width: 768px) {
         .search-bar {
-            margin-top: 10px
+            margin-top: 10px;
             padding-top: 10px;
         }
         .pagination {
@@ -44,7 +44,7 @@
     <div class='column is-1 mt-3 pl-5 is-hidden-touch'>
         <aside class='menu'>
             <p class='menu-label'>
-                Search Species
+                <label for='ajax-search'>Search Species</label>
             </p>
             <div class="control has-icons-right">
                 <input id='ajax-search' class="input is-small" type="text" name='search'
@@ -56,7 +56,7 @@
             <p class='menu-label'>Species</p>   
             <ul class='menu-list' style='overflow:auto; height:145vh; scrollbar-width: thin;'>
                 {% for specie in species %}
-                <li><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}" class='forest-green'>{{specie}}</a></li>
+                <li><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}" class='specie-list'>{{specie}}</a></li>
                 {% endfor %}
                 <li><a id='htmx-dud' hx-patch="{% url 'plant_collection:search' %}" hx-trigger='click' hx-target='.menu-list' class='forest-green'>...</a></li>
             </ul>
@@ -64,9 +64,10 @@
     </div>
     <div class='column is-11'>
 
-        <form class='search-bar' method'get' action="{% url 'plant_collection:front_page' %}">
-            <div class="control has-icons-right">
-                <input class="input is-small" type="text" name='search'
+        <form class='search-bar' method='get' action="{% url 'plant_collection:front_page' %}" style='display:flex; gap:1vw; align-items:center;'>
+            <label for='search-plant' class='menu-label' style='margin-bottom:0'>Search:</label>
+            <div class="control has-icons-right" style='width:80% !important'>
+                <input id='search-plant' class="input is-small" type="text" name='search'
                 placeholder="Search for plants...">
                 <span class="icon is-small is-right" type='submit'>
                     <i class="fa-solid fa-search mustard"></i>
@@ -79,7 +80,7 @@
     </div>
 </div>
 {% include "plant_collection/front_page_pagination.html" %}
-<script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
-<script type='text/javascript' src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
-<script type='text/javascript' src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
+<script src="{% static 'plant_collection/javascript/like.js' %}"></script>
+<script src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
+<script src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
 {% endblock %}

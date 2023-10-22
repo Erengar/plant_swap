@@ -38,8 +38,8 @@
 
                     {% if trade.plant_offered.picture.count > 1 %}
                     <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
-                        <div class='column arrow' id='left-arrow'></div>
-                        <div class='column arrow' id='right-arrow'></div>
+                        <div class='column arrow' tabindex=0 id='left-arrow'></div>
+                        <div class='column arrow' tabindex=0 id='right-arrow'></div>
                     </div>
                     {% endif %}
 
@@ -84,9 +84,9 @@
             <div class="is-flex" style='gap:5vw'>
                 {% if trade.plant_offered.owner == user %}
                     {% if trade.offered_finalized %}
-                    <a><i class="fa-solid fa-circle-check is-size-1 green-check sendable"></i></a>
+                    <a tabindex=0><i class="fa-solid fa-circle-check is-size-1 green-check sendable"></i></a>
                     {% elif not trade.offered_finalized %}
-                    <a><i class="fa-solid fa-circle-check is-size-1 red-check sendable"></i></a>
+                    <a tabindex=0><i class="fa-solid fa-circle-check is-size-1 red-check sendable"></i></a>
                     {% endif %}
                 {% else %}
                     {% if trade.offered_finalized %}
@@ -97,9 +97,9 @@
                 {% endif %}
                 {% if trade.plant_requested.owner == user %}
                     {% if trade.requested_finalized %}
-                    <a><i class="fa-solid fa-circle-check is-size-1 green-check sendable"></i></a>
+                    <a tabindex=0><i class="fa-solid fa-circle-check is-size-1 green-check sendable"></i></a>
                     {% elif not trade.requested_finalized %}
-                    <a><i class="fa-solid fa-circle-check is-size-1 red-check sendable"></i></a>
+                    <a tabindex=0><i class="fa-solid fa-circle-check is-size-1 red-check sendable"></i></a>
                     {% endif %}
                 {% else %}
                     {% if trade.requested_finalized %}
@@ -145,8 +145,8 @@
 
                     {% if trade.plant_requested.picture.count > 1 %}
                     <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
-                        <div class='column arrow' id='left-arrow1'></div>
-                        <div class='column arrow' id='right-arrow1'></div>
+                        <div class='column arrow' tabindex=0 id='left-arrow1'></div>
+                        <div class='column arrow' tabindex=0 id='right-arrow1'></div>
                     </div>
                     {% endif %}
 

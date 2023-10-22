@@ -88,11 +88,11 @@
                             {% csrf_token %}
                             {% if not user in plant.likes.all %}
                             <div>
-                                <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
+                                <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
                             </div>
                             {% elif user in plant.likes.all %}
                             <div>
-                                <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
+                                <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
                             </div>
                             {% endif %}
                             <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>

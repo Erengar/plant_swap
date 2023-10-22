@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="{% static 'plant_collection/css/coloring.css' %}">
         <link rel="stylesheet" href="{% static 'plant_collection/css/message_dot.css' %}">
         <script src="https://kit.fontawesome.com/b2e6637db0.js" crossorigin="anonymous"></script>
-        <script type='text/javascript' src="{% static 'plant_collection/javascript/jquery.js' %}"></script>
+        <script src="{% static 'plant_collection/javascript/jquery.js' %}"></script>
         <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
         <style>
@@ -29,12 +29,16 @@
                 scrollbar-width: thin;
                 scrollbar-color: #4A4A4A #EDEDED;
             }
+            
+            .menu-label {
+                color: #4a4a4a;
+            }
         </style>
         {% block header %}{% endblock header %}         
     </head>
     <body>
         <div style='position: sticky; top:0px; z-index: 2;'>
-            <nav class='navbar sage-green' role='navigation'>
+            <nav class='navbar sage-green'>
 
             <div class='navbar-brand'>
                 <a href="{% url 'plant_collection:front_page' %}" class='navbar-item is-tab forest-green'>
@@ -107,6 +111,6 @@
             </div>
           </footer>
     </body>
-<script type='text/javascript' src="{% static 'plant_collection/javascript/tabs.js' %}"></script>
-<script type='text/javascript' src="{% static 'plant_collection/javascript/navbar_burger.js' %}"></script>
+<script src="{% static 'plant_collection/javascript/tabs.js' %}"></script>
+<script src="{% static 'plant_collection/javascript/navbar_burger.js' %}"></script>
 </html>

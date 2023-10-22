@@ -6,8 +6,11 @@
 <link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
 <style>
     .delete-button {
-        margin-top: 2vw;
-        margin-bottom: 1vw;
+        margin-top: 2vh;
+        margin-bottom: 2vh;
+    }
+    table{
+        margin-top: 2vh;
     }
 
 </style>
@@ -16,14 +19,25 @@
 <section class='section'>
     <form class='box need-max-message' method='post' action="{% url 'accounts:messages' %}">
         {% csrf_token %}
-        <a href="{% url 'accounts:write_message' name='@' %}" ><div class='button forest-green-button is-responsive'>Write a Message</div></a>
-        <div class="delete-button"><input type="submit" value='Delete Selected' class='button decline-button is-responsive'></div>
+        <a class='button forest-green-button is-responsive' href="{% url 'accounts:write_message' name='@' %}" >Write a Message</a>
+        <a class="button decline-button is-responsive modal_open" tabindex=0>Delete Selected</a>
+
+        <div class='modal'>
+            <div class='modal-background'></div>
+            <div class='modal-content'>
+                <div class='box'>
+                    <div class='block'>Are you sure you want to delete selected messages?</div>
+                    <input type="submit" value='Yes, Delete Selected' class='button decline-button is-responsive'>
+                </div>
+            </div>
+            <button class='modal-close is-large' aria-label='close'></a>
+        </div>
 
         <div>
             <table class='table is-hoverable is-fullwidth'>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="select-all"></th>
+                        <th><input type="checkbox" aria-label='Select all' id="select-all"></th>
                         <th>From</th>
                         <th>Subject</th>
                         <th>Date</th>
@@ -33,7 +47,7 @@
                     {% for message in messages %}
                     {% if not message.read %}
                     <tr class='has-text-weight-bold is-size-6-desktop is-size-7-touch'>
-                        <td style="width:0"><input name="{{message.slug_subject}}" type="checkbox" class='message-checkbox'></td>
+                        <td style="width:0"><input aria-label='Select message' name="{{message.slug_subject}}" type="checkbox" class='message-checkbox'></td>
                         <td style='width:15%'><a href="{% url 'accounts:write_message' name=message.sender %}">{{ message.sender }}</a></td>
                         <td><a href="{% url 'accounts:message' slug=message.slug_subject %}">{{ message.subject }}</a></td>
                         {% if message.older %}
@@ -62,4 +76,5 @@
     </form>
 </section>
 <script type='text/javascript' src="{% static 'accounts/javascript/select_all_messages_delete.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/delete_modal.js' %}"></script>
 {% endblock content %}

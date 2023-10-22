@@ -14,8 +14,8 @@
             <div class='carousel_box' style='position: relative;'>
                 {% if plant.picture.all.count > 1 %}
                 <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
-                    <div class='column arrow' id='left-arrow'></div>
-                    <div class='column arrow' id='right-arrow'></div>
+                    <div tabindex=0 class='column arrow' id='left-arrow'></div>
+                    <div tabindex=0 class='column arrow' id='right-arrow'></div>
                 </div>
                 {% endif %}
                     {% for picture in plant.picture.all %}
@@ -32,7 +32,7 @@
 
             {% if user == plant.owner %}
             <div class='container is-flex-direction-column'>
-                <a class='modal_open is-pulled-right ml-3'><i class="fa-regular fa-trash-can decline-text"></i></a>
+                <a class='modal_open is-pulled-right ml-3' tabindex=0><i class="fa-regular fa-trash-can decline-text"></i></a>
                 <a href="{% url 'plant_collection:update_plant' slug=plant.slug %}" class='is-pulled-right'><i class="fa-solid fa-pen-to-square"></i></a>
             </div>
 
@@ -43,7 +43,7 @@
                         {% csrf_token %}
                         <div class='box'>
                             <div class='block'>Are you sure you want to delete {{plant.nick_name}}?</div>
-                            <input class='button decline-button' type='submit' value='Yes, I am sure'></input>
+                            <input class='button decline-button' type='submit' value='Yes, I am sure'>
                         </div>
                     </form>
                 </div>
@@ -87,11 +87,11 @@
                         {% csrf_token %}
                         {% if not user in plant.likes.all %}
                         <div>
-                            <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
+                            <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
                         </div>
                         {% elif user in plant.likes.all %}
                         <div>
-                            <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
+                            <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
                         </div>
                         {% endif %}
                         <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
@@ -122,15 +122,12 @@
                         {% if user.is_authenticated %}
                         {% if user == plant.owner %}
                         <div>
-                            <a href="{% url 'plant_collection:plant_offers' slug=plant.slug %}">
-                                <button class='button mustard-button is-large is-responsive mt-2'>See Offers</button>
+                            <a href="{% url 'plant_collection:plant_offers' slug=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>See Offers</a>
                         </div>
                         {% elif not user == plant.owner %}
                         {% if plant.for_trade %}
                         <div>
-                            <a href="{% url 'plant_collection:trade' req=plant.slug %}">
-                                <button class='button mustard-button is-large is-responsive mt-2'>Offer trade</button>
-                            </a>
+                            <a href="{% url 'plant_collection:trade' req=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>Offer trade</a>
                         </div>
                         {% elif not plant.for_trade %}
                         <div>

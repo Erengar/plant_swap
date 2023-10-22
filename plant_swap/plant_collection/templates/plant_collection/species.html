@@ -3,13 +3,45 @@
 {% block header %}
 <title>{{plants.0.species}} - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
+<style>
+    .column.is-11 {
+        padding: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .search-bar {
+        width: 80%;
+        margin-top: 2px;
+        margin-bottom: 15px;
+        padding-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media screen and (max-width: 768px) {
+        .search-bar {
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+        .pagination {
+            margin-top:3rem;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .columns.is-mobile{
+            margin-right:1rem
+        }
+    }
+</style>
 {% endblock %}
 {% block content %}
-<div class='columns'>  
-    <div class='column is-1 mt-3 pl-5'>
+<div class='columns is-mobile'>  
+    <div class='column is-1 mt-3 pl-5 is-hidden-touch'>
         <aside class='menu'>
             <p class='menu-label'>
-                Search Species
+                <label for='ajax-search'>Search Species</label>
             </p>
             <div class="control has-icons-right">
                 <input id='ajax-search' class="input is-small" type="text" name='search'
@@ -19,7 +51,7 @@
                 </span>
             </div>
             <p class='menu-label'>Species</p>   
-            <ul class='menu-list' style='overflow:auto; height:50vw; scrollbar-width: thin;'>
+            <ul class='menu-list' style='overflow:auto; height:145vh; scrollbar-width: thin;'>
                 {% for specie in species %}
                 <li><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}" class='forest-green'>{{specie}}</a></li>
                 {% endfor %}
@@ -28,14 +60,15 @@
         </aside>
     </div>
 
-    <div class='column is-11 ml-4'>
+    <div class='column is-11'>
 
-        <form class='container my-2' method'get' action="{% url 'plant_collection:front_page' %}">
-            <div class="control has-icons-right">
-                <input class="input is-small" type="text" name='search'
+        <form class='search-bar' method='get' action="{% url 'plant_collection:front_page' %}" style='display:flex; gap:1vw; align-items:center;'>
+            <label for='search-plant' class='menu-label' style='margin-bottom:0'>Search:</label>
+            <div class="control has-icons-right" style='width:80% !important'>
+                <input id='search-plant' class="input is-small" type="text" name='search'
                 placeholder="Search for plants...">
                 <span class="icon is-small is-right" type='submit'>
-                    <i class="fa-solid fa-search"></i>
+                    <i class="fa-solid fa-search mustard"></i>
                 </span>
             </div>
         </form>
@@ -100,11 +133,11 @@
                                 {% csrf_token %}
                                 {% if not user in plant.likes.all %}
                                 <div>
-                                    <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
+                                    <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
                                 </div>
                                 {% elif user in plant.likes.all %}
                                 <div>
-                                    <a class='heart' data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
+                                    <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
                                 </div>
                                 {% endif %}
                                 <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
