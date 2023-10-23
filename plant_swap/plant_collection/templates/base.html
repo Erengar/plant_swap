@@ -64,7 +64,7 @@
             <div class='navbar-menu sage-green' id="navMenu">
                 <div class='navbar-start'>
                 <a class='navbar-item is-tab forest-green is-hidden-desktop' id='spiece-search' href="{% url 'plant_collection:mobile_specie_search' %}">
-                    <span class='icon-text'><span class='icon'><i class="fa-solid fa-magnifying-glass"></i></span><span>Specie Search</span></span>
+                    <span class='icon-text'><span class='icon'><i class="fa-solid fa-book"></i></span><span>Species</span></span>
                 </a>
                 {% if user.is_authenticated %}
                 <a href="{% url 'accounts:trades' %}" class='navbar-item is-tab forest-green'>
@@ -102,10 +102,10 @@
             </nav>
         <div class='divider'></div>
         </div>
-        <div class='back-image' style='min-height:100vh; overflow:hidden;'>
+        <main class='back-image' style='min-height:100vh; overflow:hidden;'>
             {% block content %}
             {% endblock %}
-        </div>
+        </main>
         <footer class="footer">
             <div class="content has-text-centered">
               <p>

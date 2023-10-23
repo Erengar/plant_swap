@@ -6,11 +6,18 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
+<style>
+    @media screen and (max-width: 768px) {
+        #picture-column {
+            padding: 0;
+        }
+    }
+</style>
 {% endblock %}
 <section class='section'>
     <div class='box'>
-    <div class='columns'>
-        <div class='column is-half'>
+    <div class='columns is-desktop'>
+        <div class='column  is-halft' id='picture-column'>
             <div class='carousel_box' style='position: relative;'>
                 {% if plant.picture.all.count > 1 %}
                 <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
@@ -55,9 +62,9 @@
             <section class='section is-medium'>
 
 
-                <div class='title is-size-3-desktop is-size-5-touch'>
+                <h3 class='title is-size-3-desktop is-size-5-touch'>
                     {{plant.nick_name}}
-                </div>
+                </h3>
 
 
                 <div class='block'>
