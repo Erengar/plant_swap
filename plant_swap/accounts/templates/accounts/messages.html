@@ -5,10 +5,6 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
 <style>
-    .delete-button {
-        margin-top: 2vh;
-        margin-bottom: 2vh;
-    }
     table{
         margin-top: 2vh;
     }
@@ -20,7 +16,7 @@
     <form class='box need-max-message' method='post' action="{% url 'accounts:messages' %}">
         {% csrf_token %}
         <a class='button forest-green-button is-responsive' href="{% url 'accounts:write_message' name='@' %}" >Write a Message</a>
-        <a class="button decline-button is-responsive modal_open" tabindex=0>Delete Selected</a>
+        <a class="button decline-button is-responsive modal_open" disabled tabindex=0>Delete Selected</a>
 
         <div class='modal'>
             <div class='modal-background'></div>

@@ -19,7 +19,7 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class='title is-size-1-desktop is-size-4-touch has-text-centered'>My trade offers</div>
+<h1 class='title is-size-1-desktop is-size-4-touch has-text-centered'>My trade offers</h1>
 {% if confirmations %}
 <div class="notification is-success is-light has-text-centered">
     {{ confirmations }}
@@ -30,12 +30,12 @@
     <div class='column is-6'>
         <div class='box'>
             <div class='columns is-multiline'>
-                <span class='title is-size-3-desktop is-size-5-touch'>Trade offers made to you</span>
+                <h2 class='title is-size-3-desktop is-size-5-touch'>Trade offers made to you</h2>
                 {% for req in requests %}
                 <div class="divider"></div>
                 <div class='column is-12 is-narrow trade-offer'>
                     <a href="{% url 'accounts:trade' pk=req.pk %}">
-                        <div class='columns'>
+                        <div class='columns is-gapless'>
                             <div class='column is-4'>
                                 <div class='card-image'>
                                     <figure class='image is-4by3'>
@@ -69,12 +69,12 @@
     <div class='column is-6'>
         <div class='box'>
             <div class='columns is-multiline'>
-                <span class='title is-size-3-desktop is-size-5-touch'>Your trade offers</span>
+                <h2 class='title is-size-3-desktop is-size-5-touch'>Your trade offers</h2>
                 {% for offer in offers %}
                 <div class="divider"></div>
                 <div class='column is-12 is-narrow trade-offer'>
                     <a href="{% url 'accounts:trade' pk=offer.pk %}">      
-                        <div class='columns'>
+                        <div class='columns is-gapless'>
                             <div class='column is-4'>
                                 <div class='card-image'>
                                     <figure class='image is-4by3'>

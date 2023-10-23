@@ -24,14 +24,14 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class='title is-size-1-desktop is-size-4-touch has-text-centered'>{{plant.nick_name}} trades</div>
+<h1 class='title is-size-1-desktop is-size-4-touch has-text-centered'>{{plant.nick_name}} trades</h1>
 
 <div class='columns mx-2'>
 
     <div class='column is-6'>
         <div class='box'>
             <div class='columns is-multiline'>
-                <span class='title is-size-3-desktop is-size-5-touch'>Trade offers made to you</span>
+                <h2 class='title is-size-3-desktop is-size-5-touch'>Trade offers made to you</h2>
                 {% for req in requests %}
                 <div class="divider"></div>
                 <div class='column is-12 is-narrow trade-offer'>
@@ -69,7 +69,7 @@
     <div class='column is-6'>
         <div class='box'>
             <div class='columns is-multiline'>
-                <span class='title is-size-3-desktop is-size-5-touch'>Your trade offers</span>
+                <h2 class='title is-size-3-desktop is-size-5-touch'>Your trade offers</h2>
                 {% for offer in offers %}
                 <div class="divider"></div>
                 <div class='column is-12 is-narrow trade-offer'>

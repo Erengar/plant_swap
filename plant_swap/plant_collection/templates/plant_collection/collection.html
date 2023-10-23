@@ -6,13 +6,17 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
 <style>
-    @media (max-width: 768px) {
+    @media (max-width: 1000px) {
         .add-plant-center {
-            margin-top: 25vw;
-            margin-bottom: 25vw;            
+            margin-top: 25vh;
+            margin-bottom: 25vh;            
         }
 
         .card.hover.is-flex {
+            margin-top: 5vw;
+        }
+
+        .column.is-3-desktop.is-full-touch:nth-of-type(2) {
             margin-top: 5vw;
         }
     }
@@ -41,7 +45,7 @@
         </div>
         {% if plants %}
         {% for plant in plants %}
-        <div class='column is-3-desktop is-full-mobile'>
+        <div class='column is-3-desktop is-full-touch'>
             <div class='card hover'>
 
                 {% if plant.picture %}

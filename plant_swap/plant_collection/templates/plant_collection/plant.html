@@ -31,9 +31,9 @@
 
 
             {% if user == plant.owner %}
-            <div class='container is-flex-direction-column'>
-                <a class='modal_open is-pulled-right ml-3' tabindex=0><i class="fa-regular fa-trash-can decline-text"></i></a>
-                <a href="{% url 'plant_collection:update_plant' slug=plant.slug %}" class='is-pulled-right'><i class="fa-solid fa-pen-to-square"></i></a>
+            <div class='container is-flex is-justify-content-flex-end' style='gap:1vw'>
+                <a href="{% url 'plant_collection:update_plant' slug=plant.slug %}"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class='modal_open' tabindex=0><i class="fa-regular fa-trash-can decline-text"></i></a>
             </div>
 
             <div class='modal'>
