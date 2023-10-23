@@ -102,6 +102,16 @@ class search(View):
         return HttpResponse("".join(response)+'</ul>')
 
 
+#This view is for mobile species search, it returns all species
+class mobile_specie_search(generic.ListView):
+    template_name = 'plant_collection/mobile_specie_search.html'
+    model = Species
+    def get(self, request):
+        species = Species.objects.all()
+        context = {'species':species}
+        return render(request, self.template_name, context)
+
+
 '''
 This view shows all plants of given species. You can also like plants here.
 '''

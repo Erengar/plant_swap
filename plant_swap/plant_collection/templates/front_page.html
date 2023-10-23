@@ -22,7 +22,7 @@
         width:auto;
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
         .search-bar {
             margin-top: 10px;
             padding-top: 10px;
@@ -32,7 +32,7 @@
         }
     }
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 1024px) {
         .columns.is-mobile{
             margin-right:1rem
         }
@@ -41,7 +41,7 @@
 {% endblock %}
 {% block content %}
 <div class='columns is-mobile'>  
-    <div class='column is-1 mt-3 pl-5 is-hidden-touch'>
+    <div class='column is-1 mt-3 pl-5 is-hidden-touch' id='spiece-search-bar'>
         <aside class='menu'>
             <p class='menu-label'>
                 <label for='ajax-search'>Search Species</label>
@@ -62,7 +62,7 @@
             </ul>
         </aside>
     </div>
-    <div class='column is-11'>
+    <div class='column is-11' id='main-window'>
 
         <form class='search-bar' method='get' action="{% url 'plant_collection:front_page' %}" style='display:flex; gap:1vw; align-items:center;'>
             <label for='search-plant' class='menu-label' style='margin-bottom:0'>Search:</label>
@@ -83,4 +83,5 @@
 <script src="{% static 'plant_collection/javascript/like.js' %}"></script>
 <script src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
 <script src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
+<script src="{% static 'plant_collection/javascript/species_mobile.js' %}"></script>
 {% endblock %}

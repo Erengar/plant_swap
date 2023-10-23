@@ -9,6 +9,7 @@ urlpatterns= [
     path('plant/<slug:slug>/', views.plant_view.as_view(),name='plant_view'),
     path('my-collection/add-plant/', views.add_plant.as_view(), name='add_plant'),
     path('plant/<slug:slug>/update/', views.update_plant.as_view(), name='update_plant'),
+    path('species/', views.mobile_specie_search.as_view(), name='mobile_specie_search'),
     path('species/<slug:nam>/', views.species_list_view.as_view(), name='species_list'),
     path('species/search/bar/', views.search.as_view(), name='search'),
     path('trade/<str:req>', views.trade.as_view(), name='trade'),

@@ -1,5 +1,5 @@
 $('.modal_open').on('click', function() {
-    if (!$('.modal_open').prop('disabled')) {
+    if (!$('.modal_open').attr('disabled')) {
     $('.modal').addClass('is-active')
     }
 });

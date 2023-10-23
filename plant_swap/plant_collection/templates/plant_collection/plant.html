@@ -27,13 +27,13 @@
                     {% endfor %}
             </div>
         </div>
-        <div class='column is-half'>
 
+        <div class='column is-half'>
 
             {% if user == plant.owner %}
             <div class='container is-flex is-justify-content-flex-end' style='gap:1vw'>
                 <a href="{% url 'plant_collection:update_plant' slug=plant.slug %}"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a class='modal_open' tabindex=0><i class="fa-regular fa-trash-can decline-text"></i></a>
+                <a class='modal_open decline-text' tabindex=0><i class="fa-regular fa-trash-can"></i></a>
             </div>
 
             <div class='modal'>
@@ -54,52 +54,51 @@
 
             <section class='section is-medium'>
 
-                <div class='container'>
-                    <div class='title is-size-3-desktop is-size-5-touch'>
-                        {{plant.nick_name}}
-                    </div>
+
+                <div class='title is-size-3-desktop is-size-5-touch'>
+                    {{plant.nick_name}}
+                </div>
 
 
-                    <div class='block'>
-                        <div class='subtitle is-size-5-desktop is-size-6-touch'>
-                            {% if user == plant.owner %}
+                <div class='block'>
+                    <div class='subtitle is-size-5-desktop is-size-6-touch'>
+                        {% if user == plant.owner %}
+                            <span>Owned by <strong>{{plant.owner}}</strong></span>
+                        {% else %}
+                            <span class='icon-text'>
                                 <span>Owned by <strong>{{plant.owner}}</strong></span>
-                            {% else %}
-                                <span class='icon-text'>
-                                    <span>Owned by <strong>{{plant.owner}}</strong></span>
-                                    <span class='icon'>
-                                        <a href="{% url 'accounts:write_message' name=plant.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
-                                    </span>
+                                <span class='icon'>
+                                    <a href="{% url 'accounts:write_message' name=plant.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
                                 </span>
-                            {% endif %}
-                        </div>
+                            </span>
+                        {% endif %}
                     </div>
+                </div>
 
-                    {% if plant.species %}
-                    <div class='block'>
-                        <div class='subtitle is-size-6-desktop is-size-7-touch'>
-                            Specie: <a href="{% url 'plant_collection:species_list' nam=plant.species|slugify %}" >{{plant.species}}</a>
-                        </div>
+                {% if plant.species %}
+                <div class='block'>
+                    <div class='subtitle is-size-6-desktop is-size-7-touch'>
+                        Specie: <a href="{% url 'plant_collection:species_list' nam=plant.species|slugify %}" >{{plant.species}}</a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class='block'>
+                    {% csrf_token %}
+                    {% if not user in plant.likes.all %}
+                    <div>
+                        <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
+                    </div>
+                    {% elif user in plant.likes.all %}
+                    <div>
+                        <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
                     </div>
                     {% endif %}
-
-                    <div class='block'>
-                        {% csrf_token %}
-                        {% if not user in plant.likes.all %}
-                        <div>
-                            <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
-                        </div>
-                        {% elif user in plant.likes.all %}
-                        <div>
-                            <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
-                        </div>
-                        {% endif %}
-                        <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
-                            {{ plant.number_of_likes }} like/s
-                        </div>
+                    <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
+                        {{ plant.number_of_likes }} like/s
                     </div>
-
                 </div>
+
 
                 <section class='container is-flex is-justify-content-center'>
                     <div>

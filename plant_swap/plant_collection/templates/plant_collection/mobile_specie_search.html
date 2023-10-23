@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block header %}
+<title>Mobile Specie Search</title>
+{% endblock %}
+{% block content %}
+<aside class='menu mt-2'>
+    <p class='menu-label ml-2'>
+        <label for='ajax-search'>Search Species</label>
+    </p>
+    <div class="control has-icons-right">
+        <input id='ajax-search' class="input is-small" type="text" name='search'
+        placeholder="Search...">
+        <span class="icon is-small is-right">
+            <i class="fa-solid fa-search mustard"></i>
+        </span>
+    </div>
+    <p class='menu-label ml-2'>Species</p>   
+    <ul class='menu-list' style='overflow:auto; height:145vh; scrollbar-width: thin;'>
+        {% for specie in species %}
+        <li><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}" class='specie-list'>{{specie}}</a></li>
+        {% endfor %}
+    </ul>
+</aside>
+{% endblock %}
