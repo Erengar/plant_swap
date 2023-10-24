@@ -12,3 +12,10 @@ class PlantSerializer(serializers.ModelSerializer):
         model = Plant
         fields = ('id', 'nick_name', 'for_trade', 'created', 'owner', 'likes','picture')
         read_only_fields = ('created', 'owner', 'likes')
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plant
+        fields = ('id', 'likes')
+        read_only_fields = ('id',)

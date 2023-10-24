@@ -1,10 +1,10 @@
 from django.contrib import admin
 from .models import Plant, Species, Image, Trade
 
-# Register your models here.
 
 class ImageInline(admin.TabularInline):
     model = Image
+
 
 class PlantAdmin(admin.ModelAdmin):
     inlines = [

@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from datetime import date
 from django.utils.text import slugify
-from django.contrib.auth.models import User
 
 
 

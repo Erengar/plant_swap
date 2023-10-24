@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/search_bar_pagination.css' %}">
 {% endblock %}
 {% block content %}
-<div class='columns is-mobile'>  
-    
+<div class='columns is-mobile'>
+
     {% include "plant_collection/search_species.html" %}
 
     <div class='column is-11-widescreen is-four-fifth-desktop' id='main-window'>
@@ -15,7 +15,7 @@
         {% include "plant_collection/general_search_bar.html" %}
 
         <section id='plants-dump' class='px-0 pt-0'>
-        {% include "plant_collection/front_page_plants.html" %}
+            {% include "plant_collection/front_page_plants.html" %}
         </section>
     </div>
 </div>

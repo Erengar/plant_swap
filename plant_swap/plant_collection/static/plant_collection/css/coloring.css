@@ -47,6 +47,12 @@ a {
     border: 1px solid black;
 }
 
+.decline-button:focus {
+    background-color: hsl(0, 66%, 35%);
+    color: white;
+    border: 1px solid black;
+}
+
 .mustard-button:hover:enabled {
     background-color: #E3B448;
     border-radius: 50px;
@@ -54,11 +60,22 @@ a {
     transition: all 0.3s ease 0s;
 }
 
+.mustard-button:focus {
+    background-color: #E3B448;
+    border: 1px solid black;
+}
+
 .forest-green-button:hover {
     color: white;
     border-radius: 50px;
     border-color: #494949;
     transition: all 0.3s ease 0s;
+}
+
+.forest-green-button:focus {
+    background-color: #3A6B35;
+    color: white;
+    border: 1px solid black;
 }
 
 .decline-button:hover:enabled {

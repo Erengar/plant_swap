@@ -1,6 +1,5 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.contrib.auth.models import User
-from .forms import RegistrationForm, LoginForm
 
 #Check error messages
 class test_login(TestCase):
@@ -54,31 +53,51 @@ class test_registration(TestCase):
         return self.assertRedirects(response, '/my-collection/')
 
     def test_registration_unique_username(self):
-        page = self.client.post('/accounts/registration/', {'username': 'Polo', 'email':'test@test','password': 'test', 'confirm_password': 'test'}).content.decode('utf-8')
+        page = self.client.post('/accounts/registration/', {'username': 'Polo',
+                                                            'email':'test@test',
+                                                            'password': 'test',
+                                                            'confirm_password': 'test'}).content.decode('utf-8')
         return self.assertInHTML('Username already taken.' ,page)
     
     def test_registration_unique_email(self):
-        page = self.client.post('/accounts/registration/', {'username': 'test', 'email':'test@test','password': 'test', 'confirm_password': 'test'}).content.decode('utf-8')
+        page = self.client.post('/accounts/registration/', {'username': 'test',
+                                                            'email':'test@test',
+                                                            'password': 'test',
+                                                            'confirm_password': 'test'}).content.decode('utf-8')
         return self.assertInHTML('Email adress is already taken.' ,page)
     
     def test_registration_valid_email(self):
-        page = self.client.post('/accounts/registration/', {'username': 'test', 'email':'test@test','password': 'test', 'confirm_password': 'test'}).content.decode('utf-8')
+        page = self.client.post('/accounts/registration/', {'username': 'test',
+                                                            'email':'test@test',
+                                                            'password': 'test',
+                                                            'confirm_password': 'test'}).content.decode('utf-8')
         return self.assertInHTML('Enter a valid email address.' ,page)
 
     def test_registration_length_password(self):
-        page = self.client.post('/accounts/registration/', {'username': 'test', 'email':'test@test','password': 'test', 'confirm_password': 'test'}).content.decode('utf-8')
+        page = self.client.post('/accounts/registration/', {'username': 'test',
+                                                            'email':'test@test',
+                                                            'password': 'test', 'confirm_password': 'test'}).content.decode('utf-8')
         return self.assertInHTML('Ensure this value has at least 9 characters (it has 4).' ,page)
     
     def test_registration_password_match(self):
-        page = self.client.post('/accounts/registration/', {'username': 'test', 'email':'test@test','password': 'test', 'confirm_password': 'test1'}).content.decode('utf-8')
+        page = self.client.post('/accounts/registration/', {'username': 'test',
+                                                            'email':'test@test',
+                                                            'password': 'test',
+                                                            'confirm_password': 'test1'}).content.decode('utf-8')
         return self.assertInHTML('Password and Confirm password do not match!' ,page)
     
     def test_registration_upper_lower_password(self):
-        page = self.client.post('/accounts/registration/', {'username': 'test', 'email':'test@test','password': 'test', 'confirm_password': 'test'}).content.decode('utf-8')
+        page = self.client.post('/accounts/registration/', {'username': 'test',
+                                                            'email':'test@test',
+                                                            'password': 'test',
+                                                            'confirm_password': 'test'}).content.decode('utf-8')
         return self.assertInHTML('Password must contain at least one uppercase letter and one lowercase letter.' ,page)
     
     def test_registration_numbers_letters_password(self):
-        page = self.client.post('/accounts/registration/', {'username': 'test', 'email':'test@test','password': 'test', 'confirm_password': 'test'}).content.decode('utf-8')
+        page = self.client.post('/accounts/registration/', {'username': 'test',
+                                                            'email':'test@test',
+                                                            'password':'test',
+                                                            'confirm_password': 'test'}).content.decode('utf-8')
         return self.assertInHTML('Password must contain letters and numbers.' ,page)
     
     def test_registration_success(self):

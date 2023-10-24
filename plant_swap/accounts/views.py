@@ -8,8 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from plant_collection.models import Trade, Plant
 from django.http import Http404, HttpResponse
 from .models import Message
+from django.views.decorators.cache import cache_page
 
-# Create your views here.
 
 class login_view(LoginView):
     template_name = 'accounts/login.html'
@@ -48,9 +48,8 @@ class registration_view(View):
                 return redirect('plant_collection:front_page')
         return render(request, self.template_name, {'form':form})
     
-class trades_view(LoginRequiredMixin, generic.ListView):
+class trades_view(LoginRequiredMixin, generic.View):
     template_name = 'accounts/offers.html'
-    model = Trade
     def get(self, request):
         #Show all trades that are not finalized
         req = Trade.objects.filter(recipient=request.user, finalized=False)
@@ -63,22 +62,19 @@ class trades_view(LoginRequiredMixin, generic.ListView):
 This view is for showing the trade details and finalizing the trade.
 It receives 2 kinds of POST requests: One for accepting/declining/retracting a trade, and the other for finalizing a trade.
 '''
-class trade_view(LoginRequiredMixin, generic.DetailView):
+class trade_view(LoginRequiredMixin, generic.View):
     template_name = 'accounts/trade.html'
-    model = Trade
-
     def get(self, request, pk):
         trade = get_object_or_404(Trade, pk=pk)
         context = {'trade':trade}
         return render(request, self.template_name, context)
     
-    def post(self, request, pk, *args, **kwargs):
+    def post(self, request, pk):
         #This part is for accepting or declining a trade
         decline = request.POST.get('decline', None)
         accept = request.POST.get('accept', None)
         retract = request.POST.get('retract', None)
         if decline:
-            request.POST['decline']
             trade = get_object_or_404(Trade, pk=pk)
             trade.decline()
             req = Trade.objects.filter(recipient=request.user, finalized=False)
@@ -87,7 +83,6 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
             context = {'offers':offered, 'requests':req, 'confirmations': confirm}
             return render(request, 'accounts/offers.html', context)
         if accept:
-            request.POST['accept']
             trade = get_object_or_404(Trade, pk=pk)
             trade.accept()
             req = Trade.objects.filter(recipient=request.user, finalized=False)
@@ -96,7 +91,6 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
             context = {'offers':offered, 'requests':req, 'confirmations': confirm}
             return render(request, 'accounts/offers.html', context)
         if retract:
-            request.POST['retract']
             trade = get_object_or_404(Trade, pk=pk)
             trade.decline()
             req = Trade.objects.filter(recipient=request.user, finalized=False)
@@ -132,48 +126,35 @@ class trade_view(LoginRequiredMixin, generic.DetailView):
             trade.offered_finalized = True
             trade.save()
             return HttpResponse("fa-solid fa-circle-check is-size-1 green-check sendable")
-        elif finalize and request.user.username == str(trade.recipient):
+        if finalize and request.user.username == str(trade.recipient):
             trade.requested_finalized = True
             trade.save()
             return HttpResponse("fa-solid fa-circle-check is-size-1 green-check sendable")
-        elif not finalize and request.user.username == str(trade.initiator):
+        if not finalize and request.user.username == str(trade.initiator):
             trade.offered_finalized = False
             trade.save()
             return HttpResponse("fa-solid fa-circle-check is-size-1 red-check sendable")
-        elif not finalize and request.user.username == str(trade.recipient):
+        if not finalize and request.user.username == str(trade.recipient):
             trade.requested_finalized = False
             trade.save()
             return HttpResponse("fa-solid fa-circle-check is-size-1 red-check sendable")
-        else:
-            raise Http404("You are not authorized to do that.")
+        raise Http404("You are not authorized to do that.")
         
 
 '''
-This view is for showing plants user have liked. It receives a POST request when user clicks like button.
+This view is for showing plants user have liked.
 '''
-class liked_list(LoginRequiredMixin, generic.ListView):
+class liked_list(LoginRequiredMixin, generic.View):
     template_name = 'accounts/like_list.html'
-    model = Plant
     def get(self, request):
         context = {'plants':Plant.objects.filter(likes=request.user).order_by('-updated')}
         return render(request, self.template_name, context)
-    
-    def post(self, request):
-        plant = request.POST['plant']
-        user = request.POST['user']
-        p = Plant.objects.get(nick_name=plant)
-        u = User.objects.get(username=user)
-        if u in p.likes.all():
-            p.likes.remove(u)
-        elif not u in p.likes.all():
-            p.likes.add(u)
-        return HttpResponse(p.number_of_likes())
     
 
 '''
 This receives receives GET and POST requests. It show all messages and allows delete of messages.
 '''
-class messages_view(LoginRequiredMixin, generic.ListView):
+class messages_view(LoginRequiredMixin, generic.View):
     def get(self, request):
         messages = Message.objects.filter(receiver=request.user).order_by('-date_sent')
         context = {'messages':messages}
@@ -186,14 +167,15 @@ class messages_view(LoginRequiredMixin, generic.ListView):
                 m.delete()
         return redirect('accounts:messages')
 
+
 '''
 This receives only GET request, but need additional parameter for identifying message to display.
 It is for showing the message. It also marks the message as read.
 '''
-class message_view(LoginRequiredMixin, generic.DetailView):
+class message_view(LoginRequiredMixin, generic.View):
     def get(self, request, slug):
         message = get_object_or_404(Message, slug_subject=slug)
-        if request.user != message.receiver and request.user != message.sender:
+        if request.user not in (message.receiver, message.sender):
             raise Http404("You are not authorized to do that.")
         message.read = True
         message.save()
@@ -205,7 +187,7 @@ class message_view(LoginRequiredMixin, generic.DetailView):
 '''
 This view receives both GET and POST requests. It is for writing a message. It is utilizing django forms.
 '''
-class write_message_view(LoginRequiredMixin, generic.CreateView):
+class write_message_view(LoginRequiredMixin, generic.View):
     def get(self, request, name):
         if name== '@':
             form = MessageForm
@@ -230,14 +212,13 @@ class write_message_view(LoginRequiredMixin, generic.CreateView):
                                        receiver=r)
             m.save()
             return redirect('accounts:messages')
-        else:
-            return render(request, 'accounts/write_message.html', {'form':form})
+        return render(request, 'accounts/write_message.html', {'form':form})
         
 
 '''
 This is variation of write_message_view. It is for replying to a message. It receives only GET and POST request.
 '''
-class reply_message_view(LoginForm, generic.CreateView):
+class reply_message_view(LoginForm, generic.View):
     def get(self, request, slug):
         message = get_object_or_404(Message, slug_subject=slug)
         form = MessageForm(initial={'receiver':message.sender.username,
@@ -262,5 +243,4 @@ class reply_message_view(LoginForm, generic.CreateView):
                                        receiver=r)
             m.save()
             return redirect('accounts:messages')
-        else:
-            return render(request, 'accounts/write_message.html', {'form':form})
+        return render(request, 'accounts/write_message.html', {'form':form})

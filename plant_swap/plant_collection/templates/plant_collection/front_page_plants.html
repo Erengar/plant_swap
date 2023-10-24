@@ -1,3 +1,4 @@
+{% load cache %}
 <div class='columns is-multiline'>
     {% if plants %}
     {% for plant in plants %}
@@ -5,6 +6,7 @@
         <div class='card hover'>
 
             {% if plant.picture %}
+            {% cache 3600 image plant.id %}
             <div class='card-image'>
                 <figure class='image is-4by3'>
                     <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
@@ -12,6 +14,7 @@
                     </a>
                 </figure>
             </div>
+            {% endcache %}
             {% endif %}
 
             <div class='card-content columns is-mobile' style='margin:0; padding:0.5rem;'>
@@ -57,14 +60,14 @@
                         {% csrf_token %}
                         {% if not user in plant.likes.all %}
                         <div>
-                            <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
+                            <a class='heart' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
                         </div>
                         {% elif user in plant.likes.all %}
                         <div>
-                            <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
+                            <a class='heart' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
                         </div>
                         {% endif %}
-                        <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
+                        <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.id }}'>
                             {{ plant.number_of_likes }} like/s
                         </div>
                     </div>

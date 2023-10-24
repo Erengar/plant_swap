@@ -2,15 +2,13 @@ $('.heart').on('click', _.throttle(function() {
     var plant = $(this).attr('data-plant');
     var user = $(this).attr('data-user');
     var csrf = $('input[name="csrfmiddlewaretoken"]').val();
-    var url = window.location.href;
 
     $.ajax({
         type:'post',
-        url:'',
+        url:'/like/',
         data:{plant: plant,
             user: user,
-            csrfmiddlewaretoken: csrf,
-            url: url},
+            csrfmiddlewaretoken: csrf},
         success: function (response) {
             if ($(`.heart[data-plant='${plant}'] > i.has-text-danger`).hasClass('fa-regular') && response) {
                 $(`.heart[data-plant='${plant}'] > i.has-text-danger`).removeClass('fa-regular fa-heart');

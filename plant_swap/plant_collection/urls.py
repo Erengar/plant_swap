@@ -1,9 +1,10 @@
-from django.urls import path, re_path
+from django.urls import path
 from . import views
 
 app_name='plant_collection'
 urlpatterns= [
     path('', views.front_page.as_view(), name='front_page'),
+    path('like/', views.like_view, name='like'),
     path('page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
     path('my-collection/', views.personal_collection.as_view(), name='personal_collection'),
     path('plant/<slug:slug>/', views.plant_view.as_view(),name='plant_view'),

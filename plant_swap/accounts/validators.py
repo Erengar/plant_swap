@@ -11,7 +11,7 @@ def numbers_and_letters(value):
         raise forms.ValidationError('Password must contain letters and numbers.')
     
 def upper_lower(value):
-    if not(re.search('[a-z]+', value) and re.search('[A-Z]+', value)):
+    if not (re.search('[a-z]+', value) and re.search('[A-Z]+', value)):
         raise forms.ValidationError('Password must contain at least one uppercase letter and one lowercase letter.')
     
 def unique_email(value):

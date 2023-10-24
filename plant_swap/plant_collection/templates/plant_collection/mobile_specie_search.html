@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% load static %}
 {% block header %}
+{% load static %}
 <title>Mobile Specie Search</title>
 {% endblock %}
 {% block content %}
@@ -22,4 +22,5 @@
         {% endfor %}
     </ul>
 </aside>
+<script src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
 {% endblock %}
