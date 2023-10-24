@@ -66,11 +66,11 @@
 
         <div class='columns is-multiline mt-3'>
             {% for pic in plant.picture.all %}
-                <div class='column is-3'>
+                <div class='column is-3-widescreen is-4-desktop'>
                     <div class='card-image'>
                         <div class="image is-4by3">
                             <img src='{{pic.image.url}}' data-pic='{{pic}}' alt="Picture of a plant">
-                            <button class='delete' style="position: absolute; top: 0; right: 0;"></button>
+                            <button class='delete' style="position: absolute; top: 0; right: 0;mix-blend-mode: difference"></button>
                         </div>
                     </div>
                 </div>

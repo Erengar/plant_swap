@@ -61,11 +61,11 @@
         let images = "";
         imagesArray.forEach((image, index) => {
             for (let i = 0; i < image.length; i++) {
-                images += `<div class='column is-3'>
+                images += `<div class='column is-6'>
                                 <div class='card-image'>
                                     <div class="image is-4by3">
                                         <img src="${URL.createObjectURL(image[i])}" alt="Picture of a plant">
-                                        <span tabindex=0 onclick="deleteImage(${index}, ${i})">&times;</span>
+                                        <span style='mix-blend-mode: difference' tabindex=0 onclick="deleteImage(${index}, ${i})">&times;</span>
                                     </div>
                                 </div>
                             </div>`;

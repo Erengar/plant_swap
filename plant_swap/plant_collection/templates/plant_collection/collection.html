@@ -12,9 +12,6 @@
             margin-bottom: 15vh;            
         }
 
-        .card.hover.is-flex {
-            margin-top: 5vw;
-        }
 
         .column.is-3-desktop.is-full-touch:nth-of-type(2) {
             margin-top: 5vw;
@@ -24,9 +21,9 @@
 {% endblock %}
 <section class='section'>
     <div class='columns is-multiline'>
-        <div class='column is-3-desktop' style='padding-bottom:0'>
+        <div class='column is-4-desktop is-full-mobile is-3-widescreen is-6-tablet'>
                 <a href="{% url 'plant_collection:add_plant' %}">
-                    <div class='card hover is-flex' style='height:100% !important'>
+                    <div class='card hover is-flex' style='height:100%'>
                         <div style='margin:auto'>
                             <div class='card-image add-plant-center'>
                                 <figure class='image is-96x96' style='margin:auto'>
@@ -45,7 +42,7 @@
         </div>
         {% if plants %}
         {% for plant in plants %}
-        <div class='column is-3-desktop is-full-touch'>
+        <div class='column is-4-desktop is-full-mobile is-3-widescreen is-6-tablet'>
             <div class='card hover'>
 
                 {% if plant.picture %}
@@ -58,28 +55,28 @@
                 </div>
                 {% endif %}
 
-                <div class='card-content columns is-mobile'>
-                    <div class='column'>
-                        <div class='title is-size-4-desktop is-size-5-touch is-align-self-flex-start'>
+                <div class='card-content columns is-mobile' style='margin:0; padding:0.5rem;'>
+                    <div class='column is-6'>
+                        <div class='title is-size-4-widescreen is-size-4-touch is-size-5-desktop'>
                             <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
                         </div>
-                        <div class='subtitle is-size-5-desktop is-size-6-touch'>
+                        <div class='subtitle is-size-6-widescreen is-size-6-touch is-size-6-desktop'>
                             {{plant.owner}}
                         </div>
                     </div>
 
 
-                    <div class='column pb-1'>
-                        <div class='has-text-right pb-3'>
+                    <div class='column is-6'>
+                        <div class='has-text-right'>
                             {% if plant.for_trade %}
-                            <span class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch'>
+                            <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-6-touch'>
                                 <span class='icon'>
                                     <i class="fa-solid fa-store"></i>
                                 </span>
                                 For Trade
                             </span>
                             {% else %}
-                            <span class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch'>
+                            <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-6-touch'>
                                 <span class='icon'>
                                     <i class="fa-solid fa-store-slash "></i>
                                 </span>

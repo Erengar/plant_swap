@@ -90,7 +90,7 @@ class search(View):
         species = Species.objects.filter(name__icontains=search)
         response = []
         for specie in species:
-            response.append('<li><a href="/species/'+str(specie.slug)+'">'+specie.name+'</a></li>')
+            response.append('<li class="is-size-7-desktop is-size-6-widescreen"><a href="/species/'+str(specie.slug)+'">'+specie.name+'</a></li>')
         return HttpResponse("".join(response)+'</ul>')
     
     #This receives patch request from unroll species bar
@@ -98,7 +98,7 @@ class search(View):
         species = Species.objects.all()
         response = []
         for specie in species:
-            response.append('<li><a href="/species/'+str(specie.slug)+'">'+specie.name+'</a></li>')
+            response.append('<li class="is-size-7-desktop is-size-6-widescreen"><a href="/species/'+str(specie.slug)+'">'+specie.name+'</a></li>')
         return HttpResponse("".join(response)+'</ul>')
 
 

@@ -8,6 +8,7 @@ if (url.includes("my-collection")) {
 } else if (url.includes('species')) {
     var myspecie = url.split("/")[4];
     $('a[href="/species/' + myspecie + '/"]').addClass("sage-green");
+    $('a[href="/species/"]').addClass("navbar-active");
 } else if (url.includes('accounts/trades')) {
     $('a[href="/accounts/trades/"]').addClass("navbar-active");
 } else if (url.includes('accounts/likes')) {

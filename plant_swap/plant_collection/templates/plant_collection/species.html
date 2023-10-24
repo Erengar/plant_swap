@@ -3,160 +3,19 @@
 {% block header %}
 <title>{{plants.0.species}} - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
-<style>
-    .column.is-11 {
-        padding: 0;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .search-bar {
-        width: 80%;
-        margin-top: 2px;
-        margin-bottom: 15px;
-        padding-top: 20px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    @media screen and (max-width: 1024px) {
-        .search-bar {
-            margin-top: 10px;
-            padding-top: 10px;
-        }
-        .pagination {
-            margin-top:3rem;
-        }
-    }
-
-    @media screen and (min-width: 1024px) {
-        .columns.is-mobile{
-            margin-right:1rem
-        }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'plant_collection/css/search_bar_pagination.css' %}">
 {% endblock %}
 {% block content %}
 <div class='columns is-mobile'>  
-    <div class='column is-1 mt-3 pl-5 is-hidden-touch' id='spiece-search-bar'>
-        <aside class='menu'>
-            <p class='menu-label'>
-                <label for='ajax-search'>Search Species</label>
-            </p>
-            <div class="control has-icons-right">
-                <input id='ajax-search' class="input is-small" type="text" name='search'
-                placeholder="Search...">
-                <span class="icon is-small is-right">
-                    <i class="fa-solid fa-search"></i>
-                </span>
-            </div>
-            <p class='menu-label'>Species</p>   
-            <ul class='menu-list' style='overflow:auto; height:145vh; scrollbar-width: thin;'>
-                {% for specie in species %}
-                <li><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}" class='forest-green'>{{specie}}</a></li>
-                {% endfor %}
-                <li><a id='htmx-dud' hx-patch="{% url 'plant_collection:search' %}" hx-trigger='click' hx-target='.menu-list' class='forest-green'>...</a></li>
-            </ul>
-        </aside>
-    </div>
+    {% include "plant_collection/search_species.html" %}
 
-    <div class='column is-11' id='main-window'>
+    <div class='column is-11-widescreen is-four-fifth-desktop' id='main-window'>
 
-        <form class='search-bar' method='get' action="{% url 'plant_collection:front_page' %}" style='display:flex; gap:1vw; align-items:center;'>
-            <label for='search-plant' class='menu-label' style='margin-bottom:0'>Search:</label>
-            <div class="control has-icons-right" style='width:80% !important'>
-                <input id='search-plant' class="input is-small" type="text" name='search'
-                placeholder="Search for plants...">
-                <span class="icon is-small is-right" type='submit'>
-                    <i class="fa-solid fa-search mustard"></i>
-                </span>
-            </div>
-        </form>
+        {% include "plant_collection/general_search_bar.html" %}
 
         <section class='section px-0 pt-0'>
-        <div class='columns is-multiline'>
-            {% if plants %}
-            {% for plant in plants %}
-            <div class='column is-3-desktop is-full-mobile'>
-                <div class='card hover'>
-
-                    {% if plant.picture %}
-                    <div class='card-image'>
-                        <figure class='image is-4by3'>
-                            <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
-                                <img src="{{ plant.picture.all.0.image.url }}" alt="Picture of a plant" width='500px'>
-                            </a>
-                        </figure>
-                    </div>
-                    {% endif %}
-
-                    <div class='card-content columns'>
-                        <div class='column'>
-                            <div class='title is-4 is-align-self-flex-start'>
-                                <a class='has-text-dark' href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
-                            </div>
-                            <div class='subtitle is-5'>
-                                {% if user == plant.owner %}
-                                <span>{{plant.owner}}</span>
-                                {% else %}
-                                <span class='icon-text'>
-                                    <span>{{plant.owner}}</span>
-                                    <span class='icon'>
-                                        <a href="{% url 'accounts:write_message' name=plant.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
-                                    </span>
-                                </span>
-                                {% endif %}
-                            </div>
-                        </div>
-
-
-                        <div class='column pb-1'>
-                            <div class='has-text-right pb-5'>
-                                {% if plant.for_trade %}
-                                <span class='icon-text has-text-weight-semibold'>
-                                    <span class='icon'>
-                                        <i class="fa-solid fa-store"></i>
-                                    </span>
-                                    For Trade
-                                </span>
-                                {% else %}
-                                <span class='icon-text has-text-weight-semibold'>
-                                    <span class='icon'>
-                                        <i class="fa-solid fa-store-slash "></i>
-                                    </span>
-                                    Not for Trade
-                                </span>
-                                {% endif %}
-                            </div>
-
-                            <div class='has-text-right'>
-                                {% csrf_token %}
-                                {% if not user in plant.likes.all %}
-                                <div>
-                                    <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
-                                </div>
-                                {% elif user in plant.likes.all %}
-                                <div>
-                                    <a class='heart' tabindex=0 data-plant='{{ plant.nick_name }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
-                                </div>
-                                {% endif %}
-                                <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.nick_name }}'>
-                                    {{ plant.number_of_likes }} like/s
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class='column is-3-desktop is-full-mobile'>
-                <h1>No plants :(</h1>
-            </div>
-            {% endfor %}
-            {% endif %}
-        </div>
-    </section>
+            {% include "plant_collection/front_page_plants.html" %}
+        </section>
 </div>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
