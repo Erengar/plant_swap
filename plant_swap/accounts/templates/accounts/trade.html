@@ -71,7 +71,16 @@
                             </div>
                         </div>
                         <div class='column is-half'>
-                            <div class='is-pulled-right is-size-7 has-text-weight-bold'><i class="fa-solid fa-heart has-text-danger is-size-6"></i> {{trade.plant_offered.number_of_likes}} likes</div>
+                            <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-6-touch is-pulled-right'>
+                                <span class='icon'>
+                                    <i class="fa-solid fa-store"></i>
+                                </span>
+                                {% if plant.location %}
+                                {{plant.location}}
+                                {% else %}
+                                For Trade
+                                {% endif %}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -178,7 +187,16 @@
                             </div>
                         </div>
                         <div class='column is-half'>
-                            <div class='is-pulled-right is-size-7 has-text-weight-bold'><i class="fa-solid fa-heart has-text-danger is-size-6"></i> {{trade.plant_requested.number_of_likes}} likes</div>
+                            <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-6-touch is-pulled-right'>
+                                <span class='icon'>
+                                    <i class="fa-solid fa-store"></i>
+                                </span>
+                                {% if plant.location %}
+                                {{plant.location}}
+                                {% else %}
+                                For Trade
+                                {% endif %}
+                            </span>
                         </div>
                     </div>
                 </div>

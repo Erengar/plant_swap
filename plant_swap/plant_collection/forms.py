@@ -6,6 +6,7 @@ from django.core.validators import MinLengthValidator
 
 class add_plant_form(forms.ModelForm):
     nick_name = forms.CharField(
+        label_suffix='*',
         max_length=24,
         validators=[unique_plant, MinLengthValidator(3)],
         widget=forms.TextInput(
@@ -14,8 +15,8 @@ class add_plant_form(forms.ModelForm):
             }
         ),
     )
-
     species = forms.ModelChoiceField(
+        label_suffix='',
         queryset=Species.objects,
         required=False,
         widget=forms.Select(
@@ -24,7 +25,18 @@ class add_plant_form(forms.ModelForm):
             }
         ),
     )
-    for_trade = forms.BooleanField(required=False)
+    for_trade = forms.BooleanField(required=False,
+                                label_suffix='',)
+    location = forms.CharField(required=False,
+                            label_suffix='',
+                            max_length=24,
+                            help_text="City, State",
+                            widget=forms.TextInput(
+                                attrs={
+                                    "class": "input",
+                                    'placeholder': "City, State",
+                                }),
+                            )
 
     class Meta:
         model = Plant
@@ -33,6 +45,7 @@ class add_plant_form(forms.ModelForm):
 
 class update_plant_form(add_plant_form):
     nick_name = forms.CharField(
+        label_suffix='*',
         max_length=24,
         validators=[MinLengthValidator(3)],
         widget=forms.TextInput(

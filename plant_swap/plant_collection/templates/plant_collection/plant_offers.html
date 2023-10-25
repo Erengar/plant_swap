@@ -17,9 +17,14 @@
             padding-right: 0px;
         }
     }
+
     .trade-offer:hover {
         color:#E3B448;
         background-color: #F5F5F5;
+    }
+
+    .card-content {
+        padding-top: 0;
     }
 </style>
 {% endblock %}
@@ -31,13 +36,13 @@
     <div class='column is-6'>
         <div class='box'>
             <div class='columns is-multiline'>
-                <h2 class='title is-size-3-desktop is-size-5-touch'>Trade offers made to you</h2>
+                <h2 class='title is-size-3-widescreen is-size-4-desktop is-size-4-touch'>Trade offers made to you</h2>
                 {% for req in requests %}
                 <div class="divider"></div>
                 <div class='column is-12 is-narrow trade-offer'>
                     <a href="{% url 'accounts:trade' pk=req.pk %}">
-                        <div class='columns'>
-                            <div class='column is-4'>
+                        <div class='columns is-gapless'>
+                            <div class='column is-4-widescreen is-6-desktop is-6-tablet'>
                                 <div class='card-image'>
                                     <figure class='image is-4by3'>
                                             <img src="{{ req.plant_offered.picture.all.0.image.url }}" alt="Picture of a plant">
@@ -45,11 +50,11 @@
                                 </div>
                             </div>
 
-                            <div class='column is-8'>
+                            <div class='column is-8-widescreen is-6-desktop is-6-tablet'>
                                 <div class='card-content'>
-                                    <div class='title is-size-4-desktop is-size-5-touch'>Name: {{req.plant_offered.nick_name}}</div>
-                                    <div class='title is-size-6-desktop is-size-6-touch has-text-weight-semibold'>Owner: {{req.plant_offered.owner}}</div>
-                                    <div class='title is-size-7'>Requested: {{req.plant_offered.created}}</div>
+                                    <h2 class='subtitle is-size-4-desktop is-size-5-touch'>Plant: {{req.plant_offered.nick_name}}</h2>
+                                    <h3 class='subtitle is-size-6-desktop is-size-6-touch'>Owner: {{req.plant_offered.owner}}</h3>
+                                    <h4 class='subtitle is-size-7'>Requested: {{req.plant_offered.created}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -69,13 +74,13 @@
     <div class='column is-6'>
         <div class='box'>
             <div class='columns is-multiline'>
-                <h2 class='title is-size-3-desktop is-size-5-touch'>Your trade offers</h2>
+                <h2 class='title is-size-3-widescreen is-size-4-desktop is-size-4-touch'>Your trade offers</h2>
                 {% for offer in offers %}
                 <div class="divider"></div>
                 <div class='column is-12 is-narrow trade-offer'>
                     <a href="{% url 'accounts:trade' pk=offer.pk %}">
-                        <div class='columns'>
-                            <div class='column is-4'>
+                        <div class='columns is-gapless'>
+                            <div class='column is-4-widescreen is-6-desktop is-6-tablet'>
                                 <div class='card-image'>
                                     <figure class='image is-4by3'>
                                             <img src="{{ offer.plant_requested.picture.all.0.image.url }}" alt="Picture of a plant">
@@ -83,11 +88,11 @@
                                 </div>
                             </div>
 
-                            <div class='column is-8'>
+                            <div class='column is-8-widescreen is-6-desktop is-6-tablet'>
                                 <div class='card-content'>
-                                    <div class='title is-size-4-desktop is-size-5-touch '>Name: {{offer.plant_requested.nick_name}}</div>
-                                    <div class='title is-size-6-desktop is-size-6-touch has-text-weight-semibold'>Owner: {{offer.plant_requested.owner}}</div>
-                                    <div class='title is-size-7'>Requested: {{offer.plant_requested.created}}</div>
+                                    <h2 class='subtitle is-size-4-desktop is-size-5-touch'>Name: {{offer.plant_requested.nick_name}}</h2>
+                                    <h3 class='subtitle is-size-6-desktop is-size-6-touch'>Owner: {{offer.plant_requested.owner}}</h3>
+                                    <h4 class='subtitle is-size-7'>Requested: {{offer.plant_requested.created}}</h4>
                                 </div>
                             </div>
                         </div>

@@ -4,11 +4,10 @@ from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import add_plant_form, image_form, update_plant_form
 from django.contrib.auth.models import User
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .models import Plant, Species, Image, Trade
-from django.views.decorators.cache import cache_page
 
 
 """
@@ -177,7 +176,6 @@ class add_plant(LoginRequiredMixin, View):
 
 class update_plant(LoginRequiredMixin, generic.View):
     template_name = "plant_collection/update_plant.html"
-    model = Plant
     plant_form = update_plant_form
     ima_form = image_form
 
@@ -220,6 +218,7 @@ class update_plant(LoginRequiredMixin, generic.View):
                 plant.for_trade = True
             else:
                 plant.for_trade = False
+            plant.location = request.POST.get("location", None)
             plant.save()
 
             # This is for deleting images that are in database

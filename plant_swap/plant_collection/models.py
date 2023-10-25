@@ -39,7 +39,8 @@ class Plant(models.Model):
     slug = models.SlugField(default="bugged-plant")
     for_trade = models.BooleanField(default=False)
     likes = models.ManyToManyField(User, related_name="liked")
-    # history = HistoricalRecords(excluded_fields=['tags', 'species', 'nick_name', 'updated'])
+    #This is far away from ideal, but it works for now
+    location = models.CharField(max_length=64, blank=True, null=True, default=None, help_text="City, State")
 
     def update_slug(self):
         self.slug = slugify(self.nick_name)

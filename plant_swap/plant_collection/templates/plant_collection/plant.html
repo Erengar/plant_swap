@@ -85,6 +85,16 @@
                     </h3>
                 {% endif %}
 
+                {% if plant.location %}
+                <h3 class='subtitle is-size-6-desktop is-size-7-touch'>
+                    Location: <strong>{{plant.location}}</strong>
+                </h3>
+                {% else %}
+                <h3 class='subtitle is-size-6-desktop is-size-7-touch'>
+                    Location: <strong>Unknown</strong>
+                </h3>
+                {% endif %}
+
 
                 <div class='container is-flex is-justify-content-right'>
                     <div>
@@ -108,14 +118,14 @@
                 <section class='container is-flex is-justify-content-center'>
                     <div>
                         {% if plant.for_trade %}
-                        <div class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch'>
+                        <div class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch is-flex is-justify-content-center'>
                             <span class='icon'>
                                 <i class="fa-solid fa-store"></i>
                             </span>
                             For Trade
                         </div>
                         {% elif not plant.for_trade %}
-                        <span class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch'>
+                        <span class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch is-flex is-justify-content-center'>
                             <span class='icon'>
                                 <i class="fa-solid fa-store-slash "></i>
                             </span>
