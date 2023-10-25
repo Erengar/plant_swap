@@ -38,9 +38,9 @@ class registration_view(View):
         email = request.POST['email']
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            c = User.objects.create_user(username=username,
-                                        password=password,
-                                        email=email)
+            c = User.objects.create_user(username=form.cleaned_data['username'],
+                                        password=form.cleaned_data['password'],
+                                        email=form.cleaned_data['email'])
             c.save()
             user = authenticate(request, username=username, password=password)
             if user is not None:
@@ -201,9 +201,9 @@ class write_message_view(LoginRequiredMixin, generic.View):
         if request.POST['receiver'] == request.user.username:
             form.add_error('receiver', 'You cannot send a message to yourself.')
         if form.is_valid():
-            subject = request.POST['subject']
-            body = request.POST['message']
-            receiver = request.POST['receiver']
+            subject = form.cleaned_data['subject']
+            body = form.cleaned_data['message']
+            receiver = form.cleaned_data['receiver']
             sender = request.user
             r = User.objects.get(username=receiver)
             m = Message.objects.create(subject=subject,
@@ -232,9 +232,9 @@ class reply_message_view(LoginForm, generic.View):
         if request.POST['receiver'] == request.user.username:
             form.add_error('receiver', 'You cannot send a message to yourself.')
         if form.is_valid():
-            subject = request.POST['subject']
-            body = request.POST['message']
-            receiver = request.POST['receiver']
+            subject = form.cleaned_data['subject']
+            body = form.cleaned_data['message']
+            receiver = form.cleaned_data['receiver']
             sender = request.user
             r = User.objects.get(username=receiver)
             m = Message.objects.create(subject=subject,

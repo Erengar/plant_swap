@@ -8,7 +8,7 @@ class add_plant_form(forms.ModelForm):
     nick_name = forms.CharField(
         label_suffix='*',
         max_length=24,
-        validators=[unique_plant, MinLengthValidator(3)],
+        validators=[ MinLengthValidator(3)],
         widget=forms.TextInput(
             attrs={
                 "class": "input is-size-7-touch",

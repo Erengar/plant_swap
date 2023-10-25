@@ -145,17 +145,18 @@ class add_plant(LoginRequiredMixin, View):
                 {"form": plant_form, "image": ima_form, "image_error": image_error},
             )
         if plant_form.is_valid() and ima_form.is_valid():
-            nick_name = request.POST["nick_name"]
+            nick_name = plant_form.cleaned_data["nick_name"]
             owner = User.objects.get(username=request.user.username)
             # Species is not required
             try:
-                species = Species.objects.get(pk=request.POST.get("species"))
+                species = Species.objects.get(pk=plant_form.cleaned_data["species"])
             except:
                 species = None
+            location = plant_form.cleaned_data["location"]
             pictures = request.FILES
             # Plant have to be created first
             plant = Plant.objects.create(
-                nick_name=nick_name, owner=owner, species=species
+                nick_name=nick_name, owner=owner, species=species, location=location
             )
             # We are using try for cases if user submits more than 1 picture
             try:
