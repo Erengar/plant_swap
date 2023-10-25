@@ -34,13 +34,14 @@ class Plant(models.Model):
         Species, on_delete=models.SET_NULL, blank=True, null=True, related_name="plants"
     )
     owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="plants"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="plants"
     )
     slug = models.SlugField(default="bugged-plant")
     for_trade = models.BooleanField(default=False)
     likes = models.ManyToManyField(User, related_name="liked")
     #This is far away from ideal, but it works for now
-    location = models.CharField(max_length=64, blank=True, null=True, default=None, help_text="City, State")
+    location = models.CharField(max_length=24, blank=True, null=True, default=None, help_text="City, State")
+    content = models.TextField(blank=True, null=True, default=None)
 
     def update_slug(self):
         self.slug = slugify(self.nick_name)

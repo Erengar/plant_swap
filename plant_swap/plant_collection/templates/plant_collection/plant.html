@@ -114,6 +114,14 @@
                     </div>
                 </div>
 
+                {% if plant.content != None %}
+                <div class='is-flex is-justify-content-center'>
+                    <div class='content' style="width:80%">
+                        <p>{{plant.content|linebreaks}}</p>
+                    </div>
+                </div>
+                {% endif %}
+
 
                 <section class='container is-flex is-justify-content-center'>
                     <div>

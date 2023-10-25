@@ -24,7 +24,7 @@ function addInput() {
     count ++
     $('#replicator').append(
                         `<div class='field to-hide' id='hiding${count}'>
-                        <div id='file-js-example' class='file is-medium is-boxed'>
+                        <div id='file-js-example' class='file is-medium'>
                             <label class='file-label pt-3'>
                                 <input class='input_tag${count} file-input' id='input_tag${count}' hidden type='file' accept='image/*' name='picture${count}'>
                                 <span class='file-cta'>

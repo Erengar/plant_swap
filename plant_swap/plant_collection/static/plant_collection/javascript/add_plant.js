@@ -38,7 +38,7 @@
         count ++
         const inputHtml = document.createRange().createContextualFragment(
                             `<div class='field' id='hiding${count}'>
-                            <div id='file-js-example' class='file is-medium is-boxed'>
+                            <div id='file-js-example' class='file is-medium'>
                                 <label class='file-label pt-3'>
                                     <input class='input_tag${count} file-input' id='input_tag${count}' hidden type='file' accept='image/*' name='picture${count}'>
                                     <span class='file-cta'>
@@ -61,7 +61,7 @@
         let images = "";
         imagesArray.forEach((image, index) => {
             for (let i = 0; i < image.length; i++) {
-                images += `<div class='column is-6'>
+                images += `<div class='column is-6 is-4-widescreen'>
                                 <div class='card-image'>
                                     <div class="image is-4by3">
                                         <img src="${URL.createObjectURL(image[i])}" alt="Picture of a plant">

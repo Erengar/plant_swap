@@ -34,7 +34,7 @@
             <span class='is-size-7 has-text-danger'>WARNING! At least one picture must be loaded, otherwise plant will be deleted.<span>
             <div class='input_container' id='replicator'>
                 <div class='field to-hide'>
-                    <div id='file-js-example' class='file is-medium is-boxed'>
+                    <div id='file-js-example' class='file is-medium'>
                         <label class='file-label mt-3' tabindex=0>
                             {% for im in image %}{{im}}{% endfor %}
                             <span class='file-cta'>
@@ -60,13 +60,13 @@
             </div>
 
                 <div class='pt-4 ml-5'>
-                    <input id='submit-btn' class='button forest-green-button' type="submit" value='Save'>
+                    <input id='submit-btn' class='button forest-green-button is-responsive' type="submit" value='Save'>
                 </div>
         </div>
 
         <div class='columns is-multiline mt-3'>
             {% for pic in plant.picture.all %}
-            <div class='column is-3-widescreen is-4-desktop'>
+            <div class='column is-3-widescreen is-4-desktop is-6-tablet is-full-mobile'>
                 <div class='card-image'>
                     <div class="image is-4by3">
                         <img src='{{pic.image.url}}' data-pic='{{pic}}' alt="Picture of a plant">

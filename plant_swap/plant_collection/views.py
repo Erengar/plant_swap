@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic, View
 from django.db.models import Q
@@ -8,7 +9,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .models import Plant, Species, Image, Trade
-
+from django.views.generic.edit import FormMixin
 
 """
 This view shows all owned plants by time of adding. You can also like plants here.
@@ -174,10 +175,21 @@ class add_plant(LoginRequiredMixin, View):
         )
 
 
-class update_plant(LoginRequiredMixin, generic.View):
+class update_plant(LoginRequiredMixin, FormMixin,generic.View):
     template_name = "plant_collection/update_plant.html"
     plant_form = update_plant_form
     ima_form = image_form
+
+    # This is for prefilling form with data from database
+    def get_initial(self):
+        plant = get_object_or_404(Plant, slug=self.kwargs["slug"])
+        initial = super(update_plant, self).get_initial()
+        initial["nick_name"] = plant.nick_name
+        initial["species"] = plant.species
+        initial["for_trade"] = plant.for_trade
+        initial["location"] = plant.location
+        initial["content"] = plant.content
+        return initial
 
     def get(self, request, slug):
         plant = get_object_or_404(Plant, slug=slug)
@@ -186,7 +198,7 @@ class update_plant(LoginRequiredMixin, generic.View):
         # Userpassestest can be used but it accomplishes the same thing as this.
         if request.user != plant.owner:
             return redirect("plant_collection:front_page")
-        form = self.plant_form(instance=plant)
+        form = self.plant_form(initial=self.get_initial())
         image = self.ima_form
         context = {"form": form, "plant": plant, "image": image}
         return render(request, self.template_name, context)
@@ -219,6 +231,7 @@ class update_plant(LoginRequiredMixin, generic.View):
             else:
                 plant.for_trade = False
             plant.location = request.POST.get("location", None)
+            plant.content = request.POST.get("content", None)
             plant.save()
 
             # This is for deleting images that are in database
