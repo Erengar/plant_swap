@@ -15,9 +15,9 @@ $('.dropdown-item').on('click', function(){
             $('#dump').html(response);
             var offered_plant = $('.offered-plant').text()
             $('#offered').attr('value', offered_plant);
-            const pictures1 = document.querySelectorAll('.carousel_image1');
-            for (let p = 1; p < pictures1.length; p++) {
-                pictures1[p].setAttribute('hidden', true);
+            const pictures = document.querySelectorAll('.carousel_image');
+            for (let p = 1; p < pictures.length; p++) {
+                pictures[p].setAttribute('hidden', true);
             }
         }
     })

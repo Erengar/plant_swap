@@ -2,7 +2,7 @@
 {% load static %}
 {% block header %}
 <title>Pending Trade - Plant Swap</title>
-<link rel="stylesheet" href="{% static 'plant_collection/css/trade.css' %}">
+<link rel="stylesheet" href="{% static 'accounts/css/trade.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
 <style>
     @media (max-width: 768px) {
@@ -34,19 +34,15 @@
         <div class='column is-5 mt-6'>
             <div class='card carousel_box'>
 
-                <div class='card-image'>
-
-                    {% if trade.plant_offered.picture.count > 1 %}
-                    <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
-                        <div class='column arrow' tabindex=0 id='left-arrow'></div>
-                        <div class='column arrow' tabindex=0 id='right-arrow'></div>
-                    </div>
+                <div class='card-image carousel-box'>
+                    {% if trade.plant_offered.picture.all.count > 1 %}
+                        <div tabindex=0 class='arrow' id='left-arrow'></div>
+                        <div tabindex=0 class='arrow' id='right-arrow'></div>
                     {% endif %}
-
                     {% for picture in trade.plant_offered.picture.all %}
                     <div class='carousel_image'>
                         <figure class='image is-4by3'>
-                                <img class='carousel' src="{{ picture.image.url }}" alt="Picture of a plant">
+                            <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
                         </figure>
                     </div>
                     {% endfor %}
@@ -87,7 +83,7 @@
             </div>
         </div>
 
-        <form class='column is-2 custom-vcentered' method="post">
+        <form class='column is-2 is-flex is-justify-content-center is-flex-direction-column is-align-items-center' method="post" style='gap:2rem'>
             {% csrf_token %}
             {% if trade.accepted and not trade.finalized%}
             <div class="is-flex" style='gap:5vw'>
@@ -119,24 +115,16 @@
                 {% endif %}
             </div>
             {% elif not trade.accepted and not trade.finalized %}
-            <div>
+            
                 {% if trade.accepted == False %}
-                <div class='is-flex is-justify-content-center is-vcentered mt-6'>
                     <input disabled class='button decline-button is-large is-responsive' id='decline-button' type='submit' value='Declined'>
-                </div>
                 {% elif trade.accepted == null and user == trade.initiator %}
-                <div class='is-flex is-justify-content-center is-vcentered mt-6'>
                     <input class='button decline-button is-large is-responsive' id='decline-button' type='submit' value='Retract' name='retract'>
-                </div>
                 {% else %}
-                <div class='is-flex is-justify-content-center is-vcentered'>
                     <input class='button forest-green-button is-large is-responsive' id='accepted-button' type='submit' value='Accept' name='accept'>
-                </div>
-                <div class='is-flex is-justify-content-center is-vcentered mt-6'>
                     <input class='button decline-button is-large is-responsive' id='decline-button' type='submit' value='Decline' name='decline'>
-                </div>
                 {% endif %}
-            </div>
+            
             {% elif trade.finalized %}
             <div class="is-flex container">
                 <i class="fa-solid fa-circle-check is-size-1 green-check-inactive"></i>
@@ -150,19 +138,15 @@
         <div class='column is-5 mt-6'>
             <div class='card carousel_box'>
 
-                <div class='card-image'>
-
-                    {% if trade.plant_requested.picture.count > 1 %}
-                    <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
-                        <div class='column arrow' tabindex=0 id='left-arrow1'></div>
-                        <div class='column arrow' tabindex=0 id='right-arrow1'></div>
-                    </div>
+                <div class='card-image carousel-box'>
+                    {% if trade.plant_requested.picture.all.count > 1 %}
+                        <div tabindex=0 class='arrow' id='left-arrow1'></div>
+                        <div tabindex=0 class='arrow' id='right-arrow1'></div>
                     {% endif %}
-
                     {% for picture in trade.plant_requested.picture.all %}
                     <div class='carousel_image1'>
                         <figure class='image is-4by3'>
-                                <img class='carousel' src="{{ picture.image.url }}" alt="Picture of a plant">
+                            <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
                         </figure>
                     </div>
                     {% endfor %}
@@ -206,6 +190,6 @@
     </div>
 
 
-<script type='text/javascript' src="{% static 'plant_collection/javascript/trade_carousels.js' %}"></script>
-<script type='text/javascript' src="{% static 'plant_collection/javascript/trade_finalization.js' %}"></script>
+<script type='text/javascript' src="{% static 'accounts/javascript/trade_carousels.js' %}"></script>
+<script type='text/javascript' src="{% static 'accounts/javascript/trade_finalization.js' %}"></script>
 {% endblock content %}

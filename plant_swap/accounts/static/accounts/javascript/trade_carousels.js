@@ -1,6 +1,3 @@
-/*Have to make two carousels, because original that was made for plant view
-works based of ID*/
-
 const pictures1 = document.querySelectorAll('.carousel_image1');
 const rightBtn1 = document.getElementById('right-arrow1');
 const leftBtn1 = document.getElementById('left-arrow1');
@@ -72,51 +69,30 @@ carousel1.on('touchstart', e => {
 carousel1.on('touchend', e => {
     touchendX = e.changedTouches[0].screenX
     checkDirection1()
-})
-
-/*Variables must be declared after element was inserted,
-after offered plant is selected*/
-function initializeDynamicElement() {
-    
-    const pictures = document.querySelectorAll('.carousel_image');
-    const rightBtn = document.getElementById('right-arrow');
-    const leftBtn = document.getElementById('left-arrow');
-    const carousel = $('.carousel-box:first');
-    var position = 0;
+});
 
 
 
-    function hide() {
-        for (let p = 0; p < pictures.length; p++) {
-            pictures[p].setAttribute('hidden', true);
-        }
+
+
+const pictures = document.querySelectorAll('.carousel_image');
+const rightBtn = document.getElementById('right-arrow');
+const leftBtn = document.getElementById('left-arrow');
+const carousel = $('.carousel-box:first');
+var position = 0;
+
+
+
+function hide() {
+    for (let p = 0; p < pictures.length; p++) {
+        pictures[p].setAttribute('hidden', true);
     }
+}
 
 
-    function checkDirection() {
-        let delta = Math.abs(touchendX - touchstartX)
-        if ((touchendX > touchstartX) && (delta > 150)) {
-            hide();
-            if (position == pictures.length-1) {
-                position = 0;
-            } else {
-                position ++;
-            }
-            pictures[position].removeAttribute('hidden');
-        
-        } else if ((touchendX < touchstartX) && (delta > 150)) {
-            hide();
-            if (position == 0) {
-                position = pictures.length-1;
-            } else {
-                position --;
-            }
-            pictures[position].removeAttribute('hidden');
-      }
-    }
-
-
-    rightBtn.addEventListener('click', () => {
+function checkDirection() {
+    let delta = Math.abs(touchendX - touchstartX)
+    if ((touchendX > touchstartX) && (delta > 150)) {
         hide();
         if (position == pictures.length-1) {
             position = 0;
@@ -124,9 +100,8 @@ function initializeDynamicElement() {
             position ++;
         }
         pictures[position].removeAttribute('hidden');
-    })
-
-    leftBtn.addEventListener('click', () => {
+    
+    } else if ((touchendX < touchstartX) && (delta > 150)) {
         hide();
         if (position == 0) {
             position = pictures.length-1;
@@ -134,33 +109,36 @@ function initializeDynamicElement() {
             position --;
         }
         pictures[position].removeAttribute('hidden');
-    });
-
-
-    carousel.on('touchstart', e => {
-        touchstartX = e.changedTouches[0].screenX
-      })
-      
-    carousel.on('touchend', e => {
-        touchendX = e.changedTouches[0].screenX
-        checkDirection()
-    });
-};
-
-
-const targetElement = document.getElementById("dump");
-
-
-const observer = new MutationObserver(function(mutationsList) {
-    for (let mutation of mutationsList) {
-        if (mutation.type === "childList") {
-            for (let node of mutation.addedNodes) {
-                initializeDynamicElement(node);
-                }
-            }
-        }
     }
-);
+}
 
 
-observer.observe(targetElement, { childList: true, subtree: true });
+rightBtn.addEventListener('click', () => {
+    hide();
+    if (position == pictures.length-1) {
+        position = 0;
+    } else {
+        position ++;
+    }
+    pictures[position].removeAttribute('hidden');
+})
+
+leftBtn.addEventListener('click', () => {
+    hide();
+    if (position == 0) {
+        position = pictures.length-1;
+    } else {
+        position --;
+    }
+    pictures[position].removeAttribute('hidden');
+});
+
+
+carousel.on('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX
+    })
+    
+carousel.on('touchend', e => {
+    touchendX = e.changedTouches[0].screenX
+    checkDirection()
+});

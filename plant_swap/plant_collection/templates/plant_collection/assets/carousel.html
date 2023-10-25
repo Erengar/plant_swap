@@ -1,0 +1,13 @@
+<div class='carousel-box'>
+    {% if plant.picture.all.count > 1 %}
+        <div tabindex=0 class='arrow' id='left-arrow'></div>
+        <div tabindex=0 class='arrow' id='right-arrow'></div>
+    {% endif %}
+    {% for picture in plant.picture.all %}
+    <div class='carousel_image'>
+        <figure class='image is-4by3'>
+            <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
+        </figure>
+    </div>
+    {% endfor %}
+</div>

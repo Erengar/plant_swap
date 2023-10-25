@@ -8,18 +8,18 @@
 {% block content %}
 <div class='columns is-mobile'>
 
-    {% include "plant_collection/search_species.html" %}
+    {% include "plant_collection/assets/search_species.html" %}
 
     <div class='column is-11-widescreen is-four-fifth-desktop' id='main-window'>
 
-        {% include "plant_collection/general_search_bar.html" %}
+        {% include "plant_collection/assets/general_search_bar.html" %}
 
         <section id='plants-dump' class='px-0 pt-0'>
-            {% include "plant_collection/plants_gallery.html" %}
+            {% include "plant_collection/assets/plants_gallery.html" %}
         </section>
     </div>
 </div>
-{% include "plant_collection/front_page_pagination.html" %}
+{% include "plant_collection/assets/front_page_pagination.html" %}
 <script src="{% static 'plant_collection/javascript/like.js' %}"></script>
 <script src="{% static 'plant_collection/javascript/specie_search.js' %}"></script>
 <script src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>

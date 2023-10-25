@@ -5,34 +5,13 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
-<style>
-    @media screen and (max-width: 768px) {
-        #picture-column {
-            padding: 0;
-        }
-    }
-</style>
 {% endblock %}
 {% block content %}
 <section class='section'>
     <div class='box'>
     <div class='columns'>
-        <div class='column is-half' id='picture-column'>
-            <div class='carousel_box' style='position: relative;'>
-                {% if plant.picture.all.count > 1 %}
-                <div class='columns is-overlay overlay-element is-mobile' style='z-index: 2; position:absolute; margin-bottom:0 '>
-                    <div tabindex=0 class='column arrow' id='left-arrow'></div>
-                    <div tabindex=0 class='column arrow' id='right-arrow'></div>
-                </div>
-                {% endif %}
-                    {% for picture in plant.picture.all %}
-                    <div class='carousel_image'>
-                        <figure class='image is-4by3'>
-                            <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
-                        </figure>
-                    </div>
-                    {% endfor %}
-            </div>
+        <div class='column is-half'>
+            {% include "plant_collection/carousel.html" %}
         </div>
 
         <div class='column is-half is-narrow'>

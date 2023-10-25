@@ -1,6 +1,7 @@
 const pictures = document.querySelectorAll('.carousel_image');
 const rightBtn = document.getElementById('right-arrow');
 const leftBtn = document.getElementById('left-arrow');
+const carousel = $('.carousel-box');
 var position = 0;
 let touchstartX = 0
 let touchendX = 0
@@ -59,11 +60,11 @@ leftBtn.addEventListener('click', () => {
 })
 
 
-document.addEventListener('touchstart', e => {
+carousel.on('touchstart', e => {
     touchstartX = e.changedTouches[0].screenX
   })
   
-document.addEventListener('touchend', e => {
+carousel.on('touchend', e => {
     touchendX = e.changedTouches[0].screenX
     checkDirection()
 })

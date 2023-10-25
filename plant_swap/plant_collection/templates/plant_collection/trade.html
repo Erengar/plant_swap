@@ -58,9 +58,7 @@
 
     <div class='columns'>
 
-        <div class='column is-5'>
-            <div id='dump'>
-            </div>
+        <div class='column is-5' id='dump'>
         </div>
 
         <form class='column is-2 custom-vcentered' method='post'>
@@ -74,21 +72,17 @@
         </form>
 
         <div class='column is-5'>
-            <div class='card carousel_box'>
+            <div class='card'>
 
-                <div class='card-image'>
-                    {% if req.picture.count > 1%}
-                    <div class='columns is-overlay overlay-element is-mobile'
-                        style='z-index: 2; position:absolute; margin-bottom:0 '>
-                        <div class='column arrow' id='left-arrow'></div>
-                        <div class='column arrow' id='right-arrow'></div>
-                    </div>
+                <div class='card-image carousel-box'>
+                    {% if req.picture.all.count > 1 %}
+                        <div tabindex=0 class='arrow' id='left-arrow1'></div>
+                        <div tabindex=0 class='arrow' id='right-arrow1'></div>
                     {% endif %}
-
                     {% for picture in req.picture.all %}
-                    <div class='carousel_image'>
+                    <div class='carousel_image1'>
                         <figure class='image is-4by3'>
-                            <img class='carousel' src="{{ picture.image.url }}" alt="Picture of a plant">
+                            <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
                         </figure>
                     </div>
                     {% endfor %}
