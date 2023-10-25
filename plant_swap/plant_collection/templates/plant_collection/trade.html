@@ -79,13 +79,18 @@
                         <div tabindex=0 class='arrow' id='left-arrow1'></div>
                         <div tabindex=0 class='arrow' id='right-arrow1'></div>
                     {% endif %}
-                    {% for picture in req.picture.all %}
                     <div class='carousel_image1'>
                         <figure class='image is-4by3'>
-                            <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
+                            <img class='carousel' hidden src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant">
                         </figure>
-                    </div>
+                    {% for picture in plant.picture.all %}
+                        {% if picture != plant.thumbnail.image %}
+                            <figure class='image is-4by3'>
+                                <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
+                            </figure>
+                        {% endif %}
                     {% endfor %}
+                    </div>
                 </div>
 
 

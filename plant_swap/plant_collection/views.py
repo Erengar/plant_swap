@@ -1,4 +1,3 @@
-from typing import Any
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic, View
 from django.db.models import Q
@@ -8,7 +7,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from .models import Plant, Species, Image, Trade
+from .models import Plant, Species, Image, Trade, Thumbnail
 from django.views.generic.edit import FormMixin
 
 """
@@ -113,6 +112,14 @@ class plant_view(generic.View):
 
     def post(self, request, slug):
         plant = get_object_or_404(Plant, slug=slug)
+        print(request.POST)
+        if image:=request.POST.get("thumbnail"):
+            image = Image.objects.get(pk=image)
+            Thumbnail.objects.filter(plant=plant).delete()
+            thumbnail = Thumbnail.objects.create(plant=plant, image=image)
+            thumbnail.save()
+            return redirect("plant_collection:plant_view", slug=slug)
+        # If we are not receiving post request for thumbnail, we are receiving post request for delete button
         # we double-check(user that does not own plant should not even see button for deleting)
         # wheter he is owner of plant and if he is we delete it.
         if request.user == plant.owner:
@@ -153,10 +160,17 @@ class add_plant(LoginRequiredMixin, View):
             except:
                 species = None
             location = plant_form.cleaned_data["location"]
+            for_trade = plant_form.cleaned_data["for_trade"]
+            content = plant_form.cleaned_data["content"]
             pictures = request.FILES
             # Plant have to be created first
             plant = Plant.objects.create(
-                nick_name=nick_name, owner=owner, species=species, location=location
+                nick_name=nick_name,
+                owner=owner,
+                species=species,
+                location=location,
+                for_trade=for_trade,
+                content=content
             )
             # We are using try for cases if user submits more than 1 picture
             try:

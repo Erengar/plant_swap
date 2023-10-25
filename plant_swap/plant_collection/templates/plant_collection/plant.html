@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/set_thumbnail.css' %}">
 {% endblock %}
 {% block content %}
 <section class='section'>
@@ -12,6 +13,29 @@
     <div class='columns'>
         <div class='column is-half'>
             {% include "plant_collection/assets/carousel.html" %}
+            <button class='button is-small is-responsive mustard-button' onclick="modal.showModal()" style='margin-top:1vh'>Change Thumbnail</button>
+
+            <dialog id='modal' style="padding: 0" onclick="event.target==this && this.close()">
+                <form action="{% url 'plant_collection:plant_view' slug=plant.slug %}" style="margin: 0; padding: 1rem" method="post" class='columns is-multiline'>
+                    {% csrf_token %}
+                    {% for picture in plant.picture.all %}
+                    <div class='column is-6-tablet is-4-widescreen'>
+                        {% if picture == plant.thumbnail.image %}
+                        <figure class='image is-4by3 thumbnail selected' id='{{ picture }}'>
+                            <img src="{{ picture.image.url }}" alt="Picture of a plant">
+                        </figure>
+                        {% else %}
+                        <figure class='image is-4by3 thumbnail' id='{{ picture }}'>
+                            <img src="{{ picture.image.url }}" alt="Picture of a plant">
+                        </figure>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <input type="hidden" name="thumbnail" id="thumbnail">
+                    <input class='button forest-green-button' type="submit" value='Save'>
+                    <button class='modal-close' onclick="modal.close()">close</button>
+                </form>
+            </dialog>
         </div>
 
         <div class='column is-half is-narrow'>
@@ -152,4 +176,5 @@
 <script type='text/javascript' src="{% static 'plant_collection/javascript/delete_modal.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like_animations.js' %}"></script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/set_thumbnail.js' %}"></script>
 {% endblock %}

@@ -1,0 +1,23 @@
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+dialog {
+    border:0;
+    border-radius: 0.5rem;
+}
+
+form.columns {
+    width: 50vw;
+    height: 50vh;
+}
+
+.thumbnail {
+    border: 5px solid transparent;
+    border-radius: 0.5rem;
+}
+
+.selected {
+    border: 5px solid #FFC107;
+    border-radius: 0.5rem;
+}

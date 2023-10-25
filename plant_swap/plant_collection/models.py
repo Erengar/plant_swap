@@ -109,6 +109,13 @@ class Trade(models.Model):
 
     def __str__(self):
         return f"{self.plant_offered} for {self.plant_requested}"
+    
+class Thumbnail(models.Model):
+    plant = models.OneToOneField(Plant, on_delete=models.CASCADE, related_name="thumbnail")
+    image = models.OneToOneField(Image, on_delete=models.CASCADE, related_name="thumbnail")
+
+    def __str__(self):
+        return str(self.pk)
 
 
 @receiver(post_delete, sender=Image)
