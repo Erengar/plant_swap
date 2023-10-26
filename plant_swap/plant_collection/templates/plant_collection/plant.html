@@ -13,10 +13,12 @@
     <div class='columns'>
         <div class='column is-half'>
             {% include "plant_collection/assets/carousel.html" %}
+            {% if user == plant.owner %}
             <button class='button is-small is-responsive mustard-button' onclick="modal.showModal()" style='margin-top:1vh'>Change Thumbnail</button>
 
             <dialog id='modal' style="padding: 0" onclick="event.target==this && this.close()">
-                <form action="{% url 'plant_collection:plant_view' slug=plant.slug %}" style="margin: 0; padding: 1rem" method="post" class='columns is-multiline'>
+                <h2 class='title is-size-3-widescreen is-size-4-desktop is-size-4-touch has-text-centered' style='margin:0;'>Select Thumbnail</h2>
+                <form action="{% url 'plant_collection:plant_view' slug=plant.slug %}" method="post" class='columns is-multiline' id='thumbnail-form'>
                     {% csrf_token %}
                     {% for picture in plant.picture.all %}
                     <div class='column is-6-tablet is-4-widescreen'>
@@ -32,10 +34,13 @@
                     </div>
                     {% endfor %}
                     <input type="hidden" name="thumbnail" id="thumbnail">
-                    <input class='button forest-green-button' type="submit" value='Save'>
+                    <div style="width:100%; padding-left:17px">
+                        <input class='button forest-green-button' type="submit" value='Save'>
+                    </div>
                     <button class='modal-close' onclick="modal.close()">close</button>
                 </form>
             </dialog>
+            {% endif %}
         </div>
 
         <div class='column is-half is-narrow'>

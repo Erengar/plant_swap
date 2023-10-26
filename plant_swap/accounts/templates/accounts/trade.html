@@ -39,18 +39,22 @@
                         <div tabindex=0 class='arrow' id='left-arrow'></div>
                         <div tabindex=0 class='arrow' id='right-arrow'></div>
                     {% endif %}
+                    {% if trade.plant_offered.thumbnail %}
                     <div class='carousel_image'>
                         <figure class='image is-4by3'>
-                            <img class='carousel' hidden src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant">
+                            <img class='carousel' src="{{ trade.plant_offered.thumbnail.image.image.url }}" alt="Picture of a plant">
                         </figure>
-                    {% for picture in plant.picture.all %}
-                        {% if picture != plant.thumbnail.image %}
+                    </div>
+                    {% endif %}
+                    {% for picture in trade.plant_offered.picture.all %}
+                        {% if picture != trade.plant_offered.thumbnail.image %}
+                        <div class='carousel_image'>
                             <figure class='image is-4by3'>
-                                <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
+                                <img class='carousel' src="{{ picture.image.url }}" alt="Picture of a plant">
                             </figure>
+                        </div>
                         {% endif %}
                     {% endfor %}
-                    </div>
                 </div>
 
 
@@ -148,17 +152,21 @@
                         <div tabindex=0 class='arrow' id='left-arrow1'></div>
                         <div tabindex=0 class='arrow' id='right-arrow1'></div>
                     {% endif %}
+                    {% if trade.plant_requested.thumbnail %}
                     <div class='carousel_image1'>
                         <figure class='image is-4by3'>
-                            <img class='carousel' hidden src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant">
+                            <img class='carousel' src="{{ trade.plant_requested.thumbnail.image.image.url }}" alt="Picture of a plant">
                         </figure>
-                    {% for picture in plant.picture.all %}
-                        {% if picture != plant.thumbnail.image %}
-                            <figure class='image is-4by3'>
-                                <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
-                            </figure>
-                        {% endif %}
                     </div>
+                    {% endif %}
+                    {% for picture in trade.plant_requested.picture.all %}
+                        {% if picture != trade.plant_requested.thumbnail.image %}
+                        <div class='carousel_image1'>
+                            <figure class='image is-4by3'>
+                                <img class='carousel' src="{{ picture.image.url }}" alt="Picture of a plant">
+                            </figure>
+                        </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
 

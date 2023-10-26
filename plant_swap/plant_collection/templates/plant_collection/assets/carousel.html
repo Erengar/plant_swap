@@ -3,16 +3,20 @@
         <div tabindex=0 class='arrow' id='left-arrow'></div>
         <div tabindex=0 class='arrow' id='right-arrow'></div>
     {% endif %}
+    {% if plant.thumbnail %}
     <div class='carousel_image'>
         <figure class='image is-4by3'>
-            <img class='carousel' hidden src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant">
+            <img class='carousel' src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant">
         </figure>
+    </div>
+    {% endif %}
     {% for picture in plant.picture.all %}
         {% if picture != plant.thumbnail.image %}
+        <div class='carousel_image'>
             <figure class='image is-4by3'>
-                <img class='carousel' hidden src="{{ picture.image.url }}" alt="Picture of a plant">
+                <img class='carousel' src="{{ picture.image.url }}" alt="Picture of a plant">
             </figure>
+        </div>
         {% endif %}
     {% endfor %}
-    </div>
 </div>

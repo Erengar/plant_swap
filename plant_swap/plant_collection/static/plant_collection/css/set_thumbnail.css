@@ -7,9 +7,13 @@ dialog {
     border-radius: 0.5rem;
 }
 
-form.columns {
+#thumbnail-form {
     width: 50vw;
     height: 50vh;
+    scrollbar-width: thin;
+    overflow-x: hidden;
+    padding: 1rem;
+    margin: 0;
 }
 
 .thumbnail {

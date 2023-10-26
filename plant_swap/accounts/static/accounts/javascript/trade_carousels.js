@@ -82,6 +82,10 @@ const carousel = $('.carousel-box:first');
 var position = 0;
 
 
+for (let i = 1; i < pictures.length; i++) {
+    pictures[i].setAttribute('hidden', true);
+}
+
 
 function hide() {
     for (let p = 0; p < pictures.length; p++) {

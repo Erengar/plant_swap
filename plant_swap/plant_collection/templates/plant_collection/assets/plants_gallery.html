@@ -31,7 +31,11 @@
             <div class='card-image'>
                 <figure class='image is-4by3'>
                     <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
+                        {% if plant.thumbnail %}
                         <img src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant">
+                        {% else %}
+                        <img src="{{ plant.picture.all.0.image.url }}" alt="Picture of a plant">
+                        {% endif %}
                     </a>
                 </figure>
             </div>

@@ -112,8 +112,7 @@ class plant_view(generic.View):
 
     def post(self, request, slug):
         plant = get_object_or_404(Plant, slug=slug)
-        print(request.POST)
-        if image:=request.POST.get("thumbnail"):
+        if image:=request.POST.get("thumbnail") and request.user == plant.owner:
             image = Image.objects.get(pk=image)
             Thumbnail.objects.filter(plant=plant).delete()
             thumbnail = Thumbnail.objects.create(plant=plant, image=image)
@@ -156,7 +155,7 @@ class add_plant(LoginRequiredMixin, View):
             owner = User.objects.get(username=request.user.username)
             # Species is not required
             try:
-                species = Species.objects.get(pk=plant_form.cleaned_data["species"])
+                species = Species.objects.get(name=plant_form.cleaned_data["species"])
             except:
                 species = None
             location = plant_form.cleaned_data["location"]
@@ -286,7 +285,7 @@ class trade(LoginRequiredMixin, View):
         try:
             plant = get_object_or_404(Plant, nick_name=request.GET["plant"].strip())
             return render(
-                request, "plant_collection/trade_offered_plant.html", {"plant": plant}
+                request, "plant_collection/assets/trade_offered_plant.html", {"plant": plant}
             )
         except:
             pass
