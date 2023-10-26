@@ -49,7 +49,7 @@ function displayImage() {
                                 <div class='card-image'>
                                     <div class="image is-4by3">
                                         <img src="${URL.createObjectURL(files[0])}" alt="Picture of a plant">
-                                        <span class='delete' data-delete='${count}' style="position: absolute; top: 0; right: 0; mix-blend-mode: difference"></span>
+                                        <span tabindex=0 class='delete' data-delete='${count}' style="position: absolute; top: 0; right: 0; mix-blend-mode: difference"></span>
                                     </div>
                                 </div>
                             </div>`);

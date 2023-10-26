@@ -19,6 +19,12 @@ $('.dropdown-item').on('click', function(){
             for (let p = 1; p < pictures.length; p++) {
                 pictures[p].setAttribute('hidden', true);
             }
+        },
+        error: function(response){
+            $('#dump').html('Something went wrong!')
+        },
+        beforeSend: function(){
+            $('#dump').html('<p class="title is-flex is-justify-content-center">Loading...</p>')
         }
     })
 })

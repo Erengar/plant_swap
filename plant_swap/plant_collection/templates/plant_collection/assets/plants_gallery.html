@@ -27,7 +27,6 @@
         <div class='card hover'>
 
             {% if plant.picture %}
-            {% cache 3600 image plant.id %}
             <div class='card-image'>
                 <figure class='image is-4by3'>
                     <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
@@ -39,7 +38,6 @@
                     </a>
                 </figure>
             </div>
-            {% endcache %}
             {% endif %}
 
             <div class='card-content columns is-mobile' style='margin:0; padding:0.5rem;'>

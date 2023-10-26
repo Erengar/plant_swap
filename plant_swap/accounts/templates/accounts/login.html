@@ -9,6 +9,7 @@
 <form class='box mt-6 need-max' action="{% url 'accounts:login' %}" method='post'>
     <h1 class='title forest-green'>Login</h1>
     {% csrf_token %}
+    <div class='has-text-danger'>{{ error }}</div>
     {% for field in form %}
     <div class='label'>{{ field.label_tag }}</div>
     {% if field.errors %}

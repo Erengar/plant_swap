@@ -47,10 +47,21 @@ a {
     border: 1px solid black;
 }
 
+.decline-button[disabled]:hover {
+    color: white;
+}
+
 .decline-button:focus {
     background-color: hsl(0, 66%, 35%);
     color: white;
     border: 1px solid black;
+}
+
+.mustard-button:hover {
+    background-color: #E3B448;
+    border-radius: 50px;
+    border-color: #494949;
+    transition: all 0.3s ease 0s;
 }
 
 .mustard-button:hover:enabled {

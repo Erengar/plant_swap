@@ -11,7 +11,7 @@ from .models import Plant, Species, Image, Trade, Thumbnail
 from django.views.generic.edit import FormMixin
 
 """
-This view shows all owned plants by time of adding. You can also like plants here.
+This view shows all owned plants by time of adding.
 """
 class personal_collection(LoginRequiredMixin, generic.View):
     template_name = "plant_collection/collection.html"
@@ -23,7 +23,7 @@ class personal_collection(LoginRequiredMixin, generic.View):
 
 
 """
-This view shows all plants by time of adding. You can also like plants here.
+This view shows all plants by time of adding.
 It is receiving 4 kinds of get requests: front page, front page with unrolled species bar, front page with search specified and front page pagination.
 """
 class front_page(generic.View):
@@ -112,7 +112,7 @@ class plant_view(generic.View):
 
     def post(self, request, slug):
         plant = get_object_or_404(Plant, slug=slug)
-        if image:=request.POST.get("thumbnail") and request.user == plant.owner:
+        if (image:=request.POST.get("thumbnail")) and request.user == plant.owner:
             image = Image.objects.get(pk=image)
             Thumbnail.objects.filter(plant=plant).delete()
             thumbnail = Thumbnail.objects.create(plant=plant, image=image)
@@ -309,6 +309,13 @@ class trade(LoginRequiredMixin, View):
             recipient=recipient,
         ):
             errors.append("You have already made this trade.")
+        elif Trade.objects.filter(
+            plant_offered=requested,
+            plant_requested=offered,
+            initiator=recipient,
+            recipient=initiator,
+        ):
+            errors.append("This trade already exists.")
         if errors:
             return render(
                 request,

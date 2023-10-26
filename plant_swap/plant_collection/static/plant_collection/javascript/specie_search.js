@@ -10,5 +10,11 @@ $('#ajax-search').on('keyup', _.throttle(function() {
         success: function (response) {
             $('.menu-list').html(response);
           },
+        error: function (response) {
+          $('.menu-list').html('Something went wrong!')
+          },
+        beforeSend: function () {
+          $('.menu-list').html('Loading...')
+          }
         });
       }, 100));

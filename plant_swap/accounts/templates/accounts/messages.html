@@ -29,11 +29,23 @@
         </div>
 
         <div>
+            {% if sent %}
+            <a class='button mustard-button is-responsive mt-4' href="{% url 'accounts:messages' %}">Received messages</a>
+            {% else %}
+            <a class='button mustard-button is-responsive mt-4' href="{% url 'accounts:messages_sent' %}">Sent messages</a>
+            {% endif %}
+        </div>
+
+        <div>
             <table class='table is-hoverable is-fullwidth'>
                 <thead>
                     <tr>
                         <th><input class='message-checkbox' type="checkbox" aria-label='Select all' id="select-all"></th>
+                        {% if sent %}
+                        <th>To</th>
+                        {% else %}
                         <th>From</th>
+                        {% endif %}
                         <th>Subject</th>
                         <th>Date</th>
                     </tr>
@@ -42,8 +54,24 @@
                     {% for message in messages %}
                     {% if not message.read %}
                     <tr class='has-text-weight-bold is-size-6-desktop is-size-7-touch'>
-                        <td style="width:0"><input aria-label='Select message' name="{{message.slug_subject}}" type="checkbox" class='message-checkbox'></td>
-                        <td style='width:15%'><a href="{% url 'accounts:write_message' name=message.sender %}">{{ message.sender }}</a></td>
+                        <td style="width:0"><input aria-label='Select message' name="{{message.slug_subject}}" type="checkbox" class='message-checkbox js-check'></td>
+                        {% if sent %}
+                        <td style='width:15%'>
+                            {% if message.receiver %}
+                            <a href="{% url 'accounts:write_message' name=message.receiver %}">{{ message.receiver }}</a>
+                            {% else %}
+                            {{ message.receiver_string }}
+                            {% endif %}
+                        </td>
+                        {% else %}
+                        <td style='width:15%'>
+                            {% if message.sender %}
+                            <a href="{% url 'accounts:write_message' name=message.sender %}">{{ message.sender }}</a>
+                            {% else %}
+                            {{ message.sender_string }}
+                            {% endif %}
+                        </td>
+                        {% endif %}
                         <td><a href="{% url 'accounts:message' slug=message.slug_subject %}">{{ message.subject }}</a></td>
                         {% if message.older %}
                         <td style='width:50%'>{{ message.date_sent|date }}</td>
@@ -53,8 +81,24 @@
                     </tr>
                     {% else %}
                     <tr class="is-size-6-desktop is-size-7-touch">
-                        <td style="width:0"><input name="{{message.slug_subject}}" type="checkbox" class='message-checkbox'></td>
-                        <td style='width:15%'><a href="{% url 'accounts:write_message' name=message.sender %}">{{ message.sender }}</a></td>
+                        <td style="width:0"><input aria-label='Select message' name="{{message.slug_subject}}" type="checkbox" class='message-checkbox js-check'></td>
+                        {% if sent %}
+                        <td style='width:15%'>
+                            {% if message.receiver %}
+                            <a href="{% url 'accounts:write_message' name=message.receiver %}">{{ message.receiver }}</a>
+                            {% else %}
+                            {{ message.receiver_string }}
+                            {% endif %}
+                        </td>
+                        {% else %}
+                        <td style='width:15%'>
+                            {% if message.sender %}
+                            <a href="{% url 'accounts:write_message' name=message.sender %}">{{ message.sender }}</a>
+                            {% else %}
+                            {{ message.sender_string }}
+                            {% endif %}
+                        </td>
+                        {% endif %}
                         <td><a href="{% url 'accounts:message' slug=message.slug_subject %}">{{ message.subject }}</a></td>
                         {% if message.older %}
                         <td style='width:25%'>{{ message.date_sent|date }}</td>
@@ -72,4 +116,5 @@
 </section>
 <script type='text/javascript' src="{% static 'accounts/javascript/select_all_messages_delete.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/delete_modal.js' %}"></script>
+<script type='text/javascript' src="{% static 'accounts/javascript/show_sent_messages.js' %}"></script>
 {% endblock content %}

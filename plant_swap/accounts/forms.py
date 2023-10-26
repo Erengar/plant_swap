@@ -10,13 +10,13 @@ from .models import Message
 class LoginForm(AuthenticationForm):
     username = UsernameField(label='User name',
                             widget=forms.TextInput(attrs={
-                                'class':'input field-need-max'}))
+                                'class':'input field-need-max',
+                                'autofocus':True,}))
     password = forms.CharField(label='Password',
                             strip=False,
                             widget=forms.TextInput(attrs={
                                 'class':'input field-need-max',
                                 'type':'password',
-                                'autofocus':True,
                                 'autocomplete':'current-password'
     }))
                                

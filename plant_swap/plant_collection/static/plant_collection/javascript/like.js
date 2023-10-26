@@ -18,7 +18,7 @@ $('.heart').on('click', _.throttle(function() {
                 $(`.heart[data-plant='${plant}'] > i.has-text-danger`).addClass('fa-regular fa-heart');
             }
             $(`.number_likes[data-plant='${plant}']`).html(response+' like/s');
-          },
+          }
         });
       },300));
     

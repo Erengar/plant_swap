@@ -12,10 +12,9 @@ $('#select-all').on('click', function() {
 
 
 $('.message-checkbox').on('click', function(){
-    if ($('.message-checkbox:checked').length > 0) {
+    if ($('.js-check:checked').length > 0) {
         $('.modal_open').removeAttr('disabled');
     } else {
-        console.log('nope');
         $('.modal_open').attr('disabled', true);
     }
 })

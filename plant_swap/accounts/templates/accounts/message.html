@@ -18,7 +18,14 @@
                 {{message.body}}
             </div>
         </div>
-        <a href="{% url 'accounts:reply_message' slug=message.slug_subject %}"><button class='button mustard-button mt-6 is-responsive'>Reply</button></a>
+        <a href="{% url 'accounts:reply_message' slug=message.slug_subject %}"><button class='button mustard-button mt-6 is-responsive'>
+            <span class='icon-text'>
+                <span class='icon'>
+                    <i class="fa-solid fa-reply"></i>
+                </span>
+                <span>Reply</span>
+            </span>
+        </button></a>
     </div>
 </section>
 {% endblock content %}

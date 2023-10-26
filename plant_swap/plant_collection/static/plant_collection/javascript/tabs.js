@@ -8,11 +8,11 @@ if (url.includes("my-collection")) {
 } else if (url.includes('species')) {
     var myspecie = url.split("/")[4];
     $('a[href="/species/' + myspecie + '/"]').addClass("sage-green");
-    $('a[href="/species/"]').addClass("navbar-active");
+    $('.navbar-item[href="/species/"]').addClass("navbar-active");
 } else if (url.includes('accounts/trades')) {
-    $('a[href="/accounts/trades/"]').addClass("navbar-active");
+    $('.navbar-item[href="/accounts/trades/"]').addClass("navbar-active");
 } else if (url.includes('accounts/likes')) {
-    $('a[href="/accounts/likes/"]').addClass("navbar-active");
+    $('.navbar-item[href="/accounts/likes/"]').addClass("navbar-active");
 } else if (url.includes('/accounts/messages/')) {
-    $('a[href="/accounts/messages/"]').addClass("navbar-active");
+    $('.navbar-item[href="/accounts/messages/"]').addClass("navbar-active");
 }

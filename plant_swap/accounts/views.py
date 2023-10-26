@@ -17,6 +17,14 @@ class login_view(LoginView):
     authentication_form = LoginForm
     redirect_authenticated_user = True
 
+    def post(self, request):
+        form = LoginForm(request.POST)
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user is not None:
+            login(request, user)
+            return redirect('plant_collection:front_page')
+        return render(request, self.template_name, {'form':form, 'error': 'Invalid username or password.'})
+
 def logout_view(request):
     logout(request)
     return redirect('plant_collection:front_page')
@@ -42,7 +50,7 @@ class registration_view(View):
                                         password=form.cleaned_data['password'],
                                         email=form.cleaned_data['email'])
             c.save()
-            user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             if user is not None:
                 login(request, user)
                 return redirect('plant_collection:front_page')
@@ -152,19 +160,29 @@ class liked_list(LoginRequiredMixin, generic.View):
     
 
 '''
-This receives receives GET and POST requests. It show all messages and allows delete of messages.
+This receives receives GET and POST requests. It show all sent and received messages and allows delete of messages.
 '''
 class messages_view(LoginRequiredMixin, generic.View):
     def get(self, request):
+        context = {}
         messages = Message.objects.filter(receiver=request.user).order_by('-date_sent')
-        context = {'messages':messages}
+        #If the url contains 'sent', it shows sent messages instead of received messages
+        if 'sent' in request.build_absolute_uri():
+            messages = Message.objects.filter(sender=request.user).order_by('-date_sent')
+            context['sent'] = True
+        context['messages'] = messages
         return render(request, 'accounts/messages.html', context)
     
     def post(self, request):
         for req in request.POST:
             if req != 'csrfmiddlewaretoken':
                 m = Message.objects.get(slug_subject=req)
-                m.delete()
+                if request.user == m.sender:
+                    m.sender = None
+                    m.save()
+                else:
+                    m.receiver = None
+                    m.save()
         return redirect('accounts:messages')
 
 
