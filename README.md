@@ -4,7 +4,7 @@ To run website locally:
 `python manage.py runserver`
 
 ### Dependencies
-django
+django  
 django-widget-tweaks
 social-app-django
 selenium
