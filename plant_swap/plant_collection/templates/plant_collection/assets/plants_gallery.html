@@ -31,9 +31,9 @@
                 <figure class='image is-4by3'>
                     <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
                         {% if plant.thumbnail %}
-                        <img src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant">
+                        <img src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant" loading='lazy'>
                         {% else %}
-                        <img src="{{ plant.picture.all.0.image.url }}" alt="Picture of a plant">
+                        <img src="{{ plant.picture.all.0.image.url }}" alt="Picture of a plant" loading='lazy'>
                         {% endif %}
                     </a>
                 </figure>
@@ -87,11 +87,11 @@
                         {% csrf_token %}
                         {% if not user in plant.likes.all %}
                         <div>
-                            <a class='heart' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
+                            <a class='heart' role='button' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
                         </div>
                         {% elif user in plant.likes.all %}
                         <div>
-                            <a class='heart' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
+                            <a class='heart' role='button' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
                         </div>
                         {% endif %}
                         <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.id }}'>
