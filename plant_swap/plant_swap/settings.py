@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'plant_collection',
     'accounts',
     'rest',
-]
+    ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -161,3 +161,6 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
 }
+
+
+LOGIN_URL = 'two_factor:login'

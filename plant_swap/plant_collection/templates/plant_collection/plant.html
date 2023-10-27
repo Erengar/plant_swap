@@ -6,11 +6,26 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/set_thumbnail.css' %}">
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: 20% auto 8%;
+        grid-template-rows: 10% 20% 20% auto;
+        grid-template-areas:
+        ". title icons"
+        "subtitle . ."
+        ". trade likes"
+        "content content content";
+        place-items: center;
+    }
+</style>
 {% endblock %}
 {% block content %}
 <section class='section'>
     <div class='box'>
     <div class='columns'>
+
+        <!--Plant pictures-->
         <div class='column is-half'>
             {% include "plant_collection/assets/carousel.html" %}
             {% if user == plant.owner %}
@@ -43,10 +58,11 @@
             {% endif %}
         </div>
 
-        <div class='column is-half is-narrow'>
+        <!--Plant properties-->
+        <div class='column is-half is-narrow grid' >
 
             {% if user == plant.owner %}
-            <div class='container is-flex is-justify-content-flex-end' style='gap:1vw'>
+            <div class='container is-flex is-justify-content-flex-end' style='gap:1vw; grid-area:icons;'>
                 <a href="{% url 'plant_collection:update_plant' slug=plant.slug %}"><i class="fa-solid fa-pen-to-square"></i></a>
                 <a class='modal_open decline-text' tabindex=0><i class="fa-regular fa-trash-can"></i></a>
             </div>
@@ -67,13 +83,13 @@
             {% endif %}
 
 
-            <section style='display:block; margin:auto'>
 
-                <h3 class='title is-size-3-widescreen is-size-4-desktop is-size-5-touch'>
-                    {{plant.nick_name}}
-                </h3>
+            <h3 class='title is-size-3-widescreen is-size-4-desktop is-size-5-touch' style='grid-area:title;'>
+                {{plant.nick_name}}
+            </h3>
 
-
+            <div style="grid-area:subtitle;">
+                {% if plant.picture.all %}
                 <h4 class='subtitle is-size-5-widescreen is-size-6-desktop is-size-6-touch'>
                     {% if user == plant.owner %}
                         <span>Owned by <strong>{{plant.owner}}</strong></span>
@@ -88,9 +104,9 @@
                 </h4>
 
                 {% if plant.species %}
-                    <h3 class='subtitle is-size-6-desktop is-size-7-touch'>
-                        Specie: <a href="{% url 'plant_collection:species_list' nam=plant.species|slugify %}" >{{plant.species}}</a>
-                    </h3>
+                <h3 class='subtitle is-size-6-desktop is-size-7-touch'>
+                    Specie: <a href="{% url 'plant_collection:species_list' nam=plant.species|slugify %}" >{{plant.species}}</a>
+                </h3>
                 {% endif %}
 
                 {% if plant.location %}
@@ -102,76 +118,78 @@
                     Location: <strong>Unknown</strong>
                 </h3>
                 {% endif %}
+                {% endif %}
+            </div>
 
 
-                <div class='container is-flex is-justify-content-right'>
+            <div class='container is-flex is-justify-content-right' style="grid-area:likes">
+                <div>
+                    {% csrf_token %}
+                    {% if not user in plant.likes.all %}
                     <div>
-                        {% csrf_token %}
-                        {% if not user in plant.likes.all %}
-                        <div>
-                            <a class='heart' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
-                        </div>
-                        {% elif user in plant.likes.all %}
-                        <div>
-                            <a class='heart' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
-                        </div>
-                        {% endif %}
-                        <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.id }}'>
-                            {{ plant.number_of_likes }} like/s
-                        </div>
+                        <a class='heart' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-regular fa-heart has-text-danger"></i></a>
+                    </div>
+                    {% elif user in plant.likes.all %}
+                    <div>
+                        <a class='heart' tabindex=0 data-plant='{{ plant.id }}' data-user='{{ user }}'><i class="fa-solid fa-heart has-text-danger"></i></a>
+                    </div>
+                    {% endif %}
+                    <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.id }}'>
+                        {{ plant.number_of_likes }} like/s
                     </div>
                 </div>
+            </div>
 
-                {% if plant.content != None %}
-                <div class='is-flex is-justify-content-center'>
-                    <div class='content' style="width:80%">
-                        <p>{{plant.content|linebreaks}}</p>
-                    </div>
+            {% if plant.content != None %}
+            <div class='is-flex is-justify-content-center' style="grid-area:content">
+                <div class='content' style="width:80%">
+                    <p>{{plant.content|linebreaks}}</p>
                 </div>
+            </div>
+            {% endif %}
+
+
+
+            <div style="grid-area:trade">
+                {% if plant.for_trade %}
+                <div class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch is-flex is-justify-content-center'>
+                    <span class='icon'>
+                        <i class="fa-solid fa-store"></i>
+                    </span>
+                    For Trade
+                </div>
+                {% elif not plant.for_trade %}
+                <span class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch is-flex is-justify-content-center'>
+                    <span class='icon'>
+                        <i class="fa-solid fa-store-slash "></i>
+                    </span>
+                    Not for Trade
+                </span>
                 {% endif %}
 
+                {% if user.is_authenticated %}
+                {% if user == plant.owner %}
+                <div>
+                    <a href="{% url 'plant_collection:plant_offers' slug=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>See Offers</a>
+                </div>
+                {% elif not user == plant.owner %}
+                {% if plant.for_trade %}
+                <div>
+                    <a href="{% url 'plant_collection:trade' req=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>Offer trade</a>
+                </div>
+                {% elif not plant.for_trade %}
+                <div>
+                    <button class='button mustard-button is-large is-responsive mt-2' disabled>
+                        Offer trade
+                    </button>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endif %}
+            </div>
 
-                <section class='container is-flex is-justify-content-center'>
-                    <div>
-                        {% if plant.for_trade %}
-                        <div class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch is-flex is-justify-content-center'>
-                            <span class='icon'>
-                                <i class="fa-solid fa-store"></i>
-                            </span>
-                            For Trade
-                        </div>
-                        {% elif not plant.for_trade %}
-                        <span class='icon-text has-text-weight-semibold is-size-6-desktop is-size-7-touch is-flex is-justify-content-center'>
-                            <span class='icon'>
-                                <i class="fa-solid fa-store-slash "></i>
-                            </span>
-                            Not for Trade
-                        </span>
-                        {% endif %}
 
-                        {% if user.is_authenticated %}
-                        {% if user == plant.owner %}
-                        <div>
-                            <a href="{% url 'plant_collection:plant_offers' slug=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>See Offers</a>
-                        </div>
-                        {% elif not user == plant.owner %}
-                        {% if plant.for_trade %}
-                        <div>
-                            <a href="{% url 'plant_collection:trade' req=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>Offer trade</a>
-                        </div>
-                        {% elif not plant.for_trade %}
-                        <div>
-                            <button class='button mustard-button is-large is-responsive mt-2' disabled>
-                                Offer trade
-                            </button>
-                        </div>
-                        {% endif %}
-                        {% endif %}
-                        {% endif %}
-                    </div>
-                </section>
 
-            </section>
 
         </div>
     </div>
