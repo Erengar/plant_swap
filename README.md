@@ -11,6 +11,8 @@ To run website locally:
 django  
 django-widget-tweaks  
 social-app-django  
+whitenoise  
+pillow  
 selenium  
 jquery  
 htmx  
