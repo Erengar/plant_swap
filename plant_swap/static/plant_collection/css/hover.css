@@ -1,0 +1,15 @@
+.hover:hover {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left: 8px solid #e3b448a6;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+
+@media (max-width: 768px) {
+    .hover:hover {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-left: 0px;
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+      }
+  }

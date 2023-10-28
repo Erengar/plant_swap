@@ -5,6 +5,11 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_delete
+from PIL import Image as PILImage
+from PIL import ImageOps
+from io import BytesIO
+from django.core.files import File
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 class Species(models.Model):
@@ -62,6 +67,18 @@ class Plant(models.Model):
 class Image(models.Model):
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name="picture")
     image = models.ImageField(upload_to="pics")
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # Check if the instance is being saved for the first time
+            im = PILImage.open(self.image)
+            im = im.convert("RGB")
+            im = ImageOps.exif_transpose(im)
+            im_io = BytesIO()
+            im.save(im_io, format='JPEG', quality=40)
+            im_io.seek(0)
+            self.image.save(self.image.name, File(im_io), save=False)
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return str(self.pk)

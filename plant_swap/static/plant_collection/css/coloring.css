@@ -1,0 +1,108 @@
+a {
+    color: #3A6B35 ;
+}
+.is-current {
+    background-color: #3A6B35 !important;
+    border-color: black !important;
+    color:white !important;
+    
+}
+
+/*This is for navbar tabs*/
+.forest-green {
+    color: rgb(49, 88, 45) !important;
+  }
+
+.mustard {
+    color: #E3B448;
+}
+
+.decline-text {
+    color: hsl(0, 66%, 35%);
+}
+
+.sage-green {
+    background-color: #CBD18F;
+}
+
+.forest-green-button {
+    background-color: #3A6B35;
+    color: white;
+    border: 1px solid black;
+}
+
+.mustard-button {
+    background-color: #E3B448;
+    border: 1px solid black;
+}
+
+.decline-button {
+    background-color: hsl(0, 66%, 35%);
+    color: white;
+    border: 1px solid black;
+}
+
+.decline-button[disabled]{
+    background-color: hsl(0, 66%, 35%);
+    border: 1px solid black;
+}
+
+.decline-button[disabled]:hover {
+    color: white;
+}
+
+.decline-button:focus {
+    background-color: hsl(0, 66%, 35%);
+    color: white;
+    border: 1px solid black;
+}
+
+.mustard-button:hover {
+    background-color: #E3B448;
+    border-radius: 50px;
+    border-color: #494949;
+    transition: all 0.3s ease 0s;
+}
+
+.mustard-button:hover:enabled {
+    background-color: #E3B448;
+    border-radius: 50px;
+    border-color: #494949;
+    transition: all 0.3s ease 0s;
+}
+
+.mustard-button:focus {
+    background-color: #E3B448;
+    border: 1px solid black;
+}
+
+.forest-green-button:hover {
+    color: white;
+    border-radius: 50px;
+    border-color: #494949;
+    transition: all 0.3s ease 0s;
+}
+
+.forest-green-button:focus {
+    background-color: #3A6B35;
+    color: white;
+    border: 1px solid black;
+}
+
+.decline-button:hover:enabled {
+    background-color: hsl(0, 66%, 35%);
+    color: white;
+    border-radius: 50px;
+    transition: all 0.3s ease 0s;
+    border: 1px solid black;
+}
+
+
+.navbar-active {
+    border-bottom: 3px solid #3A6B35 !important;
+}
+
+.navbar-item:hover {
+    background-color: #CBD18F !important;
+    border-color: #3A6B35 !important;
+}

@@ -1,0 +1,43 @@
+@media screen and (max-width: 768px) {
+    #picture-column {
+        padding: 0;
+    }
+}
+
+
+
+/*Everything underneath is for carousel*/
+.carousel-box {
+    display:grid;
+    grid-template-columns: 1fr;
+}
+
+.carousel_image, .carousel_image1 {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+.arrow {
+    margin-top: 0.75rem;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    z-index: 1;
+    padding: 0 0;
+    margin: 0 0;
+    height: 100%;
+    width: 20%;
+    position: relative;
+}
+
+
+.arrow:hover {
+    background: rgb(0, 0, 0);
+    opacity: 0.1;
+}
+
+#right-arrow{
+    margin-left:80%;
+}
+
+#right-arrow1 {
+    margin-left: 80%;
+}
