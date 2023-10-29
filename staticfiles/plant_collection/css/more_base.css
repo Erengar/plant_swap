@@ -1,0 +1,21 @@
+.back-image {
+    background-image: url('{% static "plant_collection/background/plant.jpg" %}');
+    background-size: cover;
+}
+
+.footer {
+    bottom: 0;
+}
+
+body {
+    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #4A4A4A #EDEDED;
+}
+
+.menu-label {
+    color: #4a4a4a;
+}

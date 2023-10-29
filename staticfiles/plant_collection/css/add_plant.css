@@ -1,0 +1,16 @@
+output .image span {
+    position: absolute;
+    top: -4px;
+    right: 4px;
+    cursor: pointer;
+    font-size: 22px;
+    color: white;
+  }
+  
+  output .image span:hover {
+    opacity: 0.8;
+  }
+  
+  output .span--hidden{
+    visibility: hidden;
+  }

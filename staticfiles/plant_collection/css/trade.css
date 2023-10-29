@@ -1,0 +1,14 @@
+.custom-vcentered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button.is-responsive {
+    bottom:0;
+    display: inline;
+}
+@media (min-width:1023px){
+    .section {
+        padding: 1rem 3rem;
+    }
+}
