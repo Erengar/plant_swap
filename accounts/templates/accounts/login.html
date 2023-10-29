@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load widget_tweaks %}
 {% block header %}
 <title>Login - Plant Swap</title>
 <link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
@@ -13,7 +12,16 @@
     {% for field in form %}
     <div class='label'>{{ field.label_tag }}</div>
     {% if field.errors %}
-        {% render_field field class='input is-danger'%}
+    <div class="control has-icons-left">
+        {{ field }} <!--widget tweaks-->
+        <span class="icon is-small is-left">
+            {% if field.label_tag == '<label for="id_username">User name:</label>' %}
+            <i class="fa-solid fa-user"></i>
+            {% elif field.label_tag == '<label for="id_password">Password:</label>' %}
+            <i class="fa-solid fa-lock"></i>
+            {% endif %}
+        </span>
+    </div>
     {% else %}
     <div class="control has-icons-left">
         {{ field }}

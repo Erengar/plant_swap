@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load widget_tweaks %}
 {% block header %}
 <title>Registration - Plant Swap</title>
 <link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
@@ -13,7 +12,7 @@
         <div class='label pt-3'>{{ field.label_tag }}</div>
         {% if field.errors %}
         <div class="control has-icons-left">
-            {% render_field field class='input is-danger'%}
+            {{ field }}<!--widget tweaks-->
             <span class="icon is-small is-left">
                 {% if field.label_tag == '<label for="id_username">User name:</label>' %}
                 <i class="fa-solid fa-user"></i>
