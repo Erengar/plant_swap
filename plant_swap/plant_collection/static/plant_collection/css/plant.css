@@ -4,6 +4,17 @@
     }
 }
 
+.grid {
+    display: grid;
+    grid-template-columns: 20% auto 8%;
+    grid-template-rows: 10% 20% 20% auto;
+    grid-template-areas:
+    ". title icons"
+    "subtitle . ."
+    ". trade likes"
+    "content content content";
+    place-items: center;
+}
 
 
 /*Everything underneath is for carousel*/
