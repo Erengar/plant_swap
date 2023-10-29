@@ -38,8 +38,9 @@ class front_page(generic.View):
             (context["current_page"] - 1) * 12 : context["current_page"] * 12
         ]
         # This is for search bar request
-        if plants:=request.GET.get("search"):
+        if request.GET.get("search"):
             # This is for search bar request, we are searching for plants that have given string in their nick_name, owner or species name
+            plants=request.GET.get("search")
             context["plants"] = Plant.objects.filter(
                 Q(nick_name__icontains=plants)
                 | Q(owner__username__icontains=plants)
@@ -56,7 +57,8 @@ class search(View):
     # This receives get request from search bar
     def get(self, request):
         #If there is search string in request, we are searching for species that have given string in their name else we are returning all species
-        if search := request.GET.get("search"):
+        if request.GET.get("search"):
+            search = request.GET.get("search")
             species = Species.objects.filter(name__icontains=search.strip())
         else:
             species = Species.objects.all()
@@ -112,7 +114,8 @@ class plant_view(generic.View):
 
     def post(self, request, slug):
         plant = get_object_or_404(Plant, slug=slug)
-        if (image:=request.POST.get("thumbnail")) and request.user == plant.owner:
+        if (request.POST.get("thumbnail")) and request.user == plant.owner:
+            image=request.POST.get("thumbnail")
             image = Image.objects.get(pk=image)
             Thumbnail.objects.filter(plant=plant).delete()
             thumbnail = Thumbnail.objects.create(plant=plant, image=image)
