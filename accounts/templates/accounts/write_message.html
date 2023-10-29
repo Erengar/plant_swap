@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load widget_tweaks %}
 {% block header %}
 <title>Message - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
@@ -13,7 +12,7 @@
         {% for field in form %}
             <div class='label pt-3'>{{ field.label_tag }}</div>
             {% if field.errors %}
-                {% render_field field class='input is-danger'%}
+                {{field}}<!--widget-tweaks-->
             {% else %}
                 {{ field }}
             {% endif %}

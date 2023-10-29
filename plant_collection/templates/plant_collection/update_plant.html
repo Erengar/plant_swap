@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load widget_tweaks %}
 {% load static %}
 {% block header %}
 <title>Update Plant - Plant Swap</title>
@@ -14,7 +13,7 @@
         <div class='mx-2'>
             <div class='label pt-4'>{{ field.label_tag }}</div>
             {% if field.errors %}
-            {% render_field field class='input is-danger'%}
+            {{field}}<!--widget-tweaks-->
             {% else %}
             {{ field }}
             {% endif %}
