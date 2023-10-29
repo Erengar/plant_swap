@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-Django = "^3.2.23"
+Django = "^3.2"
 dj-database-url = "^2.1.0"
 whitenoise = {extras = ["brotli"], version = "^6.5.0"}
 selenium = "^4.11.0"
