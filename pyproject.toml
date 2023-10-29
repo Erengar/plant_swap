@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.7"
 Django = "^4.2.6"
 dj-database-url = "^2.1.0"
-whitenoise = {extras = ["brotli"], version = "^6.6.0"}
+whitenoise = {extras = ["brotli"], version = "^6.5.0"}
 selenium = "^4.11.0"
 Pillow = "^9.5.0"
 psycopg2-binary = "^2.9.9"
