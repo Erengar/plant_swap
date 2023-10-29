@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load error %}
 {% load static %}
 {% block header %}
 <title>Login - Plant Swap</title>
@@ -13,7 +14,7 @@
     <div class='label'>{{ field.label_tag }}</div>
     {% if field.errors %}
     <div class="control has-icons-left">
-        {{ field }} <!--widget tweaks-->
+        {{ field|add_class:"is-danger input" }}
         <span class="icon is-small is-left">
             {% if field.label_tag == '<label for="id_username">User name:</label>' %}
             <i class="fa-solid fa-user"></i>

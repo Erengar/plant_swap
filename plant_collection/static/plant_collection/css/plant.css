@@ -17,6 +17,15 @@
 }
 
 
+@media (max-width:500px) {
+    .number_likes{
+        font-size: 0.6rem !important;
+    }
+    .is-half {
+        padding:0;
+    }
+}
+
 /*Everything underneath is for carousel*/
 .carousel-box {
     display:grid;

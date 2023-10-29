@@ -10,12 +10,12 @@ from .models import Message
 class LoginForm(AuthenticationForm):
     username = UsernameField(label='User name',
                             widget=forms.TextInput(attrs={
-                                'class':'input field-need-max',
+                                'class':'input',
                                 'autofocus':True,}))
     password = forms.CharField(label='Password',
                             strip=False,
                             widget=forms.TextInput(attrs={
-                                'class':'input field-need-max',
+                                'class':'input',
                                 'type':'password',
                                 'autocomplete':'current-password'
     }))
@@ -67,12 +67,12 @@ class MessageForm(forms.Form):
                                label='To:',
                                validators=[existing_user],
                                widget=forms.TextInput(attrs={
-                                   'class':'input field-need-max',
+                                   'class':'input',
                                    'placeholder':'Enter the username of the recipient',
                             }))
     subject = forms.CharField(max_length=32,
                               widget=forms.TextInput(attrs={
-                                  'class':'input field-need-max',
+                                  'class':'input',
                                   'placeholder':'Enter the subject of your message',
                             }))
     message = forms.CharField(max_length=500,

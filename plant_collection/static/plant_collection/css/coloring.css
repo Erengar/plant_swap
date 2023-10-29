@@ -71,6 +71,17 @@ a {
     transition: all 0.3s ease 0s;
 }
 
+.mustard-button:disabled {
+    background-color: #E3B448;
+    border-color: #494949;
+    transition: none;
+}
+
+.mustard-button:hover:disabled {
+    border-radius: 4px;
+
+}
+
 .mustard-button:focus {
     background-color: #E3B448;
     border: 1px solid black;
