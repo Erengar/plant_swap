@@ -10,7 +10,6 @@ urlpatterns = [
     path('trades/', views.trades_view.as_view(), name='trades'),
     path('trades/<int:pk>/', views.trade_view.as_view(), name='trade'),
     path('likes/', views.liked_list.as_view(), name='liked_list'),
-    path('', include('social_django.urls', namespace='social')),
     path('messages/', views.messages_view.as_view(), name='messages'),
     path('messages/sent', views.messages_view.as_view(), name='messages_sent'),
     re_path(r'^messages/write/(?P<name>[\w.@+-]+|)/$', views.write_message_view.as_view(), name='write_message'),
