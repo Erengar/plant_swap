@@ -1,5 +1,5 @@
 .back-image {
-    background-image: url('{% static "plant_collection/background/plant.jpg" %}');
+    background-image: url('background/plant.jpg');
     background-size: cover;
 }
 
