@@ -5,16 +5,16 @@ Conceptualy this application is combination of some light social media aspects w
 ### Technical
 This website uses primarly technologies that are already included in django framework. That means it is primarly SSR web application that uses djangos template engine. Djangos ORM was also utilized extensively. Other prominent django technologies were django forms. Some automated testing was also done using primarly djangos own unittests but also *selenium*. For CSS [Bulma framework](https://bulma.io/) was used. Javascript was primarly utilized to create carousel for images in plant view. But there are also other usecases such as thumbnail selection. You can also find some Ajax done with Jquery. Specifically *specie search* on front page, *like system*, *plant dropdown* in trade and *trade finalization*.  
 You can visit website online at [this](https://plant-swap.onrender.com) location.  
-To run website locally you need [poetry](https://python-poetry.org/) dependencies manager. Then in root of application run following command to install all dependencies:  
+To run website locally you need [poetry](https://python-poetry.org/) dependencies manager. Then in root of the application run following command to install all dependencies:  
 `poetry install`  
 After that you can run run local server with:  
 `poetry run python manage.py runserver`  
-If you have all python dependencies(will be listed below) you can run project using:  
+
+If you have all python dependencies(will be listed below or see pyproject.toml with required versions) you can run project using:  
 `python manage.py runserver`
 
 ### Dependencies
 django  
-django-widget-tweaks   
 whitenoise  
 pillow  
 selenium  
