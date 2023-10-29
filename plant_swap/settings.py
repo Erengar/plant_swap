@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     'widget_tweaks',
-    'social_django',
 
 
     'plant_collection',
@@ -149,7 +148,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 #Social logins
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 

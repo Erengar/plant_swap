@@ -9,8 +9,7 @@ To run website locally:
 
 ### Dependencies
 django  
-django-widget-tweaks  
-social-app-django  
+django-widget-tweaks   
 whitenoise  
 pillow  
 selenium  
