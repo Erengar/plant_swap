@@ -47,8 +47,13 @@
     {% endfor %}
     <div class='container pt-5'>
         <input class='button forest-green-button' type="submit" value='Submit'>
-        <a class='button' href="{% url 'accounts:registration' %}">Registration</a>
-        <a href="{% url "social:begin" "github" %}">Google+</a>
     </div>
+    <button type='button' class='button mt-2' onclick="location.href='{% url 'accounts:registration' %}'">Registration</button>
+    <button type='button' class="button mt-2" onclick="location.href='{% url 'social:begin' 'github' %}'">
+        <span class="icon">
+        <i class="fab fa-github"></i>
+        </span>
+        <span>GitHub</span>
+    </button>
 </form>
 {% endblock %}

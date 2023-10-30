@@ -55,7 +55,7 @@
     </ul>
     <div class='container pt-5'>
         <input class='button forest-green-button' type="submit" value='Submit'>
-        <a class='button' href="{% url 'accounts:login' %}">Login</a>
+        <button type='button' class='button' onclick="location.href='{% url 'accounts:login' %}'">Login</button>
     </div>
 </form>
 {% endblock %}
