@@ -11,8 +11,16 @@
                 <div class='subtitle is-size-5-desktop is-size-6-touch'>Owner: {{plant.owner}}</div>
             </div>
             <div class='column is-half'>
-                <div class='is-pulled-right is-size-7 has-text-weight-bold'><i
-                        class="fa-solid fa-heart has-text-danger is-size-6"></i> {{plant.number_of_likes}} likes</div>
+                <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-7-touch is-pulled-right'>
+                    <span class='icon'>
+                        <i class="fa-solid fa-store"></i>
+                    </span>
+                    {% if plant.location %}
+                    {{plant.location}}
+                    {% else %}
+                    For Trade
+                    {% endif %}
+                </span>
             </div>
         </div>
     </div>
