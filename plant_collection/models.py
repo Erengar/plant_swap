@@ -74,9 +74,10 @@ class Image(models.Model):
             im = im.convert("RGB")
             im = ImageOps.exif_transpose(im)
             im_io = BytesIO()
-            im.save(im_io, format='JPEG', quality=40)
+            im.save(im_io, format='webp', optimize=True, quality=75)
             im_io.seek(0)
-            self.image.save(self.image.name, File(im_io), save=False)
+            webp_name = self.image.name.split(".")[0] + ".webp"
+            self.image.save(webp_name, File(im_io), save=False)
 
         super().save(*args, **kwargs)
 

@@ -162,11 +162,19 @@ AUTHENTICATION_BACKENDS = (
 
 
 #Caches
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+if DEBUG:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        }
     }
-}
+else:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": "redis://red-cl00rvq37rbc73fm73ug:6379",
+        }
+    }
 
 
 LOGIN_URL = 'two_factor:login'

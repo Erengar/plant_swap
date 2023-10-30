@@ -154,8 +154,8 @@ This view is for showing plants user have liked.
 '''
 class liked_list(LoginRequiredMixin, generic.View):
     template_name = 'accounts/like_list.html'
-    def get(self, request):
-        context = {'plants':Plant.objects.filter(likes=request.user).order_by('-updated')}
+    def get(self, request, order='-likes'):
+        context = {'plants':Plant.objects.filter(likes=request.user).order_by(order)}
         return render(request, self.template_name, context)
     
 

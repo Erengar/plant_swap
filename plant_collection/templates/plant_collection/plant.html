@@ -26,11 +26,11 @@
                     <div class='column is-6-tablet is-4-widescreen'>
                         {% if picture == plant.thumbnail.image %}
                         <figure class='image is-4by3 thumbnail selected' id='{{ picture }}'>
-                            <img src="{{ picture.image.url }}" alt="Picture of a plant">
+                            <img src="{{ picture.image.url }}" alt="Picture of a plant" loading="lazy">
                         </figure>
                         {% else %}
                         <figure class='image is-4by3 thumbnail' id='{{ picture }}'>
-                            <img src="{{ picture.image.url }}" alt="Picture of a plant">
+                            <img src="{{ picture.image.url }}" alt="Picture of a plant" loading="lazy">
                         </figure>
                         {% endif %}
                     </div>

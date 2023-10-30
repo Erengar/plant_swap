@@ -29,12 +29,12 @@ It is receiving 4 kinds of get requests: front page, front page with unrolled sp
 class front_page(generic.View):
     template_name = "front_page.html"
 
-    def get(self, request, pagination=1):
+    def get(self, request, pagination=1, order ='-likes'):
         context = {}
         context["species"] = Species.objects.all()[:34]
         context["pages"] = range(1, Plant.objects.count() // 12 + 2)
         context["current_page"] = pagination
-        context["plants"] = Plant.objects.order_by("-updated")[
+        context["plants"] = Plant.objects.order_by(order)[
             (context["current_page"] - 1) * 12 : context["current_page"] * 12
         ]
         # This is for search bar request
@@ -91,9 +91,9 @@ class species_list_view(generic.View):
     template_name = "plant_collection/species.html"
 
     # This display all plants of given species, slug of specie is passed under 'nam' variable
-    def get(self, request, nam):
+    def get(self, request, nam, order='-likes'):
         species = get_object_or_404(Species, slug=nam)
-        plants = Plant.objects.filter(species=species)
+        plants = Plant.objects.filter(species=species).order_by(order)
         species = Species.objects.all()
         context = {"species": species, "plants": plants}
         return render(request, self.template_name, context)
@@ -114,8 +114,7 @@ class plant_view(generic.View):
 
     def post(self, request, slug):
         plant = get_object_or_404(Plant, slug=slug)
-        if (request.POST.get("thumbnail")) and request.user == plant.owner:
-            image=request.POST.get("thumbnail")
+        if image:=(request.POST.get("thumbnail")) and request.user == plant.owner:
             image = Image.objects.get(pk=image)
             Thumbnail.objects.filter(plant=plant).delete()
             thumbnail = Thumbnail.objects.create(plant=plant, image=image)
