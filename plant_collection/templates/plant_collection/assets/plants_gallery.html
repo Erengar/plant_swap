@@ -47,7 +47,7 @@
                         <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
                     </div>
                     <div class='subtitle is-size-6-widescreen is-size-6-touch is-size-6-desktop'>
-                        {% if user == plant.owner %}
+                        {% if user == plant.owner or not user.is_authenticated %}
                         <span>{{plant.owner}}</span>
                         {% else %}
                         <span class='icon-text'>
