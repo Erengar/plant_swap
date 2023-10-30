@@ -23,12 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.environ.get("SECRET_KEY")
-SECRET_KEY = '559cclpn-s&q43qt5ydo%625&kzolz2!r4)431_vh$(-xcs0)k'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
+
+# SECURITY WARNING: keep the secret key used in production secret!
+if not DEBUG:
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+else:
+    SECRET_KEY = '559cclpn-s&q43qt5ydo%625&kzolz2!r4)431_vh$(-xcs0)k'
 
 ALLOWED_HOSTS = []
 
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
+    "social_django",
 
 
     'plant_collection',
@@ -77,6 +80,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -157,9 +162,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #Social logins
 
 AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
+if not DEBUG:
+    SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+    SOCIAL_AUTH_GITHUB_KEY = os.environ.get("SOCIAL_AUTH_GITHUB_KEY")
+    SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("SOCIAL_AUTH_GITHUB_SECRET")
 
 #Caches
 if DEBUG:

@@ -23,6 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('plant_collection.urls')),
     path('accounts/', include('accounts.urls')),
+    path('', include('social_django.urls', namespace='social')),
     re_path(r'^media/(?P<path>.*)$', serve, {
         'document_root': settings.MEDIA_ROOT,
     })
