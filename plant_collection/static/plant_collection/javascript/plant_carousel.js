@@ -27,6 +27,7 @@ function checkDirection() {
             position ++;
         }
         pictures[position].removeAttribute('hidden');
+        pictures[position].classList.add('faded');
     
     } else if ((touchendX < touchstartX) && (delta > 150)) {
         hide();
@@ -36,6 +37,7 @@ function checkDirection() {
             position --;
         }
         pictures[position].removeAttribute('hidden');
+        pictures[position].classList.add('faded');
   }
 }
 
@@ -47,6 +49,7 @@ rightBtn.addEventListener('click', () => {
         position ++;
     }
     pictures[position].removeAttribute('hidden');
+    pictures[position].classList.add('faded');
 })
 
 leftBtn.addEventListener('click', () => {
@@ -57,6 +60,7 @@ leftBtn.addEventListener('click', () => {
         position --;
     }
     pictures[position].removeAttribute('hidden');
+    pictures[position].classList.add('faded');
 })
 
 

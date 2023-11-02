@@ -31,6 +31,7 @@ function checkDirection1() {
             position1 ++;
         }
         pictures1[position1].removeAttribute('hidden');
+        pictures1[position1].classList.add('faded');
     
     } else if ((touchendX < touchstartX) && (delta > 150)) {
         hide1();
@@ -40,6 +41,7 @@ function checkDirection1() {
             position1 --;
         }
         pictures1[position1].removeAttribute('hidden');
+        pictures1[position1].classList.add('faded');
   }
 }
 
@@ -52,6 +54,7 @@ rightBtn1.addEventListener('click', () => {
         position1 ++;
     }
     pictures1[position1].removeAttribute('hidden');
+    pictures1[position1].classList.add('faded');
 })
 
 leftBtn1.addEventListener('click', () => {
@@ -62,6 +65,7 @@ leftBtn1.addEventListener('click', () => {
         position1 --;
     }
     pictures1[position1].removeAttribute('hidden');
+    pictures1[position1].classList.add('faded');
 })
 
 
@@ -103,6 +107,7 @@ function initializeDynamicElement() {
                 position ++;
             }
             pictures[position].removeAttribute('hidden');
+            pictures[position].classList.add('faded');
         
         } else if ((touchendX < touchstartX) && (delta > 150)) {
             hide();
@@ -112,6 +117,7 @@ function initializeDynamicElement() {
                 position --;
             }
             pictures[position].removeAttribute('hidden');
+            pictures[position].classList.add('faded');
       }
     }
 
@@ -124,6 +130,7 @@ function initializeDynamicElement() {
             position ++;
         }
         pictures[position].removeAttribute('hidden');
+        pictures[position].classList.add('faded');
     })
 
     leftBtn.addEventListener('click', () => {
@@ -134,6 +141,7 @@ function initializeDynamicElement() {
             position --;
         }
         pictures[position].removeAttribute('hidden');
+        pictures[position].classList.add('faded');
     });
 
 

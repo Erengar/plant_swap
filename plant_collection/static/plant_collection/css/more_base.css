@@ -19,3 +19,13 @@ html {
 .menu-label {
     color: #4a4a4a;
 }
+
+.faded {
+    animation-name: fade;
+    animation-duration: 1s;
+}
+
+@keyframes fade {
+    from {opacity: .2}
+    to {opacity: 1}
+}
