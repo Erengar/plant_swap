@@ -4,6 +4,13 @@
 <title>Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/search_bar_pagination.css' %}">
+<style>
+    @media screen and (max-width: 1023px) {
+        #plants-dump {
+            padding-right: 0 !important;
+        }
+    }
+</style>
 {% endblock %}
 {% block content %}
 <div class='columns is-mobile'>
