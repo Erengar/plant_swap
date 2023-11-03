@@ -41,9 +41,6 @@ class registration_view(View):
 
 
     def post(self, request):
-        username = request.POST['username']
-        password = request.POST['password']
-        email = request.POST['email']
         form = RegistrationForm(request.POST)
         if form.is_valid():
             c = User.objects.create_user(username=form.cleaned_data['username'],

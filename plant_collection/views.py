@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .models import Plant, Species, Image, Trade, Thumbnail
 from django.views.generic.edit import FormMixin
+from django.core.cache import cache
 
 """
 This view shows all owned plants by time of adding.
@@ -31,7 +32,10 @@ class front_page(generic.View):
 
     def get(self, request, pagination=1, order ='-likes'):
         context = {}
-        context["species"] = Species.objects.all()[:34]
+        #Caching is set up for 5 minutes, because it is likely that new plants will be added
+        if not cache.get('species'):
+            cache.set('species', Species.objects.all()[:34], 60*5)
+        context["species"] = cache.get('species')
         context["pages"] = range(1, Plant.objects.count() // 12 + 2)
         context["current_page"] = pagination
         context["plants"] = Plant.objects.order_by(order)[
@@ -79,7 +83,9 @@ class mobile_specie_search(generic.View):
     template_name = "plant_collection/mobile_specie_search.html"
 
     def get(self, request):
-        species = Species.objects.all()
+        if not cache.get('species_all'):
+            cache.set('species_all', Species.objects.all(), 60*60*24)
+        species = cache.get('species_all')
         context = {"species": species}
         return render(request, self.template_name, context)
 
@@ -94,7 +100,10 @@ class species_list_view(generic.View):
     def get(self, request, nam, order='-likes'):
         species = get_object_or_404(Species, slug=nam)
         plants = Plant.objects.filter(species=species).order_by(order)
-        species = Species.objects.all()
+        #Caching is set up for 24 hours, because it is not likely that new species will be added
+        if not cache.get('species_all'):
+            cache.set('species_all', Species.objects.all(), 60*60*24)
+        species = cache.get('species_all')
         context = {"species": species, "plants": plants}
         return render(request, self.template_name, context)
 
