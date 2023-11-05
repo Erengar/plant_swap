@@ -1,3 +1,4 @@
+{% load static %}
 <div class='column is-1-widescreen mt-3 pl-5 is-hidden-touch is-one-fifth-desktop' id='spiece-search-bar'>
     <aside class='menu'>
         <p class='menu-label'>
@@ -7,7 +8,7 @@
             <input id='ajax-search' class="input is-small" type="text" name='search'
             placeholder="Search...">
             <span class="icon is-small is-right">
-                <i class="fa-solid fa-search mustard"></i>
+                <img src="{% static 'plant_collection/icons/search.svg' %}" >
             </span>
         </div>
         <p class='menu-label'>Species</p>   

@@ -43,12 +43,11 @@
 
             <div class='navbar-brand'>
                 <a href="{% url 'plant_collection:front_page' %}" class='navbar-item is-tab forest-green'>
-                    <span class='icon-text'><span class='icon'><i
-                                class="fa-solid fa-house"></i></span><span>Home</span></span>
+                    <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/house.svg' %}" ></span><span>Home</span></span>
                 </a>
                 {% if user.is_authenticated %}
                 <a href="{% url 'plant_collection:personal_collection' %}" class='navbar-item is-tab forest-green'>
-                    <span class='icon-text'><span class='icon'><i class="fa-solid fa-leaf"></i></span><span>My
+                    <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/leaf.svg' %}" ></span><span>My
                             collection</span></span>
                 </a>
                 {% endif %}
@@ -67,16 +66,15 @@
                 <div class='navbar-start'>
                     <a class='navbar-item is-tab forest-green is-hidden-desktop' id='spiece-search'
                         href="{% url 'plant_collection:mobile_specie_search' %}">
-                        <span class='icon-text'><span class='icon'><i
-                                    class="fa-solid fa-book"></i></span><span>Species</span></span>
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/book.svg' %}" ></span><span>Species</span></span>
                     </a>
                     {% if user.is_authenticated %}
                     <a href="{% url 'accounts:trades' %}" class='navbar-item is-tab forest-green'>
-                        <span class='icon-text'><span class='icon'><i class="fa-solid fa-handshake"></i></span><span>My
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/handshake.svg' %}" ></span><span>My
                                 Trade Offers</span></span>
                     </a>
                     <a href="{% url 'accounts:liked_list' %}" class='navbar-item is-tab forest-green'>
-                        <span class='icon-text'><span class='icon'><i class="fa-solid fa-heart"></i></span><span>Liked
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/green_heart.svg' %}" ></span><span>Liked
                                 Plants</span></span>
                     </a>
                     {% endif %}
@@ -84,8 +82,7 @@
                 <div class='navbar-end'>
                     {% if user.is_authenticated %}
                     <a href="{% url 'accounts:messages' %}" class='navbar-item forest-green is-tab'>
-                        <span class="icon-text"><span class="icon"><i
-                                    class="fa-solid fa-inbox"></i></span><span>Messages</span>
+                        <span class="icon-text"><span class="icon"><img src="{% static 'plant_collection/icons/inbox.svg' %}" ></span><span>Messages</span>
                             {% for message in user.received_messages.all %}
                             {% if message.read == False %}
                             <span class='dot'></span>
@@ -97,13 +94,11 @@
                     {% endif %}
                     {% if user.is_authenticated %}
                     <a href="{% url 'accounts:logout' %}" class='navbar-item forest-green is-tab'>
-                        <span class='icon-text'><span class='icon'><i
-                                    class="fa-solid fa-power-off"></i></span><span>Logout</span></span>
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/logout.svg' %}" ></span><span>Logout</span></span>
                     </a>
                     {% else %}
                     <a href="{% url 'accounts:login' %}" class='navbar-item forest-green is-tab'>
-                        <span class='icon-text'><span class='icon'><i
-                                    class="fa-solid fa-user"></i></span><span>Login/Signup</span></span>
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/user.svg' %}" ></span><span>Login/Signup</span></span>
                     </a>
                     {% endif %}
                 </div>

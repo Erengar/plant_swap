@@ -52,9 +52,7 @@
                         {% else %}
                         <span class='icon-text'>
                             <span>{{plant.owner}}</span>
-                            <span class='icon'>
-                                <a href="{% url 'accounts:write_message' name=plant.owner %}"><i class="fa-solid fa-envelope fa-xs"></i></a>
-                            </span>
+                            <a href="{% url 'accounts:write_message' name=plant.owner %}" class="icon"><img src="{% static 'plant_collection/icons/envelope.svg' %}"></a>
                         </span>
                         {% endif %}
                     </div>
@@ -66,7 +64,7 @@
                         {% if plant.for_trade %}
                         <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-7-touch'>
                             <span class='icon'>
-                                <i class="fa-solid fa-store"></i>
+                                <img src="{% static 'plant_collection/icons/trade.svg' %}">
                             </span>
                             {% if plant.location %}
                             {{plant.location}}
@@ -77,7 +75,7 @@
                         {% else %}
                         <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-7-touch'>
                             <span class='icon'>
-                                <i class="fa-solid fa-store-slash "></i>
+                                <img src="{% static 'plant_collection/icons/no_trade.svg' %}">
                             </span>
                             Not for Trade
                         </span>

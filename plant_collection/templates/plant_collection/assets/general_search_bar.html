@@ -1,10 +1,11 @@
+{% load static %}
 <form class='search-bar' method='get' action="{% url 'plant_collection:front_page' %}" style='display:flex; gap:1vw; align-items:center;'>
     <label for='search-plant' class='menu-label' style='margin-bottom:0'>Search:</label>
     <div class="control has-icons-right" style='width:80% !important'>
         <input id='search-plant' class="input is-small" type="text" name='search'
         placeholder="Search for plants...">
         <span class="icon is-small is-right" type='submit'>
-            <i class="fa-solid fa-search mustard"></i>
+            <img src="{% static 'plant_collection/icons/search.svg' %}" >
         </span>
     </div>
 </form>
