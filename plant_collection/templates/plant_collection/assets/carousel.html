@@ -1,22 +1,29 @@
-<div class='carousel-box'>
-    {% if plant.picture.all.count > 1 %}
-        <div tabindex=0 class='arrow' id='left-arrow'></div>
-        <div tabindex=0 class='arrow' id='right-arrow'></div>
-    {% endif %}
-    {% if plant.thumbnail %}
-    <div class='carousel_image'>
-        <figure class='image is-4by3'>
-            <img class='carousel contain' src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant" loading='lazy'>
-        </figure>
-    </div>
-    {% endif %}
-    {% for picture in plant.picture.all %}
-        {% if picture != plant.thumbnail.image %}
+{% load static %}
+{% if plant.picture.all%}
+    <div class='carousel-box'>
+        {% if plant.picture.all.count > 1 %}
+            <div tabindex=0 class='arrow' id='left-arrow'></div>
+            <div tabindex=0 class='arrow' id='right-arrow'></div>
+        {% endif %}
+        {% if plant.thumbnail %}
         <div class='carousel_image'>
             <figure class='image is-4by3'>
-                <img class='carousel contain' src="{{ picture.image.url }}" alt="Picture of a plant" laoding='lazy'>
+                <img class='carousel contain' src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant" loading='lazy'>
             </figure>
         </div>
         {% endif %}
-    {% endfor %}
-</div>
+        {% for picture in plant.picture.all %}
+            {% if picture != plant.thumbnail.image %}
+            <div class='carousel_image'>
+                <figure class='image is-4by3'>
+                    <img class='carousel contain' src="{{ picture.image.url }}" alt="Picture of a plant" laoding='lazy'>
+                </figure>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <figure class='image is-4by3'>
+        <img class='carousel contain' src="{% static 'plant_collection/placeholder-plant.png' %}" alt="Picture of a plant" laoding='lazy'>
+    </figure>
+{% endif %}

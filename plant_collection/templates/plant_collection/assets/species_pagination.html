@@ -1,0 +1,80 @@
+{% if pages|length > 1 %}
+<nav class='pagination' aria-label='pagination'>
+    <ul class='pagination-list is-justify-content-center'>
+
+
+        {% if pages|length > 8 and current_page > 3 and current_page < pages|length|add:'-2' %}
+        <li>
+            <a class='pagination-link' aria-label="Goto page {{pages.|first}}" href="{% url 'plant_collection:species_list' nam=nam pagination=pages|first %}">{{ pages|first }}</a>
+        </li>
+        <li>
+            <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li>
+            <a class='pagination-link' aria-label="Goto page {{current_page}}" href="{% url 'plant_collection:species_list' nam=nam pagination=current_page|add:'-1' %}">{{ current_page|add:'-1' }}</a>
+        </li>
+        <li>
+            <a class='pagination-link is-current' aria-label="Goto page {{current_page}}">{{ current_page }}</a>
+        </li>
+        <li>
+            <a class='pagination-link' aria-label="Goto page {{current_page}}" href="{% url 'plant_collection:species_list' nam=nam pagination=current_page|add:'1' %}">{{ current_page|add:'1' }}</a>
+        </li>
+        <li>
+            <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li>
+            <a class='pagination-link' aria-label="Goto page {{pages|last}}" href="{% url 'plant_collection:species_list' nam=nam pagination=pages|last %}">{{ pages|last }}</a>
+        </li>
+
+
+        {% elif pages|length > 8 and current_page <= 3 %}
+        {% for page in pages|slice:":4" %}
+        <li>
+            {% if page == current_page %}
+            <a class='pagination-link is-current' aria-label="Goto page {{page}}" href="{% url 'plant_collection:species_list' nam=nam pagination=page %}">{{ page }}</a>
+            {% else %}
+            <a class='pagination-link' aria-label="Goto page {{page}}" href="{% url 'plant_collection:species_list' nam=nam pagination=page %}">{{ page }}</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+        <li>
+            <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li>
+            <a class='pagination-link' aria-label="Goto page {{pages|last}}" href="{% url 'plant_collection:species_list' nam=nam pagination=pages|last %}">{{ pages|last }}</a>
+        </li>
+
+
+        {% elif pages|length > 8 and current_page >= pages|length|add:'-2' %}
+        <li>
+            <a class='pagination-link' aria-label="Goto page {{pages|last}}" href="{% url 'plant_collection:species_list' nam=nam pagination=pages|first %}">{{ pages|first }}</a>
+        </li>
+        <li>
+            <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        {% for page in pages|slice:"-4:" %}
+        <li>
+            {% if page == current_page %}
+            <a class='pagination-link is-current' aria-label="Goto page {{page}}" href="{% url 'plant_collection:species_list' nam=nam pagination=page %}">{{ page }}</a>
+            {% else %}
+            <a class='pagination-link' aria-label="Goto page {{page}}" href="{% url 'plant_collection:species_list' nam=nam pagination=page %}">{{ page }}</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+
+
+        {% else %}
+        {% for page in pages %}
+        <li>
+            {% if page == current_page %}
+            <a class='pagination-link is-current' aria-label="Goto page {{page}}" href="{% url 'plant_collection:species_list' nam=nam pagination=page %}">{{ page }}</a>
+            {% else %}
+            <a class='pagination-link' aria-label="Goto page {{page}}" href="{% url 'plant_collection:species_list' nam=nam pagination=page %}">{{ page }}</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}

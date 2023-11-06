@@ -15,7 +15,7 @@
         <!--Plant pictures-->
         <div class='column is-half'>
             {% include "plant_collection/assets/carousel.html" %}
-            {% if user == plant.owner %}
+            {% if user == plant.owner and plant.picture.all %}
             <button class='button is-small is-responsive mustard-button' onclick="modal.showModal()" style='margin-top:1vh'>Change Thumbnail</button>
 
             <dialog id='modal' style="padding: 0" onclick="event.target==this && this.close()">

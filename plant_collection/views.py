@@ -17,9 +17,13 @@ This view shows all owned plants by time of adding.
 class personal_collection(LoginRequiredMixin, generic.View):
     template_name = "plant_collection/collection.html"
 
-    def get(self, request):
-        model = Plant.objects.filter(owner=request.user).order_by("-updated")
-        context = {"plants": model}
+    def get(self, request, pagination=1):
+        context = {}
+        context["pages"] = range(1, Plant.objects.filter(owner=request.user).count() // 11 + 2)
+        context["current_page"] = pagination
+        context["plants"] = Plant.objects.filter(owner=request.user).order_by('-updated')[
+            (context["current_page"] - 1) * 11 : context["current_page"] * 11
+            ]
         return render(request, self.template_name, context)
 
 
@@ -40,7 +44,7 @@ class front_page(generic.View):
         context["current_page"] = pagination
         context["plants"] = Plant.objects.order_by(order)[
             (context["current_page"] - 1) * 12 : context["current_page"] * 12
-        ]
+            ]
         # This is for search bar request
         if request.GET.get("search"):
             # This is for search bar request, we are searching for plants that have given string in their nick_name, owner or species name
@@ -91,20 +95,25 @@ class mobile_specie_search(generic.View):
 
 
 """
-This view shows all plants of given species. You can also like plants here.
+This view shows all plants of given species.
 """
 class species_list_view(generic.View):
     template_name = "plant_collection/species.html"
 
     # This display all plants of given species, slug of specie is passed under 'nam' variable
-    def get(self, request, nam, order='-likes'):
+    def get(self, request, nam, order='-likes', pagination=1):
+        context = {}
+        context['nam'] = nam
         species = get_object_or_404(Species, slug=nam)
-        plants = Plant.objects.filter(species=species).order_by(order)
+        context["pages"] = range(1, Plant.objects.filter(species=species).count() // 12 + 2)
+        context["current_page"] = pagination
+        context["plants"] = Plant.objects.filter(species=species).order_by(order)[
+            (context["current_page"] - 1) * 12 : context["current_page"] * 12
+            ]
         #Caching is set up for 24 hours, because it is not likely that new species will be added
         if not cache.get('species_all'):
             cache.set('species_all', Species.objects.all(), 60*60*24)
-        species = cache.get('species_all')
-        context = {"species": species, "plants": plants}
+        context["species"] = cache.get('species_all')
         return render(request, self.template_name, context)
 
 

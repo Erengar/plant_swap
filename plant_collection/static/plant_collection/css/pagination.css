@@ -1,0 +1,14 @@
+.pagination {
+    width:auto;
+}
+
+.pagination-list > li > a{
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+
+@media screen and (max-width: 1024px) {
+    .pagination {
+        margin-top:3rem;
+    }
+}

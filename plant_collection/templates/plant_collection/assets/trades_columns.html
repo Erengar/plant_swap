@@ -1,3 +1,4 @@
+{% load static %}
 <div class='columns mx-2'>
     <div class='column is-6'>
         <div class='box'>
@@ -9,17 +10,25 @@
                     <a href="{% url 'accounts:trade' pk=req.pk %}">
                         <div class='columns is-gapless'>
                             <div class='column is-4-widescreen is-6-desktop is-6-tablet'>
-                                <div class='card-image'>
-                                    {% if req.plant_offered.thumbnail %}
-                                    <figure class='image is-4by3'>
-                                        <img src="{{ req.plant_offered.thumbnail.image.image.url }}" alt="Picture of a plant" class='cover'>
-                                    </figure>
-                                    {% else %}
-                                    <figure class='image is-4by3'>
-                                        <img src="{{ req.plant_offered.picture.all.0.image.url }}" alt="Picture of a plant" class='cover'>
-                                    </figure>
-                                    {% endif %}
-                                </div>
+                                {% if req.plant_offered.picture.all %}
+                                    <div class='card-image'>
+                                        {% if req.plant_offered.thumbnail %}
+                                        <figure class='image is-4by3'>
+                                            <img src="{{ req.plant_offered.thumbnail.image.image.url }}" alt="Picture of a plant" class='cover'>
+                                        </figure>
+                                        {% else %}
+                                        <figure class='image is-4by3'>
+                                            <img src="{{ req.plant_offered.picture.all.0.image.url }}" alt="Picture of a plant" class='cover'>
+                                        </figure>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <div class='card-image'>
+                                        <figure class='image is-4by3'>
+                                            <img src="{% static 'plant_collection/placeholder-plant.png' %}" alt="Picture of a plant" class='cover'>
+                                        </figure>
+                                    </div>
+                                {% endif %}
                             </div>
 
                             <div class='column is-8-widescreen is-6-desktop is-6-tablet'>
@@ -56,6 +65,7 @@
                     <a href="{% url 'accounts:trade' pk=offer.pk %}">      
                         <div class='columns is-gapless'>
                             <div class='column is-4-widescreen is-6-desktop is-6-tablet'>
+                                {% if offer.plant_requested.picture.all %}
                                 <div class='card-image'>
                                     {% if offer.plant_requested.thumbnail %}
                                     <figure class='image is-4by3'>
@@ -67,6 +77,13 @@
                                     </figure>
                                     {% endif %}
                                 </div>
+                                {% else %}
+                                <div class='card-image'>
+                                    <figure class='image is-4by3'>
+                                        <img src="{% static 'plant_collection/placeholder-plant.png' %}" alt="Picture of a plant" class='cover'>
+                                    </figure>
+                                </div>
+                                {% endif %}
                             </div>
 
                             <div class='column is-8-widescreen is-6-desktop is-6-tablet'>

@@ -13,16 +13,9 @@
     margin-right: auto;
 }
 
-.pagination {
-    width:auto;
-}
-
 @media screen and (max-width: 1024px) {
     .search-bar {
         margin-top: 10px;
         padding-top: 10px;
-    }
-    .pagination {
-        margin-top:3rem;
     }
 }

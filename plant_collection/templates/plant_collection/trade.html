@@ -59,28 +59,34 @@
         <div class='column is-5'>
             <div class='card'>
 
-                <div class='card-image carousel-box'>
-                    {% if req.picture.all.count > 1 %}
-                        <div tabindex=0 class='arrow' id='left-arrow1'></div>
-                        <div tabindex=0 class='arrow' id='right-arrow1'></div>
-                    {% endif %}
-                    {% if req.thumbnail %}
-                    <div class='carousel_image1'>
-                        <figure class='image is-4by3'>
-                            <img class='carousel contain' src="{{ req.thumbnail.image.image.url }}" alt="Picture of a plant">
-                        </figure>
-                    </div>
-                    {% endif %}
-                    {% for picture in req.picture.all %}
-                        {% if picture != req.thumbnail.image %}
+                {% if req.picture.all %}
+                    <div class='card-image carousel-box'>
+                        {% if req.picture.all.count > 1 %}
+                            <div tabindex=0 class='arrow' id='left-arrow1'></div>
+                            <div tabindex=0 class='arrow' id='right-arrow1'></div>
+                        {% endif %}
+                        {% if req.thumbnail %}
                         <div class='carousel_image1'>
                             <figure class='image is-4by3'>
-                                <img class='carousel contain' src="{{ picture.image.url }}" alt="Picture of a plant">
+                                <img class='carousel contain' src="{{ req.thumbnail.image.image.url }}" alt="Picture of a plant">
                             </figure>
                         </div>
                         {% endif %}
-                    {% endfor %}
-                </div>
+                        {% for picture in req.picture.all %}
+                            {% if picture != req.thumbnail.image %}
+                            <div class='carousel_image1'>
+                                <figure class='image is-4by3'>
+                                    <img class='carousel contain' src="{{ picture.image.url }}" alt="Picture of a plant">
+                                </figure>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                <figure class='image is-4by3'>
+                    <img class='carousel contain' src="{% static 'plant_collection/placeholder-plant.png' %}" alt="Picture of a plant">
+                </figure>
+                {% endif %}
 
 
                 <div class='card-content'>
