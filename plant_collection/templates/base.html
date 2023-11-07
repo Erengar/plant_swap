@@ -84,7 +84,10 @@
                         <span class="icon-text"><span class="icon"><img src="{% static 'plant_collection/icons/inbox.svg' %}" ></span><span>Messages</span>
                             {% for message in user.received_messages.all %}
                             {% if message.read == False %}
-                            <span class='dot'></span>
+                            <span class='dot-container'>
+                                <span class='dot'></span>
+                                <span class='dot1'></span>
+                            </span>
                             {% endif %}
                             {% endfor %}
                         </span>

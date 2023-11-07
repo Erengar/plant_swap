@@ -1,9 +1,23 @@
-.dot {
-    display: block;
-    position: relative;
+.dot-container {
+    display: flex;
+}
+
+.dot, .dot1 {
     background-color: hsl(0, 66%, 35%);
     color: white;
     border-radius: 50%;
     height: 11px;
     width: 11px;
+}
+
+.dot {
+    position:absolute;
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+    75%, 100% {
+        transform: scale(2);
+        opacity: 0;
+    }
 }
