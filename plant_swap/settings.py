@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'RENDER' not in os.environ
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if not DEBUG:
@@ -93,7 +93,7 @@ WSGI_APPLICATION = "plant_swap.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # We want to use local sqlite3 for development and postgres for production
-if not DEBUG:
+if DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -174,7 +174,7 @@ if not DEBUG:
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
 
 #Caches
-if not DEBUG:
+if DEBUG:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.locmem.LocMemCache",

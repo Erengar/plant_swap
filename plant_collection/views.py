@@ -69,11 +69,11 @@ class front_page(generic.View):
                     ]
             elif '-' in order:
                 order = order.replace('-','')
-                context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).order_by(Lower(order)).reverse()[
+                context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).annotate(lower_case = Lower(order)).order_by('lower_case').reverse()[
                 (context["current_page"] - 1) * 12 : context["current_page"] * 12
                 ]
             else:
-                context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).order_by(Lower(order))[
+                context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).annotate(lower_case = Lower(order)).order_by('lower_case')[
                     (context["current_page"] - 1) * 12 : context["current_page"] * 12
                     ]
         else:
@@ -90,11 +90,11 @@ class front_page(generic.View):
                     ]
             elif '-' in order:
                 order = order.replace('-','')
-                context["plants"] = Plant.objects.order_by(Lower(order)).reverse()[
+                context["plants"] = Plant.objects.annotate(lower_case = Lower(order)).order_by('lower_case').reverse()[
                 (context["current_page"] - 1) * 12 : context["current_page"] * 12
                 ]
             else:
-                context["plants"] = Plant.objects.order_by(Lower(order))[
+                context["plants"] = Plant.objects.annotate(lower_case = Lower(order)).order_by('lower_case')[
                     (context["current_page"] - 1) * 12 : context["current_page"] * 12
                     ]
         # This is for search bar request
