@@ -67,13 +67,8 @@ class front_page(generic.View):
                     context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).annotate(likes_count=Count(order)).order_by('likes_count')[
                     (context["current_page"] - 1) * 12 : context["current_page"] * 12
                     ]
-            elif '-' in order:
-                order = order.replace('-','')
-                context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).annotate(lower_case = Lower(order)).order_by('lower_case').reverse()[
-                (context["current_page"] - 1) * 12 : context["current_page"] * 12
-                ]
             else:
-                context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).annotate(lower_case = Lower(order)).order_by('lower_case')[
+                context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).order_by(order)[
                     (context["current_page"] - 1) * 12 : context["current_page"] * 12
                     ]
         else:
@@ -88,13 +83,8 @@ class front_page(generic.View):
                     context["plants"] = Plant.objects.annotate(likes_count=Count(order)).order_by('likes_count')[
                     (context["current_page"] - 1) * 12 : context["current_page"] * 12
                     ]
-            elif '-' in order:
-                order = order.replace('-','')
-                context["plants"] = Plant.objects.annotate(lower_case = Lower(order)).order_by('lower_case').reverse()[
-                (context["current_page"] - 1) * 12 : context["current_page"] * 12
-                ]
             else:
-                context["plants"] = Plant.objects.annotate(lower_case = Lower(order)).order_by('lower_case')[
+                context["plants"] = Plant.objects.order_by(order)[
                     (context["current_page"] - 1) * 12 : context["current_page"] * 12
                     ]
         # This is for search bar request
