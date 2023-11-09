@@ -49,7 +49,6 @@ class front_page(generic.View):
         context['order'] = order
         context["species"] = cache.get('species')
         context["current_page"] = pagination
-        print(cache.get('species'))
         #First we are checking wheter we are receiving request for specific species
         #Order of plants must be case insensitive, but Lower and Count throws error when we are reversing order with '-', therefore we are checking for it
         if specie:
