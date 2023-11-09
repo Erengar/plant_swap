@@ -14,9 +14,21 @@
         <p class='menu-label'>Species</p>   
         <ul class='menu-list' style='overflow:auto; height:145vh; scrollbar-width: thin;'>
             {% for specie in species %}
-            <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:species_list' nam=specie.name|slugify %}" class='specie-list'>{{specie}}</a></li>
+            <!-- if the specie is selected, then the class 'is-active' will be added to the <a> tag -->
+            {% if selected_specie == specie.slug %}
+            <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' specie=specie.slug order='-likes' pagination=1 %}" class='specie-list is-active'>{{specie}}</a></li>
+            {% else %}
+            <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' specie=specie.slug order='-likes' pagination=1 %}" class='specie-list'>{{specie}}</a></li>
+            {% endif %}
             {% endfor %}
-            <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a id='htmx-dud' hx-get="{% url 'plant_collection:search' %}" hx-trigger='click' hx-target='.menu-list' class='forest-green'>...</a></li>
+            <!-- if the number of species is less than 34, then the '...' button will not be displayed -->
+            {% if species|length <= 34%}
+                {% if selected_specie %}
+                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a id='htmx-dud' hx-get={% url 'plant_collection:search' specie=selected_specie %} hx-trigger='click' hx-target='.menu-list' class='forest-green'>...</a></li>
+                {% else %}
+                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a id='htmx-dud' hx-get={% url 'plant_collection:search' %} hx-trigger='click' hx-target='.menu-list' class='forest-green'>...</a></li>
+                {% endif %}
+            {% endif %}
         </ul>
     </aside>
 </div>

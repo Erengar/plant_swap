@@ -37,11 +37,52 @@
                     <tr>
                         <th><input class='message-checkbox' type="checkbox" aria-label='Select all' id="select-all"></th>
                         {% if sent %}
-                        <th>To</th>
-                        {% else %}
-                        <th>From</th>
+                            {% if order == '-receiver' %}
+                            <th>
+                                <a href={% url 'accounts:messages_sent' order='receiver' %}>To <i class="fa-solid fa-caret-up"></i></a>
+                            </th>
+                            {% elif order == 'receiver' %}
+                            <th>
+                                <a href={% url 'accounts:messages_sent' order='-receiver' %}>To <i class="fa-solid fa-caret-down"></i></a>
+                            </th>
+                            {% else %}
+                            <th><a href={% url 'accounts:messages_sent' order='receiver' %}>To</a></th>
+                            {% endif %}
+                            {% if order == '-subject' %}
+                                <th>
+                                    <a href={% url 'accounts:messages_sent' order='subject' %}>Subject <i class="fa-solid fa-caret-up"></i></a>
+                                </th>
+                            {% elif order == 'subject' %}
+                                <th>
+                                    <a href={% url 'accounts:messages_sent' order='-subject' %}>Subject <i class="fa-solid fa-caret-down"></i></a>
+                                </th>
+                            {% else %}
+                                <th><a href={% url 'accounts:messages_sent' order='subject' %}>Subject</a></th>
                         {% endif %}
-                        <th>Subject</th>
+                        {% else %}
+                            {% if order == '-sender' %}
+                                <th>
+                                    <a href={% url 'accounts:messages' order='sender' %}>From <i class="fa-solid fa-caret-up"></i></a>
+                                </th>
+                            {% elif order == 'sender' %}
+                                <th>
+                                    <a href={% url 'accounts:messages' order='-sender' %}>From <i class="fa-solid fa-caret-down"></i></a>
+                                </th>
+                            {% else %}
+                                <th><a href={% url 'accounts:messages' order='sender' %}>From</a></th>
+                            {% endif %}
+                            {% if order == '-subject' %}
+                                <th>
+                                    <a href={% url 'accounts:messages' order='subject' %}>Subject <i class="fa-solid fa-caret-up"></i></a>
+                                </th>
+                            {% elif order == 'subject' %}
+                                <th>
+                                    <a href={% url 'accounts:messages' order='-subject' %}>Subject <i class="fa-solid fa-caret-down"></i></a>
+                                </th>
+                            {% else %}
+                                <th><a href={% url 'accounts:messages' order='subject' %}>Subject</a></th>
+                            {% endif %}
+                        {% endif %}
                         <th>Date</th>
                     </tr>
                 </thead>

@@ -9,6 +9,10 @@ $('#ajax-search').on('keyup', _.debounce(function () {
    },
         success: (response) => {
             $('.menu-list').html(response);
+            const species_url = window.location.pathname.split('/')[1];
+            if ((species_url != 'likes') && (species_url != '-likes')){
+                $(`a[href*=${species_url}]`).addClass('is-active');
+            }
           },
         error: (response) => {
           $('.menu-list').html('Something went wrong!')

@@ -1,0 +1,67 @@
+{% load static %}
+<div class="dropdown is-right is-hoverable mr-4">
+    <div class="dropdown-trigger">
+        <button class="button is-responsive" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span>Order by</span>
+            <span class="icon is-small">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </button>
+    </div>
+    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+            {% if selected_specie %}
+            <a href={% url 'plant_collection:personal_collection' specie=selected_specie order='-likes' pagination=1 %} class="dropdown-item" id='-likes'>
+                Likes Descending
+            </a>
+            <a href={% url 'plant_collection:personal_collection' specie=selected_specie order='likes' pagination=1 %} class="dropdown-item" id='likes'>
+                Likes Ascending
+            </a>
+            <a href={% url 'plant_collection:personal_collection' specie=selected_specie order='-created' pagination=1 %} class="dropdown-item" id='-created'>
+                Newest
+            </a>
+            <a href={% url 'plant_collection:personal_collection' specie=selected_specie order='created' pagination=1 %} class="dropdown-item" id='created'>
+                Oldest
+            </a>
+            <a href={% url 'plant_collection:personal_collection' specie=selected_specie order='nick_name' pagination=1 %} class="dropdown-item" id='nick_name'>
+                Name A-Z
+            </a>
+            <a href={% url 'plant_collection:personal_collection' specie=selected_specie order='-nick_name' pagination=1 %} class="dropdown-item" id='-nick_name'>
+                Name Z-A
+            </a>
+            <a href={% url 'plant_collection:personal_collection' specie=selected_specie order='-owner' pagination=1 %} class="dropdown-item" id='-owner'>
+                Owner Z-A
+            </a>
+            <a href={% url 'plant_collection:personal_collection' specie=selected_specie order='owner' pagination=1 %} class="dropdown-item" id='owner'>
+                Owner Z-A
+            </a>
+            {% else %}
+            <a href={% url 'plant_collection:personal_collection' order='-likes' pagination=1 %} class="dropdown-item" id='-likes'>
+                Likes Descending
+            </a>
+            <a href={% url 'plant_collection:personal_collection' order='likes' pagination=1 %} class="dropdown-item" id='likes'>
+                Likes Ascending
+            </a>
+            <a href={% url 'plant_collection:personal_collection' order='-created' pagination=1 %} class="dropdown-item" id='-created'>
+                Newest
+            </a>
+            <a href={% url 'plant_collection:personal_collection' order='created' pagination=1 %} class="dropdown-item" id='created'>
+                Oldest
+            </a>
+            <a href={% url 'plant_collection:personal_collection' order='nick_name' pagination=1 %} class="dropdown-item" id='nick_name'>
+                Name A-Z
+            </a>
+            <a href={% url 'plant_collection:personal_collection' order='-nick_name' pagination=1 %} class="dropdown-item" id='-nick_name'>
+                Name Z-A
+            </a>
+            <a href={% url 'plant_collection:personal_collection' order='-owner' pagination=1 %} class="dropdown-item" id='-owner'>
+                Owner Z-A
+            </a>
+            <a href={% url 'plant_collection:personal_collection' order='owner' pagination=1 %} class="dropdown-item" id='owner'>
+                Owner Z-A
+            </a>
+            {% endif %}
+       </div>
+    </div>
+</div>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/order_tab.js' %}"></script>

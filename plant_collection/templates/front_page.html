@@ -20,7 +20,11 @@
 
     <div class='column is-11-widescreen is-four-fifth-desktop' id='main-window'>
 
+        <div style='display:flex; gap:1vw; align-items:center;'>
         {% include "plant_collection/assets/general_search_bar.html" %}
+
+        {% include "plant_collection/assets/ordering_dropdown_front_page.html" %}
+        </div>
 
         <section id='plants-dump' class='px-0 pt-0 pr-4'>
             {% include "plant_collection/assets/plants_gallery.html" %}

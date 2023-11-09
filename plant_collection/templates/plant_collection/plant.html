@@ -92,7 +92,7 @@
 
                 {% if plant.species %}
                 <h3 class='subtitle is-size-6-desktop is-size-7-touch'>
-                    Specie: <a href="{% url 'plant_collection:species_list' nam=plant.species|slugify %}" >{{plant.species}}</a>
+                    Specie: <a href="{% url 'plant_collection:front_page' specie=plant.species.slug order='-likes' pagination=1 %}" >{{plant.species}}</a>
                 </h3>
                 {% endif %}
 

@@ -160,14 +160,15 @@ class liked_list(LoginRequiredMixin, generic.View):
 This receives receives GET and POST requests. It show all sent and received messages and allows delete of messages.
 '''
 class messages_view(LoginRequiredMixin, generic.View):
-    def get(self, request):
+    def get(self, request, order='-date_sent'):
         context = {}
-        messages = Message.objects.filter(receiver=request.user).order_by('-date_sent')
+        messages = Message.objects.filter(receiver=request.user).order_by(order, '-date_sent')
         #If the url contains 'sent', it shows sent messages instead of received messages
         if 'sent' in request.build_absolute_uri():
-            messages = Message.objects.filter(sender=request.user).order_by('-date_sent')
+            messages = Message.objects.filter(sender=request.user).order_by(order, '-date_sent')
             context['sent'] = True
         context['messages'] = messages
+        context['order'] = order
         return render(request, 'accounts/messages.html', context)
     
     def post(self, request):

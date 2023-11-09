@@ -14,3 +14,9 @@
 table{
     margin-top: 2vh;
 }
+
+/*Adjusting the caret position*/
+.fa-caret-up {
+    position: relative;
+    top: 0.25rem;
+}

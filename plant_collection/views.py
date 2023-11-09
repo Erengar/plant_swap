@@ -10,41 +10,94 @@ from django.utils.decorators import method_decorator
 from .models import Plant, Species, Image, Trade, Thumbnail
 from django.views.generic.edit import FormMixin
 from django.core.cache import cache
+from django.db.models.functions import Lower
+from django.db.models import Count
 
 """
-This view shows all owned plants by time of adding.
+This view shows all owned plants, defult by time of their last update.
 """
 class personal_collection(LoginRequiredMixin, generic.View):
     template_name = "plant_collection/collection.html"
 
-    def get(self, request, pagination=1):
+    def get(self, request, pagination=1, order='-updated'):
         context = {}
-        context["pages"] = range(1, Plant.objects.filter(owner=request.user).count() // 11 + 2)
+        context["pages"] = range(1, (Plant.objects.filter(owner=request.user).count() + 1) // 12 + 2)
         context["current_page"] = pagination
-        context["plants"] = Plant.objects.filter(owner=request.user).order_by('-updated')[
-            (context["current_page"] - 1) * 11 : context["current_page"] * 11
-            ]
+        context['order'] = order
+        if pagination == 1:
+            context["plants"] = Plant.objects.filter(owner=request.user).order_by(order)[
+                (context["current_page"] - 1) * 11 : context["current_page"] * 11
+                ]
+        else:
+            context["plants"] = Plant.objects.filter(owner=request.user).order_by(order)[
+                (context["current_page"] - 1) * 12 -1: context["current_page"] * 12 -1
+                ]
         return render(request, self.template_name, context)
 
 
 """
-This view shows all plants by time of adding.
-It is receiving 4 kinds of get requests: front page, front page with unrolled species bar, front page with search specified and front page pagination.
+This view shows all plants depending on selected ordering(default is by likes) and specie selected.
 """
 class front_page(generic.View):
     template_name = "front_page.html"
 
-    def get(self, request, pagination=1, order ='-likes'):
+    def get(self, request, pagination=1, order ='-likes', specie=None):
         context = {}
-        #Caching is set up for 5 minutes, because it is likely that new plants will be added
+        #Caching is set up for 24 hours, because it is unlikely that new species will be added
         if not cache.get('species'):
-            cache.set('species', Species.objects.all()[:34], 60*5)
+            cache.set('species', Species.objects.all()[:34], 60*60*24)
+        context['order'] = order
         context["species"] = cache.get('species')
-        context["pages"] = range(1, Plant.objects.count() // 12 + 2)
         context["current_page"] = pagination
-        context["plants"] = Plant.objects.order_by(order)[
-            (context["current_page"] - 1) * 12 : context["current_page"] * 12
-            ]
+        print(cache.get('species'))
+        #First we are checking wheter we are receiving request for specific species
+        #Order of plants must be case insensitive, but Lower and Count throws error when we are reversing order with '-', therefore we are checking for it
+        if specie:
+            #If user selected specie that is not by default shown we are unrolling species bar, we use list comprehension just so we do not have to hit the database
+            if specie not in [x.slug for x in cache.get('species')]:
+                context['species'] = Species.objects.all()
+            context['selected_specie'] = specie
+            context["pages"] = range(1, Plant.objects.filter(species=Species.objects.get(slug=specie)).count() // 12 + 2)
+            if 'likes' in order:
+                if '-' in order:
+                    order = order.replace('-','')
+                    context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).annotate(likes_count=Count(order)).order_by('-likes_count')[
+                    (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                    ]
+                else:
+                    context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).annotate(likes_count=Count(order)).order_by('likes_count')[
+                    (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                    ]
+            elif '-' in order:
+                order = order.replace('-','')
+                context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).order_by(Lower(order)).reverse()[
+                (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                ]
+            else:
+                context["plants"] = Plant.objects.filter(species=Species.objects.get(slug=specie)).order_by(Lower(order))[
+                    (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                    ]
+        else:
+            context["pages"] = range(1, Plant.objects.count() // 12 + 2)
+            if 'likes' in order:
+                if '-' in order:
+                    order = order.replace('-','')
+                    context["plants"] = Plant.objects.annotate(likes_count=Count(order)).order_by('-likes_count')[
+                    (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                    ]
+                else:
+                    context["plants"] = Plant.objects.annotate(likes_count=Count(order)).order_by('likes_count')[
+                    (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                    ]
+            elif '-' in order:
+                order = order.replace('-','')
+                context["plants"] = Plant.objects.order_by(Lower(order)).reverse()[
+                (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                ]
+            else:
+                context["plants"] = Plant.objects.order_by(Lower(order))[
+                    (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                    ]
         # This is for search bar request
         if request.GET.get("search"):
             # This is for search bar request, we are searching for plants that have given string in their nick_name, owner or species name
@@ -63,26 +116,18 @@ This view is here only to receive species search bar and to unroll species bar o
 @method_decorator(csrf_exempt, name="dispatch")
 class search(View):
     # This receives get request from search bar
-    def get(self, request):
+    def get(self, request, specie=None):
         #If there is search string in request, we are searching for species that have given string in their name else we are returning all species
         if request.GET.get("search"):
             search = request.GET.get("search")
             species = Species.objects.filter(name__icontains=search.strip())
         else:
             species = Species.objects.all()
-        response = []
-        for specie in species:
-            response.append(
-                '<li class="is-size-7-desktop is-size-6-widescreen"><a href="/species/'
-                + str(specie.slug)
-                + '">'
-                + specie.name
-                + "</a></li>"
-            )
-        return HttpResponse("".join(response) + "</ul>")
+        return render(request, "plant_collection/assets/search_species_ajax_response.html", {"species": species, "selected_specie": specie})
 
-
-# This view is for mobile species search, it returns all species
+'''
+This view is for mobile species search, it returns all species
+'''
 class mobile_specie_search(generic.View):
     template_name = "plant_collection/mobile_specie_search.html"
 
@@ -91,29 +136,6 @@ class mobile_specie_search(generic.View):
             cache.set('species_all', Species.objects.all(), 60*60*24)
         species = cache.get('species_all')
         context = {"species": species}
-        return render(request, self.template_name, context)
-
-
-"""
-This view shows all plants of given species.
-"""
-class species_list_view(generic.View):
-    template_name = "plant_collection/species.html"
-
-    # This display all plants of given species, slug of specie is passed under 'nam' variable
-    def get(self, request, nam, order='-likes', pagination=1):
-        context = {}
-        context['nam'] = nam
-        species = get_object_or_404(Species, slug=nam)
-        context["pages"] = range(1, Plant.objects.filter(species=species).count() // 12 + 2)
-        context["current_page"] = pagination
-        context["plants"] = Plant.objects.filter(species=species).order_by(order)[
-            (context["current_page"] - 1) * 12 : context["current_page"] * 12
-            ]
-        #Caching is set up for 24 hours, because it is not likely that new species will be added
-        if not cache.get('species_all'):
-            cache.set('species_all', Species.objects.all(), 60*60*24)
-        context["species"] = cache.get('species_all')
         return render(request, self.template_name, context)
 
 

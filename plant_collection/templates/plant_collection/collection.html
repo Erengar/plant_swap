@@ -8,7 +8,11 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/pagination.css' %}">
 {% endblock %}
 {% block content %}
-<section class='section'>
+<section class='section pt-0'>
+    <div style='display:flex; gap:1vw; align-items:center; justify-content:space-between'>
+        <h1 class='title'>My Plants</h1>
+        {% include "plant_collection/assets/ordering_dropdown_collection.html" %}
+    </div>
     {% include "plant_collection/assets/plants_gallery.html" %}
 </section>
 {% include "plant_collection/assets/collection_pagination.html" %}

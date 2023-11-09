@@ -15,4 +15,6 @@ urlpatterns = [
     re_path(r'^messages/write/(?P<name>[\w.@+-]+|)/$', views.write_message_view.as_view(), name='write_message'),
     re_path(r'^messages/message/(?P<slug>[\w-]+)/$', views.message_view.as_view(), name='message'),
     re_path(r'^messages/message/(?P<slug>[\w-]+)/reply/$', views.reply_message_view.as_view(), name='reply_message'),
+    path('messages/<str:order>/', views.messages_view.as_view(), name='messages'),
+    path('messages/sent/<str:order>/', views.messages_view.as_view(), name='messages_sent'),
 ]

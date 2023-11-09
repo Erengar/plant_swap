@@ -16,10 +16,6 @@ html {
     scrollbar-color: #4A4A4A #EDEDED;
 }
 
-.menu-label {
-    color: #4a4a4a;
-}
-
 .faded {
     animation-name: fade;
     animation-duration: 1s;
@@ -28,4 +24,21 @@ html {
 @keyframes fade {
     from {opacity: .2}
     to {opacity: 1}
+}
+
+.sr-only {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    }
+
+.dropdown-item.is-active {
+    background-color: rgb(49, 88, 45) !important;
+}
+
+.specie-list.is-active {
+    background-color: rgb(49, 88, 45) !important;
 }
