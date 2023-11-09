@@ -93,7 +93,7 @@ WSGI_APPLICATION = "plant_swap.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # We want to use local sqlite3 for development and postgres for production
-if DEBUG:
+if not DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -174,7 +174,7 @@ if not DEBUG:
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
 
 #Caches
-if DEBUG:
+if not DEBUG:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
