@@ -41,7 +41,11 @@
         <nav class='navbar sage-green'>
 
             <div class='navbar-brand'>
+                {% if tab_signal%}
+                <a href="{% url 'plant_collection:front_page' %}" class='navbar-item is-tab forest-green navbar-active'>
+                {% else %}
                 <a href="{% url 'plant_collection:front_page' %}" class='navbar-item is-tab forest-green'>
+                {% endif %}
                     <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/house.svg' %}" ></span><span>Home</span></span>
                 </a>
                 {% if user.is_authenticated %}

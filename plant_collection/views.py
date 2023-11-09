@@ -10,26 +10,38 @@ from django.utils.decorators import method_decorator
 from .models import Plant, Species, Image, Trade, Thumbnail
 from django.views.generic.edit import FormMixin
 from django.core.cache import cache
-from django.db.models.functions import Lower
 from django.db.models import Count
 
 """
-This view shows all owned plants, defult by time of their last update.
+This view shows all owned plants, defult by number of likes.
 """
 class personal_collection(LoginRequiredMixin, generic.View):
     template_name = "plant_collection/collection.html"
 
-    def get(self, request, pagination=1, order='-updated'):
+    def get(self, request, pagination=1, order='-likes'):
         context = {}
         context["pages"] = range(1, (Plant.objects.filter(owner=request.user).count() + 1) // 12 + 2)
         context["current_page"] = pagination
         context['order'] = order
+        if 'likes' in order:
+                if '-' in order:
+                    order = order.replace('-','')
+                    prep_plant = Plant.objects.filter(owner=request.user).annotate(likes_count=Count(order)).order_by('-likes_count')[
+                    (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                    ]
+                else:
+                    prep_plant = Plant.objects.filter(owner=request.user).annotate(likes_count=Count(order)).order_by('likes_count')[
+                    (context["current_page"] - 1) * 12 : context["current_page"] * 12
+                    ]
+        else:
+            prep_plant = Plant.objects.filter(owner=request.user).order_by(order)
+
         if pagination == 1:
-            context["plants"] = Plant.objects.filter(owner=request.user).order_by(order)[
+            context["plants"] = prep_plant[
                 (context["current_page"] - 1) * 11 : context["current_page"] * 11
                 ]
         else:
-            context["plants"] = Plant.objects.filter(owner=request.user).order_by(order)[
+            context["plants"] = prep_plant[
                 (context["current_page"] - 1) * 12 -1: context["current_page"] * 12 -1
                 ]
         return render(request, self.template_name, context)
@@ -43,6 +55,8 @@ class front_page(generic.View):
 
     def get(self, request, pagination=1, order ='-likes', specie=None):
         context = {}
+        #This is here just so we can put active tag on Home tab in navbar when we are rendering from this view
+        context['tab_signal'] = 'front_page'
         #Caching is set up for 24 hours, because it is unlikely that new species will be added
         if not cache.get('species'):
             cache.set('species', Species.objects.all()[:34], 60*60*24)
@@ -95,7 +109,7 @@ class front_page(generic.View):
                 Q(nick_name__icontains=plants)
                 | Q(owner__username__icontains=plants)
                 | Q(species__name__icontains=plants)
-            ).order_by("-updated")
+            ).annotate(likes_count=Count('likes')).order_by("-likes_count")
         return render(request, self.template_name, context)
 
 

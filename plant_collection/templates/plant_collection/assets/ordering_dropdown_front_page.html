@@ -23,10 +23,10 @@
             <a href={% url 'plant_collection:front_page' specie=selected_specie order='created' pagination=1 %} class="dropdown-item" id='created'>
                 Oldest
             </a>
-            <a href={% url 'plant_collection:front_page' specie=selected_specie order='nick_name' pagination=1 %} class="dropdown-item" id='nick_name'>
+            <a href={% url 'plant_collection:front_page' specie=selected_specie order='slug' pagination=1 %} class="dropdown-item" id='nick_name'>
                 Name A-Z
             </a>
-            <a href={% url 'plant_collection:front_page' specie=selected_specie order='-nick_name' pagination=1 %} class="dropdown-item" id='-nick_name'>
+            <a href={% url 'plant_collection:front_page' specie=selected_specie order='-slug' pagination=1 %} class="dropdown-item" id='-nick_name'>
                 Name Z-A
             </a>
             <a href={% url 'plant_collection:front_page' specie=selected_specie order='-owner' pagination=1 %} class="dropdown-item" id='-owner'>
@@ -48,10 +48,10 @@
             <a href={% url 'plant_collection:front_page' order='created' pagination=1 %} class="dropdown-item" id='created'>
                 Oldest
             </a>
-            <a href={% url 'plant_collection:front_page' order='nick_name' pagination=1 %} class="dropdown-item" id='nick_name'>
+            <a href={% url 'plant_collection:front_page' order='slug' pagination=1 %} class="dropdown-item" id='nick_name'>
                 Name A-Z
             </a>
-            <a href={% url 'plant_collection:front_page' order='-nick_name' pagination=1 %} class="dropdown-item" id='-nick_name'>
+            <a href={% url 'plant_collection:front_page' order='-slug' pagination=1 %} class="dropdown-item" id='-nick_name'>
                 Name Z-A
             </a>
             <a href={% url 'plant_collection:front_page' order='-owner' pagination=1 %} class="dropdown-item" id='-owner'>
