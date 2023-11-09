@@ -1,4 +1,4 @@
-$('#ajax-search').on('keyup', _.throttle(function() {
+$('#ajax-search').on('keyup', _.debounce(function () {
     var search = $(this).val();
 
     console.log(search)
@@ -7,14 +7,14 @@ $('#ajax-search').on('keyup', _.throttle(function() {
         url:'http://127.0.0.1:8000/species/search/bar/',
         data:{search: search,
    },
-        success: function (response) {
+        success: (response) => {
             $('.menu-list').html(response);
           },
-        error: function (response) {
+        error: (response) => {
           $('.menu-list').html('Something went wrong!')
           },
-        beforeSend: function () {
+        beforeSend: () => {
           $('.menu-list').html('Loading...')
           }
         });
-      }, 100));
+      }, 500));
