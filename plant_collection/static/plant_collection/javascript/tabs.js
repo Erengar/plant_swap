@@ -15,4 +15,8 @@ if (url.includes("my-collection")) {
     $('.navbar-item[href="/accounts/likes/"]').addClass("navbar-active");
 } else if (url.includes('/accounts/messages/')) {
     $('.navbar-item[href="/accounts/messages/"]').addClass("navbar-active");
+} else if (url.includes('accounts/profile')) {
+    $('.navbar-item[href="/accounts/profile/"]').addClass("navbar-active");
+} else if ((url.includes('accounts/registration') | url.includes('accounts/login'))) {
+    $('.navbar-item[href="/accounts/login/"]').addClass("navbar-active");
 }

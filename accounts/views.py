@@ -9,7 +9,7 @@ from plant_collection.models import Trade, Plant
 from django.http import Http404, HttpResponse
 from .models import Message
 from django.views.decorators.cache import cache_page
-
+from django.core.management import call_command
 
 class login_view(LoginView):
     template_name = 'accounts/login.html'
@@ -260,3 +260,20 @@ class reply_message_view(LoginForm, generic.View):
             m.save()
             return redirect('accounts:messages')
         return render(request, 'accounts/write_message.html', {'form':form})
+    
+class profile_view(LoginRequiredMixin, generic.View):
+    def get(self, request):
+        context = {'user':request.user}
+        return render(request, 'accounts/profile.html', context)
+
+def seed_plants(request):
+    call_command('populate_plants')
+    return redirect('plant_collection:front_page')
+
+def clean_plants(request):
+    call_command('depopulate_plants')
+    return redirect('plant_collection:front_page')
+
+def delete_profile(request):
+    request.user.delete()
+    return redirect('plant_collection:front_page')

@@ -17,4 +17,8 @@ urlpatterns = [
     re_path(r'^messages/message/(?P<slug>[\w-]+)/reply/$', views.reply_message_view.as_view(), name='reply_message'),
     path('messages/<str:order>/', views.messages_view.as_view(), name='messages'),
     path('messages/sent/<str:order>/', views.messages_view.as_view(), name='messages_sent'),
+    path('profile/', views.profile_view.as_view(), name='profile'),
+    path('db/seeding/plants', views.seed_plants, name='seed_plants'),
+    path('db/cleaning/plants', views.clean_plants, name='clean_plants'),
+    path('profile/delete', views.delete_profile, name='delete_profile'),
 ]

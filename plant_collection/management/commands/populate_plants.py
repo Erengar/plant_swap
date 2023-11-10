@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 if random.randint(0, 10) > 5:
                     for_trade = True
                 Plant.objects.get_or_create(nick_name=line[0],
-                                        owner=User.objects.get(username='erengar'),
+                                        owner=User.objects.get(username='Polo'),
                                         for_trade=for_trade,
                                         location=line[1],
                                         species=Species.objects.get(name='Snake Plant'),

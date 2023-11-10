@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block header %}
+<title>Profile</title>
+<link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
+<link rel="stylesheet" href="{% static "accounts/css/max.css" %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/divider.css' %}">
+<link rel="stylesheet" href="{% static 'accounts/css/profile_animation.css' %}">
+{% endblock %}
+{% block content %}
+<section class='section'>
+    <div class="box need-max-message">
+        <div class='is-flex is-justify-content-space-between is-align-items-center mb-3'>
+            <h2 class='title is-size-4-touch'>Database</h2>
+            <div class='is-flex is-flex-direction-column' style='gap:1rem'>
+                <a href={% url 'accounts:seed_plants' %} id="seed-plants"><button class="button forest-green-button is-responsive" >Seed Plants</button></a>
+                {% if request.user == 'erengar'%}
+                    <a href={% url 'accounts:clean_plants' %} id="clean-plants"><button class="button decline-button is-responsive" >Clean Plants</button></a>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+        <div class="divider"></div>
+        <div class='is-flex is-justify-content-space-between mt-3'>
+            <h2 class='title is-size-4-touch'>Account</h2>
+            <a class='modal_open'><button class="button decline-button is-responsive" >Delete Account</button></a>
+
+            <div class='modal'>
+                <div class='modal-background'></div>
+                <div class='modal-content'>
+                    <form action={% url 'accounts:delete_profile' %} method='post'>
+                        {% csrf_token %}
+                        <div class='box'>
+                            <div class='block'>Are you sure you want to delete your account?</div>
+                            <input class='button decline-button' type='submit' value='Yes, I am sure'>
+                        </div>
+                    </form>
+                </div>
+                <button class='modal-close is-large' aria-label='close'></a>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script>
+$('#seed-plants').click(function() {
+    $(this).replaceWith('<button class="button forest-green-button is-responsive loading">Seeding</button>');
+});
+
+$('#clean-plants').click(function() {
+    $(this).replaceWith('<button class="button decline-button is-responsive loading">Cleaning</button>');
+});
+</script>
+<script type='text/javascript' src="{% static 'plant_collection/javascript/delete_modal.js' %}"></script>
+{% endblock content %}
