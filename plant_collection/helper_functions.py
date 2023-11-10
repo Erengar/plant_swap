@@ -35,6 +35,7 @@ def order_query(request, order, context, pagination=None, specie=None, search=No
 
         # This is for search bar request
     elif request.GET.get("search") or search:
+        print('here')
         # This is for search bar request, we are searching for plants that have given string in their nick_name, owner or species name
         plants = search
         if request.GET.get("search"):

@@ -14,9 +14,7 @@
             <h2 class='title is-size-4-touch'>Database</h2>
             <div class='is-flex is-flex-direction-column' style='gap:1rem'>
                 <a href={% url 'accounts:seed_plants' %} id="seed-plants"><button class="button forest-green-button is-responsive" >Seed Plants</button></a>
-                {% if request.user == 'erengar'%}
-                    <a href={% url 'accounts:clean_plants' %} id="clean-plants"><button class="button decline-button is-responsive" >Clean Plants</button></a>
-                {% endif %}
+                <a href={% url 'accounts:clean_plants' %} id="clean-plants"><button class="button decline-button is-responsive" >Clean Plants</button></a>
             </div>
         </div>
         <div>

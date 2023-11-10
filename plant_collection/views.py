@@ -24,15 +24,13 @@ class personal_collection(LoginRequiredMixin, generic.View):
             order = order.replace('nick_name', 'slug')
         context = {}
         context['search'] = search
-        context["pages"] = range(1, (Plant.objects.filter(owner=request.user).count() + 1) // 12 + 2)
         context["current_page"] = pagination
         context['order'] = order
-        context = order_query(request=request, order=order, context=context, pagination=pagination, my_collection=True)
+        context = order_query(request=request, order=order, context=context, pagination=pagination, search=search, my_collection=True)
         #We still want nick_name to be displayed in url
         if 'slug' in order:
             order = order.replace('slug', 'nick_name')
             context['order'] = order
-        print(context)
         return render(request, self.template_name, context)
 
 
