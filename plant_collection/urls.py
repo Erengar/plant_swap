@@ -18,4 +18,6 @@ urlpatterns= [
     path('plant/<slug:slug>/plant-offers/', views.plant_offers.as_view(), name='plant_offers'),
     path('<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
     path('<slug:specie>/<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
+    path('search=<str:search>/<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
+    path('my-collection/search=<str:search>/<str:order>/page/<int:pagination>/', views.personal_collection.as_view(), name='personal_collection'),
 ]

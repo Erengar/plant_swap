@@ -35,6 +35,31 @@
             <a href={% url 'plant_collection:personal_collection' specie=selected_specie order='owner' pagination=1 %} class="dropdown-item" id='owner'>
                 Owner Z-A
             </a>
+            {% elif search %}
+            <a href={% url 'plant_collection:personal_collection' search=search order='-likes' pagination=1 %} class="dropdown-item" id='-likes'>
+                Likes Descending
+            </a>
+            <a href={% url 'plant_collection:personal_collection' search=search order='likes' pagination=1 %} class="dropdown-item" id='likes'>
+                Likes Ascending
+            </a>
+            <a href={% url 'plant_collection:personal_collection' search=search order='-created' pagination=1 %} class="dropdown-item" id='-created'>
+                Newest
+            </a>
+            <a href={% url 'plant_collection:personal_collection' search=search order='created' pagination=1 %} class="dropdown-item" id='created'>
+                Oldest
+            </a>
+            <a href={% url 'plant_collection:personal_collection' search=search order='nick_name' pagination=1 %} class="dropdown-item" id='nick_name'>
+                Name A-Z
+            </a>
+            <a href={% url 'plant_collection:personal_collection' search=search order='-nick_name' pagination=1 %} class="dropdown-item" id='-nick_name'>
+                Name Z-A
+            </a>
+            <a href={% url 'plant_collection:personal_collection' search=search order='-owner' pagination=1 %} class="dropdown-item" id='-owner'>
+                Owner Z-A
+            </a>
+            <a href={% url 'plant_collection:personal_collection' search=search order='owner' pagination=1 %} class="dropdown-item" id='owner'>
+                Owner Z-A
+            </a>
             {% else %}
             <a href={% url 'plant_collection:personal_collection' order='-likes' pagination=1 %} class="dropdown-item" id='-likes'>
                 Likes Descending

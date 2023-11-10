@@ -5,12 +5,14 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/collection.css' %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/search_bar.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/pagination.css' %}">
 {% endblock %}
 {% block content %}
 <section class='section pt-0'>
-    <div style='display:flex; gap:1vw; align-items:center; justify-content:space-between'>
-        <h1 class='title'>My Plants</h1>
+    <div style='display:flex; align-items:center; justify-content:space-between'>
+        <h1 class='title mb-2 mt-3 is-hidden-touch'>My Plants</h1>
+        {% include "plant_collection/assets/collection_search_bar.html" %}
         {% include "plant_collection/assets/ordering_dropdown_collection.html" %}
     </div>
     {% include "plant_collection/assets/plants_gallery.html" %}
