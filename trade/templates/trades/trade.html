@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% block header %}
+<title>Trade - Plant Swap</title>
+<link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
+<link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
+<link rel="stylesheet" href="{% static 'trades/css/trade.css' %}">
+{% endblock %}
+{% block content %}
+{% if errors %}
+{% for error in errors %}
+<div class="notification is-danger is-light has-text-centered">
+    {{ error }}
+</div>
+{% endfor %}
+{% endif %}
+<section class="section is-small">
+    <div class='columns is-narrow' style='margin:0'>
+        <div class='column is-5 is-flex is-justify-content-center'>
+            <div class='dropdown'>
+                <div class='dropdown-trigger'>
+                    <button class="button is-responsive" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Select plant for trade...</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        {% if user.plants %}
+                        {% for plant in user.plants.all %}
+                        <a class="dropdown-item">
+                            {{ plant.nick_name }}
+                        </a>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='columns'>
+
+        <div class='column is-5' id='dump'>
+        </div>
+
+        <form class='column is-2 custom-vcentered' method='post'>
+            {% csrf_token %}
+            <input id='offered' type="text" hidden name='offered'>
+            <input type="text" hidden name='requested' value='{{req.nick_name}}'>
+            <div class='is-flex is-justify-content-center'>
+                <input class='button forest-green-button is-large is-responsive' id='trade-button' type='submit'
+                    value='Trade'>
+            </div>
+        </form>
+
+        <div class='column is-5'>
+            <div class='card'>
+
+                {% if req.picture.all %}
+                    <div class='card-image carousel-box'>
+                        {% if req.picture.all.count > 1 %}
+                            <div tabindex=0 class='arrow' id='left-arrow1'></div>
+                            <div tabindex=0 class='arrow' id='right-arrow1'></div>
+                        {% endif %}
+                        {% if req.thumbnail %}
+                        <div class='carousel_image1'>
+                            <figure class='image is-4by3'>
+                                <img class='carousel contain' src="{{ req.thumbnail.image.image.url }}" alt="Picture of a plant">
+                            </figure>
+                        </div>
+                        {% endif %}
+                        {% for picture in req.picture.all %}
+                            {% if picture != req.thumbnail.image %}
+                            <div class='carousel_image1'>
+                                <figure class='image is-4by3'>
+                                    <img class='carousel contain' src="{{ picture.image.url }}" alt="Picture of a plant">
+                                </figure>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                <figure class='image is-4by3'>
+                    <img class='carousel contain' src="{% static 'plant_collection/placeholder-plant.png' %}" alt="Picture of a plant">
+                </figure>
+                {% endif %}
+
+
+                <div class='card-content'>
+                    <div class='columns is-mobile'>
+                        <div class='column is-half'>
+                            <div class='title is-size-4-desktop is-size-5-touch'><a
+                                    href="{% url 'plant_collection:plant_view' slug=req.slug %}">{{req.nick_name}}</a>
+                            </div>
+                            <div class='subtitle is-size-5-desktop is-size-6-touch'>Owner: {{req.owner}}</div>
+                        </div>
+                        <div class='column is-half'>
+                            <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-7-touch is-pulled-right'>
+                                <span class='icon'>
+                                    <i class="fa-solid fa-store"></i>
+                                </span>
+                                {% if plant.location %}
+                                {{plant.location}}
+                                {% else %}
+                                For Trade
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<script type='text/javascript' src="{% static 'trades/javascript/trade.js' %}"></script>
+<script type='text/javascript' src="{% static 'trades/javascript/trade_carousel.js' %}"></script>
+{% endblock content %}

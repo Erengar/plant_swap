@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Plant, Species, Image, Trade
+from .models import Plant, Species, Image
 
 
 class ImageInline(admin.TabularInline):
@@ -19,4 +19,3 @@ class PlantAdmin(admin.ModelAdmin):
 admin.site.register(Plant, PlantAdmin)
 admin.site.register(Species)
 admin.site.register(Image)
-admin.site.register(Trade)

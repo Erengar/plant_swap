@@ -5,10 +5,9 @@ from django.contrib.auth.models import User
 from django.views import generic, View
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from plant_collection.models import Trade, Plant
-from django.http import Http404, HttpResponse
+from plant_collection.models import Plant
+from django.http import Http404
 from .models import Message
-from django.views.decorators.cache import cache_page
 from django.core.management import call_command
 
 class login_view(LoginView):
@@ -52,99 +51,7 @@ class registration_view(View):
                 login(request, user)
                 return redirect('plant_collection:front_page')
         return render(request, self.template_name, {'form':form})
-    
-class trades_view(LoginRequiredMixin, generic.View):
-    template_name = 'accounts/offers.html'
-    def get(self, request):
-        #Show all trades that are not finalized
-        req = Trade.objects.filter(recipient=request.user, finalized=False)
-        offered = Trade.objects.filter(initiator=request.user, finalized=False)
-        context = {'offers':offered, 'requests':req}
-        return render(request, self.template_name, context)
-    
-
-'''
-This view is for showing the trade details and finalizing the trade.
-It receives 2 kinds of POST requests: One for accepting/declining/retracting a trade, and the other for finalizing a trade.
-'''
-class trade_view(LoginRequiredMixin, generic.View):
-    template_name = 'accounts/trade.html'
-    def get(self, request, pk):
-        trade = get_object_or_404(Trade, pk=pk)
-        context = {'trade':trade}
-        return render(request, self.template_name, context)
-    
-    def post(self, request, pk):
-        #This part is for accepting or declining a trade
-        decline = request.POST.get('decline', None)
-        accept = request.POST.get('accept', None)
-        retract = request.POST.get('retract', None)
-        if decline:
-            trade = get_object_or_404(Trade, pk=pk)
-            trade.decline()
-            req = Trade.objects.filter(recipient=request.user, finalized=False)
-            offered = Trade.objects.filter(initiator=request.user, finalized=False)
-            confirm = 'Trade offer was declined.'
-            context = {'offers':offered, 'requests':req, 'confirmations': confirm}
-            return render(request, 'accounts/offers.html', context)
-        if accept:
-            trade = get_object_or_404(Trade, pk=pk)
-            trade.accept()
-            req = Trade.objects.filter(recipient=request.user, finalized=False)
-            offered = Trade.objects.filter(initiator=request.user, finalized=False)
-            confirm = 'Trade offer was accepted.'
-            context = {'offers':offered, 'requests':req, 'confirmations': confirm}
-            return render(request, 'accounts/offers.html', context)
-        if retract:
-            trade = get_object_or_404(Trade, pk=pk)
-            trade.decline()
-            req = Trade.objects.filter(recipient=request.user, finalized=False)
-            offered = Trade.objects.filter(initiator=request.user, finalized=False)
-            confirm = 'Trade offer was retracted.'
-            context = {'offers':offered, 'requests':req, 'confirmations': confirm}
-            return render(request, 'accounts/offers.html', context)
-
-
-        #This part is for finalizing a trade
-        offerer = get_object_or_404(Plant, nick_name=request.POST['offerer'])
-        requester = get_object_or_404(Plant, nick_name=request.POST['requester'])
-        trade = get_object_or_404(Trade, plant_offered=offerer, plant_requested=requester)
-        #For some reason request.POST['finalize'] is string even though it should have been boolean, therefore it must be converted to boolean
-        if request.POST['finalize'] == 'true':
-            finalize = True
-        elif request.POST['finalize'] == 'false':
-            finalize = False
-
-        #Finalize trade if both parties have finalized
-        if finalize and request.user.username == str(trade.initiator) and trade.requested_finalized:
-            trade.finalized = True
-            trade.save()
-            trade.exchange()
-        elif finalize and request.user.username == str(trade.recipient) and trade.offered_finalized:
-            trade.finalized = True
-            trade.save()
-            trade.exchange()
-
-        #Update trade status
-        #trade.initiator/recipient returns django model object, thus it must be first converted to string before comparison
-        if finalize and request.user.username == str(trade.initiator):
-            trade.offered_finalized = True
-            trade.save()
-            return HttpResponse("fa-solid fa-circle-check is-size-1 green-check sendable")
-        if finalize and request.user.username == str(trade.recipient):
-            trade.requested_finalized = True
-            trade.save()
-            return HttpResponse("fa-solid fa-circle-check is-size-1 green-check sendable")
-        if not finalize and request.user.username == str(trade.initiator):
-            trade.offered_finalized = False
-            trade.save()
-            return HttpResponse("fa-solid fa-circle-check is-size-1 red-check sendable")
-        if not finalize and request.user.username == str(trade.recipient):
-            trade.requested_finalized = False
-            trade.save()
-            return HttpResponse("fa-solid fa-circle-check is-size-1 red-check sendable")
-        raise Http404("You are not authorized to do that.")
-        
+          
 
 '''
 This view is for showing plants user have liked.

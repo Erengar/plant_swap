@@ -14,8 +14,6 @@ urlpatterns= [
     path('species/', views.mobile_specie_search.as_view(), name='mobile_specie_search'),
     path('species/search/bar/', views.search.as_view(), name='search'),
     path('species/search/bar/<str:specie>', views.search.as_view(), name='search'),
-    path('trade/<str:req>', views.trade.as_view(), name='trade'),
-    path('plant/<slug:slug>/plant-offers/', views.plant_offers.as_view(), name='plant_offers'),
     path('<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
     path('<slug:specie>/<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
     path('search=<str:search>/<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
     'plant_collection',
     'accounts',
+    'trade',
     ]
 
 MIDDLEWARE = [

@@ -35,7 +35,6 @@ def order_query(request, order, context, pagination=None, specie=None, search=No
 
         # This is for search bar request
     elif request.GET.get("search") or search:
-        print('here')
         # This is for search bar request, we are searching for plants that have given string in their nick_name, owner or species name
         plants = search
         if request.GET.get("search"):
@@ -61,6 +60,7 @@ def order_query(request, order, context, pagination=None, specie=None, search=No
             | Q(owner__username__icontains=plants)
             | Q(species__name__icontains=plants)
             ).order_by(order))
+            
         context["pages"] = range(1, objects.filter(
             Q(nick_name__icontains=plants)
             | Q(owner__username__icontains=plants)

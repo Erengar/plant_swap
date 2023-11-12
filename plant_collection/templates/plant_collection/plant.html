@@ -157,12 +157,12 @@
                 {% if user.is_authenticated %}
                 {% if user == plant.owner %}
                 <div>
-                    <a href="{% url 'plant_collection:plant_offers' slug=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>See Offers</a>
+                    <a href="{% url 'trades:plant_offers' slug=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>See Offers</a>
                 </div>
                 {% elif not user == plant.owner %}
                 {% if plant.for_trade %}
                 <div>
-                    <a href="{% url 'plant_collection:trade' req=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>Offer trade</a>
+                    <a href="{% url 'trades:trade' req=plant.slug %}" class='button mustard-button is-large is-responsive mt-2'>Offer trade</a>
                 </div>
                 {% elif not plant.for_trade %}
                 <div>

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from .models import Plant, Species, Image, Trade, Thumbnail
+from .models import Plant, Species, Image, Thumbnail
 from django.views.generic.edit import FormMixin
 from django.core.cache import cache
 from .helper_functions import order_query
@@ -267,82 +267,7 @@ class update_plant(LoginRequiredMixin, FormMixin,generic.View):
 
         context = {"form": form, "plant": plant}
         return render(request, self.template_name, context)
-
-
-"""
-This view is for making trade between two plants.
-It is receiving two kinds of get requests: one for ajax request for user requesting trade and one for displaying desired plant.
-"""
-class trade(LoginRequiredMixin, View):
-    def get(self, request, req):
-        # This is for ajax request to return plant that user selected as to be traded
-        try:
-            plant = get_object_or_404(Plant, nick_name=request.GET["plant"].strip())
-            return render(
-                request, "plant_collection/assets/trade_offered_plant.html", {"plant": plant}
-            )
-        except:
-            pass
-        req_plant = get_object_or_404(Plant, slug=req)
-        return render(request, "plant_collection/trade.html", {"req": req_plant})
-
-    # Two plants are posted and trade is made between their owners
-    def post(self, request, req):
-        offered = get_object_or_404(Plant, nick_name=request.POST["offered"])
-        requested = get_object_or_404(Plant, nick_name=request.POST["requested"])
-        initiator = request.user
-        recipient = requested.owner
-        errors = []
-        # Checking wheter user is not trying to trade with himself, wheter he has not already made this trade
-        if offered.owner == recipient:
-            errors.append("You cannot trade with yourself.")
-        if Trade.objects.filter(
-            plant_offered=offered,
-            plant_requested=requested,
-            initiator=initiator,
-            recipient=recipient,
-        ):
-            errors.append("You have already made this trade.")
-        elif Trade.objects.filter(
-            plant_offered=requested,
-            plant_requested=offered,
-            initiator=recipient,
-            recipient=initiator,
-        ):
-            errors.append("This trade already exists.")
-        if errors:
-            return render(
-                request,
-                "plant_collection/trade.html",
-                {"req": requested, "errors": errors},
-            )
-        trade = Trade.objects.create(
-            plant_offered=offered,
-            plant_requested=requested,
-            initiator=initiator,
-            recipient=recipient,
-        )
-        trade.save()
-        return redirect("plant_collection:personal_collection")
-
-
-"""
-This view is for displaying all trades that given plant is involved in.
-"""
-class plant_offers(LoginRequiredMixin, generic.View):
-    template_name = "plant_collection/plant_offers.html"
-
-    def get(self, request, slug):
-        plant = get_object_or_404(Plant, slug=slug)
-        if request.user == plant.owner:
-            # Showing only trades that are not finalized
-            req = Trade.objects.filter(plant_requested=plant, finalized=False)
-            offered = Trade.objects.filter(plant_offered=plant, finalized=False)
-            context = {"offers": offered, "requests": req, "plant": plant}
-            return render(request, self.template_name, context)
-        return redirect("plant_collection:front_page")
     
-
 def like_view(request):
     if request.POST.get('plant'):
         plant = request.POST["plant"]
