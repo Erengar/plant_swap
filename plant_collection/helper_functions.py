@@ -3,6 +3,7 @@ from django.db.models import Q, Count
 from django.core.cache import cache
 
 def order_query(request, order, context, pagination=None, specie=None, search=None, my_collection=False):
+    print(order, pagination, specie, search, my_collection)
     def slicing(query):
         if not my_collection:
             slice = query[(context["current_page"] - 1) * 12 : context["current_page"] * 12]
@@ -23,69 +24,72 @@ def order_query(request, order, context, pagination=None, specie=None, search=No
         if specie not in [x.slug for x in cache.get('species')]:
             context['species'] = Species.objects.all()
         context['selected_specie'] = specie
-        context["pages"] = range(1, objects.filter(species=Species.objects.get(slug=specie)).count() // 12 + 2)
+        pages = range(1, objects.filter(species=Species.objects.get(slug=specie)).count() // 12 + 2)
         if 'likes' in order:
             if '-' in order:
                 order = order.replace('-','')
-                context["plants"] = slicing(objects.filter(species=Species.objects.get(slug=specie)).annotate(likes_count=Count(order)).order_by('-likes_count'))
+                objects = objects.filter(species=Species.objects.get(slug=specie)).annotate(likes_count=Count(order)).order_by('-likes_count')
             else:
-                context["plants"] = slicing(objects.filter(species=Species.objects.get(slug=specie)).annotate(likes_count=Count(order)).order_by('likes_count'))
+                objects = objects.filter(species=Species.objects.get(slug=specie)).annotate(likes_count=Count(order)).order_by('likes_count')
         else:
-            context["plants"] = slicing(objects.filter(species=Species.objects.get(slug=specie)).order_by(order))
+            objects = objects.filter(species=Species.objects.get(slug=specie)).order_by(order)
 
         # This is for search bar request
-    elif request.GET.get("search") or search:
+    if request.GET.get("search") or search:
         # This is for search bar request, we are searching for plants that have given string in their nick_name, owner or species name
         plants = search
         if request.GET.get("search"):
             plants=request.GET.get("search")
         context['search'] = plants
-        if 'likes' in order:
-            if '-' in order:
-                order = order.replace('-','')
-                context["plants"] = slicing(objects.filter(
-                    Q(nick_name__icontains=plants)
-                    | Q(owner__username__icontains=plants)
-                    | Q(species__name__icontains=plants)
-                ).annotate(likes_count=Count(order)).order_by('-likes_count'))
-            else:
-                context["plants"] = slicing(objects.filter(
-                Q(nick_name__icontains=plants)
-                | Q(owner__username__icontains=plants)
-                | Q(species__name__icontains=plants)
-                ).annotate(likes_count=Count(order)).order_by('likes_count'))
-        else:
-            context["plants"] = slicing(objects.filter(
-            Q(nick_name__icontains=plants)
-            | Q(owner__username__icontains=plants)
-            | Q(species__name__icontains=plants)
-            ).order_by(order))
-            
-        context["pages"] = range(1, objects.filter(
+
+        pages = range(1, objects.filter(
             Q(nick_name__icontains=plants)
             | Q(owner__username__icontains=plants)
             | Q(species__name__icontains=plants)
             ).count() // 12 + 2)
-        
-    else:
-        if not my_collection:
-            context["pages"] = range(1, objects.count() // 12 + 2)
-            if 'likes' in order:
-                if '-' in order:
-                    order = order.replace('-','')
-                    context["plants"] = slicing(objects.annotate(likes_count=Count(order)).order_by('-likes_count'))
-                else:
-                    context["plants"] = slicing(objects.annotate(likes_count=Count(order)).order_by('likes_count'))
+
+        if 'likes' in order:
+            if '-' in order:
+                order = order.replace('-','')
+                objects = objects.filter(
+                    Q(nick_name__icontains=plants)
+                    | Q(owner__username__icontains=plants)
+                    | Q(species__name__icontains=plants)
+                ).annotate(likes_count=Count(order)).order_by('-likes_count')
             else:
-                context["plants"] = slicing(objects.order_by(order))
+                objects = objects.filter(
+                Q(nick_name__icontains=plants)
+                | Q(owner__username__icontains=plants)
+                | Q(species__name__icontains=plants)
+                ).annotate(likes_count=Count(order)).order_by('likes_count')
         else:
-            context["pages"] = range(1, (objects.count() + 1) // 12 + 2)
+            objects = objects.filter(
+            Q(nick_name__icontains=plants)
+            | Q(owner__username__icontains=plants)
+            | Q(species__name__icontains=plants)
+            ).order_by(order)
+        
+    if not specie and not request.GET.get("search") and not search:
+        if not my_collection:
+            pages = range(1, objects.count() // 12 + 2)
             if 'likes' in order:
                 if '-' in order:
                     order = order.replace('-','')
-                    context["plants"] = slicing(objects.annotate(likes_count=Count(order)).order_by('-likes_count'))
+                    objects = objects.annotate(likes_count=Count(order)).order_by('-likes_count')
                 else:
-                    context["plants"] = slicing(objects.annotate(likes_count=Count(order)).order_by('likes_count'))
+                    objects = objects.annotate(likes_count=Count(order)).order_by('likes_count')
             else:
-                context["plants"] = slicing(objects.order_by(order))
+                objects = objects.order_by(order)
+        else:
+            pages = range(1, (objects.count() + 1) // 12 + 2)
+            if 'likes' in order:
+                if '-' in order:
+                    order = order.replace('-','')
+                    objects = objects.annotate(likes_count=Count(order)).order_by('-likes_count')
+                else:
+                    objects = objects.annotate(likes_count=Count(order)).order_by('likes_count')
+            else:
+                objects = objects.order_by(order)
+    context["plants"] = slicing(objects)
+    context["pages"] = pages
     return context

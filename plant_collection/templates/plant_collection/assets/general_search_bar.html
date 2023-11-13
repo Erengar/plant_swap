@@ -1,5 +1,9 @@
 {% load static %}
+{% if selected_specie%}
+<form class='search-bar' method='get' action="{% url 'plant_collection:front_page' specie=selected_specie order=order pagination=current_page %}" style='display:flex; gap:1vw; align-items:center;'>
+{% else %}
 <form class='search-bar' method='get' action="{% url 'plant_collection:front_page' %}" style='display:flex; gap:1vw; align-items:center;'>
+{% endif %}
     <label for='search-plant' class='sr-only'>Search for plants:</label>
     <div class="control has-icons-right" style='width:80% !important'>
         <input id='search-plant' class="input is-small" type="text" name='search'

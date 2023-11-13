@@ -10,7 +10,32 @@
     </div>
     <div class="dropdown-menu" id="dropdown-menu" role="menu">
         <div class="dropdown-content">
-            {% if selected_specie %}
+            {% if selected_specie and search%}
+            <a href={% url 'plant_collection:front_page' search=search specie=selected_specie order='-likes' pagination=1 %} class="dropdown-item" id='-likes'>
+                Likes Descending
+            </a>
+            <a href={% url 'plant_collection:front_page' search=search specie=selected_specie order='likes' pagination=1 %} class="dropdown-item" id='likes'>
+                Likes Ascending
+            </a>
+            <a href={% url 'plant_collection:front_page' search=search specie=selected_specie order='-created' pagination=1 %} class="dropdown-item" id='-created'>
+                Newest
+            </a>
+            <a href={% url 'plant_collection:front_page' search=search specie=selected_specie order='created' pagination=1 %} class="dropdown-item" id='created'>
+                Oldest
+            </a>
+            <a href={% url 'plant_collection:front_page' search=search specie=selected_specie order='nick_name' pagination=1 %} class="dropdown-item" id='nick_name'>
+                Name A-Z
+            </a>
+            <a href={% url 'plant_collection:front_page' search=search specie=selected_specie order='-nick_name' pagination=1 %} class="dropdown-item" id='-nick_name'>
+                Name Z-A
+            </a>
+            <a href={% url 'plant_collection:front_page' search=search specie=selected_specie order='-owner' pagination=1 %} class="dropdown-item" id='-owner'>
+                Owner Z-A
+            </a>
+            <a href={% url 'plant_collection:front_page' search=search specie=selected_specie order='owner' pagination=1 %} class="dropdown-item" id='owner'>
+                Owner Z-A
+            </a>
+            {% elif selected_specie %}
             <a href={% url 'plant_collection:front_page' specie=selected_specie order='-likes' pagination=1 %} class="dropdown-item" id='-likes'>
                 Likes Descending
             </a>

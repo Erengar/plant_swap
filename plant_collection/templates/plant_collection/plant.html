@@ -76,7 +76,6 @@
             </h3>
 
             <div style="grid-area:subtitle;">
-                {% if plant.picture.all %}
                 <h4 class='subtitle is-size-5-widescreen is-size-6-desktop is-size-6-touch'>
                     {% if user == plant.owner or not user.is_authenticated %}
                         <span>Owner: <strong>{{plant.owner}}</strong></span>
@@ -104,7 +103,6 @@
                 <h3 class='subtitle is-size-6-desktop is-size-7-touch'>
                     Location: <strong>Unknown</strong>
                 </h3>
-                {% endif %}
                 {% endif %}
             </div>
 

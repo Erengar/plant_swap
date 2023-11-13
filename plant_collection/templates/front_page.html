@@ -6,9 +6,17 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/search_bar.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/pagination.css' %}">
 <style>
+    .custom_tags{
+        margin-bottom: 1rem;
+        display: flex;
+        gap: 1rem;
+    }
     @media screen and (max-width: 1023px) {
         #plants-dump {
             padding-right: 0 !important;
+        }
+        .custom_tags {
+            margin-left: 1rem;
         }
     }
 </style>
@@ -25,6 +33,8 @@
 
         {% include "plant_collection/assets/ordering_dropdown_front_page.html" %}
         </div>
+
+        {% include "plant_collection/assets/custom_tags.html" %}
 
         <section id='plants-dump' class='px-0 pt-0 pr-4'>
             {% include "plant_collection/assets/plants_gallery.html" %}

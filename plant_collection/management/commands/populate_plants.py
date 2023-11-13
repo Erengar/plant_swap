@@ -20,6 +20,6 @@ class Command(BaseCommand):
                                         owner=User.objects.get(username='Polo'),
                                         for_trade=for_trade,
                                         location=line[1],
-                                        species=Species.objects.get(name='Snake Plant'),
+                                        species=random.choice(list(Species.objects.all())),
                                         )
         self.stdout.write(self.style.SUCCESS('Plants added to database!'))

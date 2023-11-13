@@ -17,5 +17,6 @@ urlpatterns= [
     path('<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
     path('<slug:specie>/<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
     path('search=<str:search>/<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
-    path('my-collection/search=<str:search>/<str:order>/page/<int:pagination>/', views.personal_collection.as_view(), name='personal_collection'),
+        path('my-collection/search=<str:search>/<str:order>/page/<int:pagination>/', views.personal_collection.as_view(), name='personal_collection'),
+    path('<slug:specie>/search=<str:search>/<str:order>/page/<int:pagination>/', views.front_page.as_view(), name='front_page'),
 ]

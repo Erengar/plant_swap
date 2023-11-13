@@ -1,0 +1,27 @@
+<section class='custom_tags'>
+    {% if search %}
+    <div>
+        <span class="tag" style="background-color: #3A6B35;color: white;">
+            {{search}}
+            {% if selected_specie %}
+            <a href={% url 'plant_collection:front_page' specie=selected_specie order=order pagination=current_page %} class="delete is-small"></a>
+            {% else %}
+            <a href={% url 'plant_collection:front_page' %} class="delete is-small"></a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+
+    {% if selected_specie %}
+    <div>
+        <span class="tag" style="background-color: #3A6B35;color: white;">
+            {{selected_specie}}
+            {% if search %}
+            <a href={% url 'plant_collection:front_page' search=search order=order pagination=current_page %} class="delete is-small"></a>
+            {% else %}
+            <a href={% url 'plant_collection:front_page' %} class="delete is-small"></a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+</section>
