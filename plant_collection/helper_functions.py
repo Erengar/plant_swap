@@ -3,7 +3,6 @@ from django.db.models import Q, Count
 from django.core.cache import cache
 
 def order_query(request, order, context, pagination=None, specie=None, search=None, my_collection=False):
-    print(order, pagination, specie, search, my_collection)
     def slicing(query):
         if not my_collection:
             slice = query[(context["current_page"] - 1) * 12 : context["current_page"] * 12]
