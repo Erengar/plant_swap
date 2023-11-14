@@ -42,28 +42,29 @@ function checkDirection1() {
   }
 }
 
+if (rightBtn1 && leftBtn1) {
+    rightBtn1.addEventListener('click', () => {
+        hide1();
+        if (position1 == pictures1.length-1) {
+            position1 = 0;
+        } else {
+            position1 ++;
+        }
+        pictures1[position1].removeAttribute('hidden');
+        pictures1[position1].classList.add('faded');
+    })
 
-rightBtn1.addEventListener('click', () => {
-    hide1();
-    if (position1 == pictures1.length-1) {
-        position1 = 0;
-    } else {
-        position1 ++;
-    }
-    pictures1[position1].removeAttribute('hidden');
-    pictures1[position1].classList.add('faded');
-})
-
-leftBtn1.addEventListener('click', () => {
-    hide1();
-    if (position1 == 0) {
-        position1 = pictures1.length-1;
-    } else {
-        position1 --;
-    }
-    pictures1[position1].removeAttribute('hidden');
-    pictures1[position1].classList.add('faded');
-})
+    leftBtn1.addEventListener('click', () => {
+        hide1();
+        if (position1 == 0) {
+            position1 = pictures1.length-1;
+        } else {
+            position1 --;
+        }
+        pictures1[position1].removeAttribute('hidden');
+        pictures1[position1].classList.add('faded');
+    })
+}
 
 
 carousel1.on('touchstart', e => {
@@ -99,6 +100,7 @@ function hide() {
 
 
 function checkDirection() {
+    console.log('checkDirection');
     let delta = Math.abs(touchendX - touchstartX)
     if ((touchendX > touchstartX) && (delta > 150)) {
         hide();
@@ -124,6 +126,7 @@ function checkDirection() {
 
 
 rightBtn.addEventListener('click', () => {
+    console.log('right');
     hide();
     if (position == pictures.length-1) {
         position = 0;
@@ -135,6 +138,7 @@ rightBtn.addEventListener('click', () => {
 })
 
 leftBtn.addEventListener('click', () => {
+    console.log('left');
     hide();
     if (position == 0) {
         position = pictures.length-1;

@@ -51,28 +51,28 @@
 
             <div class='card-content columns is-mobile' style='margin:0; padding:0.5rem;'>
                 <div class='column is-6'>
-                    <div class='title is-size-4-widescreen is-size-4-touch is-size-5-desktop'>
+                    <h2 class='title is-size-4-widescreen is-size-4-touch is-size-5-desktop'>
                         <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">{{plant.nick_name}}</a>
-                    </div>
-                    <div class='subtitle is-size-6-widescreen is-size-6-touch is-size-6-desktop'>
+                    </h2>
+                    <h3 class='subtitle is-size-6-widescreen is-size-6-touch is-size-6-desktop'>
                         {% if user == plant.owner or not user.is_authenticated %}
                         <span>{{plant.owner}}</span>
                         {% else %}
                         <span class='icon-text'>
                             <span>{{plant.owner}}</span>
-                            <a href="{% url 'accounts:write_message' name=plant.owner %}" class="icon"><img src="{% static 'plant_collection/icons/envelope.svg' %}"></a>
+                            <a href="{% url 'accounts:write_message' name=plant.owner %}" class="icon"><img src="{% static 'plant_collection/icons/envelope.svg' %}" alt="Message icon"></a>
                         </span>
                         {% endif %}
-                    </div>
+                    </h3>
                 </div>
 
 
                 <div class='column is-6'>
-                    <div class='has-text-right'>
+                    <h4 class='has-text-right'>
                         {% if plant.for_trade %}
                         <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-7-touch'>
                             <span class='icon'>
-                                <img src="{% static 'plant_collection/icons/trade.svg' %}">
+                                <img src="{% static 'plant_collection/icons/trade.svg' %}" alt="Trade icon">
                             </span>
                             {% if plant.location %}
                             {{plant.location}}
@@ -83,14 +83,14 @@
                         {% else %}
                         <span class='icon-text has-text-weight-semibold is-size-7-desktop is-size-7-touch'>
                             <span class='icon'>
-                                <img src="{% static 'plant_collection/icons/no_trade.svg' %}">
+                                <img src="{% static 'plant_collection/icons/no_trade.svg' %}" alt="Trade icon">
                             </span>
                             Not for Trade
                         </span>
                         {% endif %}
-                    </div>
+                    </h4>
 
-                    <div class='has-text-right'>
+                    <h5 class='has-text-right'>
                         {% csrf_token %}
                         {% if not user in plant.likes.all %}
                         <div>
@@ -104,7 +104,7 @@
                         <div class='number_likes is-size-7 has-text-weight-bold' data-plant='{{ plant.id }}'>
                             {{ plant.number_of_likes }} like/s
                         </div>
-                    </div>
+                    </h5>
                 </div>
 
             </div>

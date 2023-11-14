@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +13,7 @@
     </script>
 
 
-    {% load static %}
+    <meta name="google-site-verification" content="GEnbE0IAN0UJtc4colED9XY3fEGv_1RWaaMDtjTWkFE" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static "plant_collection/css/base.css" %}">
@@ -46,11 +47,11 @@
                 {% else %}
                 <a href="{% url 'plant_collection:front_page' %}" class='navbar-item is-tab forest-green'>
                 {% endif %}
-                    <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/house.svg' %}" ></span><span>Home</span></span>
+                    <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/house.svg' %}" alt='Home icon'></span><span>Home</span></span>
                 </a>
                 {% if user.is_authenticated %}
                 <a href="{% url 'plant_collection:personal_collection' %}" class='navbar-item is-tab forest-green'>
-                    <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/leaf.svg' %}" ></span><span>My
+                    <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/leaf.svg' %}" alt="My collection icon"></span><span>My
                             collection</span></span>
                 </a>
                 {% endif %}
@@ -69,15 +70,15 @@
                 <div class='navbar-start'>
                     <a class='navbar-item is-tab forest-green is-hidden-desktop' id='spiece-search'
                         href="{% url 'plant_collection:mobile_specie_search' %}">
-                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/book.svg' %}" ></span><span>Species</span></span>
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/book.svg' %}" alt="Species icon"></span><span>Species</span></span>
                     </a>
                     {% if user.is_authenticated %}
                     <a href="{% url 'trades:trades' %}" class='navbar-item is-tab forest-green'>
-                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/handshake.svg' %}" ></span><span>My
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/handshake.svg' %}" alt="Trade Offers icon"></span><span>My
                                 Trade Offers</span></span>
                     </a>
                     <a href="{% url 'accounts:liked_list' %}" class='navbar-item is-tab forest-green'>
-                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/green_heart.svg' %}" ></span><span>Liked
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/green_heart.svg' %}" alt="Liked Plants icon"></span><span>Liked
                                 Plants</span></span>
                     </a>
                     {% endif %}
@@ -88,7 +89,7 @@
                         <span class='icon-text'><span class='icon'><i class="fa-solid fa-user"></i></span><span>Profile</span></span>
                     </a>
                     <a href="{% url 'accounts:messages' %}" class='navbar-item forest-green is-tab'>
-                        <span class="icon-text"><span class="icon"><img src="{% static 'plant_collection/icons/inbox.svg' %}" ></span><span>Messages</span>
+                        <span class="icon-text"><span class="icon"><img src="{% static 'plant_collection/icons/inbox.svg' %}" alt='Messages icon'></span><span>Messages</span>
                             {% for message in user.received_messages.all %}
                             {% if message.read == False %}
                             <span class='dot-container'>
@@ -103,11 +104,11 @@
                     {% endif %}
                     {% if user.is_authenticated %}
                     <a href="{% url 'accounts:logout' %}" class='navbar-item forest-green is-tab'>
-                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/logout.svg' %}" ></span><span>Logout</span></span>
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/logout.svg' %}" alt="Logout icon"></span><span>Logout</span></span>
                     </a>
                     {% else %}
                     <a href="{% url 'accounts:login' %}" class='navbar-item forest-green is-tab'>
-                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/user.svg' %}" ></span><span>Login/Signup</span></span>
+                        <span class='icon-text'><span class='icon'><img src="{% static 'plant_collection/icons/user.svg' %}" alt="Login icon"></span><span>Login/Signup</span></span>
                     </a>
                     {% endif %}
                 </div>

@@ -8,7 +8,7 @@
             <input id='ajax-search' class="input is-small" type="text" name='search'
             placeholder="Search...">
             <span class="icon is-small is-right">
-                <img src="{% static 'plant_collection/icons/search.svg' %}" >
+                <img src="{% static 'plant_collection/icons/search.svg' %}" alt="Search icon">
             </span>
         </div>
         <p class='menu-label'>Species</p>   
@@ -17,15 +17,15 @@
             <!-- if the specie is selected, then the class 'is-active' will be added to the <a> tag -->
             {% if search %}
                 {% if selected_specie == specie.slug %}
-                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' search=search specie=specie.slug order='-likes' pagination=1 %}" class='specie-list is-active'>{{specie}}</a></li>
+                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' search=search specie=specie.slug order='-likes' pagination=1 %}" class='specie-list is-active'><h2>{{specie}}</h2></a></li>
                 {% else %}
-                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' search=search specie=specie.slug order='-likes' pagination=1 %}" class='specie-list'>{{specie}}</a></li>
+                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' search=search specie=specie.slug order='-likes' pagination=1 %}" class='specie-list'><h2>{{specie}}</h2></a></li>
                 {% endif %}
             {% else %}
                 {% if selected_specie == specie.slug %}
-                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' specie=specie.slug order='-likes' pagination=1 %}" class='specie-list is-active'>{{specie}}</a></li>
+                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' specie=specie.slug order='-likes' pagination=1 %}" class='specie-list is-active'><h2>{{specie}}</h2></a></li>
                 {% else %}
-                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' specie=specie.slug order='-likes' pagination=1 %}" class='specie-list'>{{specie}}</a></li>
+                <li class='is-size-7-desktop is-size-7-widescreen is-size-6-fullhd'><a href="{% url 'plant_collection:front_page' specie=specie.slug order='-likes' pagination=1 %}" class='specie-list'><h2>{{specie}}</h2></a></li>
                 {% endif %}
             {% endif %}
             {% endfor %}

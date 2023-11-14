@@ -2,6 +2,8 @@
 {% load static %}
 {% block header %}
 <title>Plant Swap</title>
+<meta name="description" content="Plant Swap is a place where you can see the most exquisite plants and it also allows you to showcase your own to other people. 
+If some plant catches your fancy you might even be able to get your hands on it.">
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/search_bar.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/pagination.css' %}">
@@ -27,6 +29,7 @@
     {% include "plant_collection/assets/search_species.html" %}
 
     <div class='column is-11-widescreen is-four-fifth-desktop' id='main-window'>
+        <h1 class='sr-only'>Plant Swap</h1>
 
         <div style='display:flex; gap:1vw; align-items:center;'>
         {% include "plant_collection/assets/general_search_bar.html" %}
