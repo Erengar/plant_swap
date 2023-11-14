@@ -160,6 +160,7 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 if not DEBUG:
+    MEDIA_URL = 'var/media-save'
     MEDIA_ROOT = 'var/media-save'
 
 #Social logins
