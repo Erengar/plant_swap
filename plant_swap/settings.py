@@ -211,8 +211,15 @@ else:
     STORAGES = {
         "default": {
             "BACKEND": "storages.backends.dropbox.DropboxStorage",
+            "OPTIONS": {
+                "oauth2_access_token": DROPBOX_OAUTH2_TOKEN,
+            },
         },
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },
     }
+
+DROPBOX_TIMEOUT = '100'
+
+DROPBOX_WRITE_MODE = 'add'
