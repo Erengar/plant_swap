@@ -89,6 +89,8 @@ def order_query(request, order, context, pagination=None, specie=None, search=No
                     objects = objects.annotate(likes_count=Count(order)).order_by('likes_count')
             else:
                 objects = objects.order_by(order)
+
+                
     context["plants"] = slicing(objects)
     context["pages"] = pages
     return context
