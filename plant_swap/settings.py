@@ -157,8 +157,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = 'media/'
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = 'var/media-save/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 #Social logins
@@ -194,7 +193,10 @@ else:
 LOGIN_URL = 'two_factor:login'
 
 
-STORAGES = {
+DROPBOX_OAUTH2_TOKEN = "sl.Bp8eXpWX3YaN8GEPezpObbMkOysM_Gpks6MG4mpYFL5_DKOUqkJhkNsPg7lUvhjoBhzo9hCaKvEuIFukPRet1oXUaxrjsP8XT-Kv1ZQS_TawVeIm-PRJ5CTR_efDdxjbn7m-OauYkkTD"
+
+if DEBUG:
+    STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
@@ -202,3 +204,12 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.dropbox.DropboxStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
