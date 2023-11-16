@@ -194,6 +194,8 @@ LOGIN_URL = 'two_factor:login'
 
 
 DROPBOX_OAUTH2_TOKEN = "sl.Bp8eXpWX3YaN8GEPezpObbMkOysM_Gpks6MG4mpYFL5_DKOUqkJhkNsPg7lUvhjoBhzo9hCaKvEuIFukPRet1oXUaxrjsP8XT-Kv1ZQS_TawVeIm-PRJ5CTR_efDdxjbn7m-OauYkkTD"
+DROPBOX_APP_SECRET = "oizf39nvoqoaz2a"
+DROPBOX_APP_KEY = "spsb0t0fj3mu7qu"
 
 if DEBUG:
     STORAGES = {
