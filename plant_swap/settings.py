@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+DEBUG = 'RENDER' in os.environ
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if not DEBUG:
@@ -176,7 +176,7 @@ if not DEBUG:
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
 
 #Caches
-if DEBUG:
+if not DEBUG:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
@@ -198,7 +198,7 @@ DROPBOX_OAUTH2_TOKEN = "sl.Bp8eXpWX3YaN8GEPezpObbMkOysM_Gpks6MG4mpYFL5_DKOUqkJhk
 DROPBOX_APP_SECRET = "oizf39nvoqoaz2a"
 DROPBOX_APP_KEY = "spsb0t0fj3mu7qu"
 
-if DEBUG:
+if not DEBUG:
     STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
