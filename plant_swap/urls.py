@@ -27,4 +27,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('trades/', include('trade.urls')),
     path('', include('social_django.urls', namespace='social')),
+    re_path(r'^media/(?P<path>.*)$', serve, {
+        'document_root': settings.MEDIA_ROOT,
+    })
     ]
