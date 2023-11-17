@@ -42,3 +42,13 @@ html {
 .specie-list.is-active {
     background-color: rgb(49, 88, 45) !important;
 }
+
+.menu-list::-webkit-scrollbar {
+    width: 0.5em;
+    height: 100%;
+    background-color: #ededed;
+}
+.menu-list::-webkit-scrollbar-thumb {
+    background-color: #4a4a4a;
+    border-radius: 0.5em;
+}
