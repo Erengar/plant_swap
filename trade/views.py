@@ -6,13 +6,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from plant_collection.models import Plant
 from .models import Trade
 from django.http import Http404, HttpResponse
+from django.http import HttpRequest
 
 """
 This view is for making trade between two plants.
 It is receiving two kinds of get requests: one for ajax request for user requesting trade and one for displaying desired plant.
 """
 class trade(LoginRequiredMixin, View):
-    def get(self, request, req):
+    def get(self, request: HttpRequest, req: str) -> HttpResponse|Http404:
         # This is for ajax request to return plant that user selected as to be traded
         try:
             plant = get_object_or_404(Plant, nick_name=request.GET["plant"].strip())
@@ -25,7 +26,7 @@ class trade(LoginRequiredMixin, View):
         return render(request, "trades/trade.html", {"req": req_plant})
 
     # Two plants are posted and trade is made between their owners
-    def post(self, request, req):
+    def post(self, request: HttpRequest, req: str | None) -> HttpResponse|Http404:
         offered = get_object_or_404(Plant, nick_name=request.POST["offered"])
         requested = get_object_or_404(Plant, nick_name=request.POST["requested"])
         initiator = request.user
@@ -69,7 +70,7 @@ This view is for displaying all trades that given plant is involved in.
 """
 class plant_offers(LoginRequiredMixin, generic.View):
     template_name = "trades/plant_offers.html"
-    def get(self, request, slug):
+    def get(self, request: HttpRequest, slug: str) -> HttpResponse|Http404:
         plant = get_object_or_404(Plant, slug=slug)
         if request.user == plant.owner:
             # Showing only trades that are not finalized
@@ -82,11 +83,10 @@ class plant_offers(LoginRequiredMixin, generic.View):
 
 class trades_view(LoginRequiredMixin, generic.View):
     template_name = 'trades/offers.html'
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         #Show all trades that are not finalized
         req = Trade.objects.filter(recipient=request.user, finalized=False)
         offered = Trade.objects.filter(initiator=request.user, finalized=False)
-        print(req, offered)
         context = {'offers':offered, 'requests':req}
         return render(request, self.template_name, context)
     
@@ -97,12 +97,12 @@ It receives 2 kinds of POST requests: One for accepting/declining/retracting a t
 '''
 class trade_final(LoginRequiredMixin, generic.View):
     template_name = 'trades/trade_final.html'
-    def get(self, request, pk):
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse|Http404:
         trade = get_object_or_404(Trade, pk=pk)
         context = {'trade':trade}
         return render(request, self.template_name, context)
     
-    def post(self, request, pk):
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse|Http404:
         #This part is for accepting or declining a trade
         decline = request.POST.get('decline', None)
         accept = request.POST.get('accept', None)

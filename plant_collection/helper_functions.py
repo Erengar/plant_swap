@@ -1,9 +1,17 @@
 from .models import Plant, Species
 from django.db.models import Q, Count
 from django.core.cache import cache
+from django.http import HttpRequest
+from django.db.models.query import QuerySet
 
-def order_query(request, order, context, pagination=None, specie=None, search=None, my_collection=False):
-    def slicing(query):
+def order_query(request: HttpRequest,
+                order: str,
+                context: dict[str,str|int],
+                pagination: int | None = None,
+                specie: str | None =None,
+                search: str | None = None,
+                my_collection: bool =False) -> dict[str,str|int]:
+    def slicing(query: QuerySet):
         if not my_collection:
             slice = query[(context["current_page"] - 1) * 12 : context["current_page"] * 12]
         elif pagination == 1:

@@ -6,7 +6,7 @@ from django.views import generic, View
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from plant_collection.models import Plant
-from django.http import Http404
+from django.http import Http404, HttpRequest, HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponse
 from .models import Message
 from django.core.management import call_command
 
@@ -16,7 +16,7 @@ class login_view(LoginView):
     authentication_form = LoginForm
     redirect_authenticated_user = True
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         form = LoginForm(request.POST)
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is not None:
@@ -24,14 +24,14 @@ class login_view(LoginView):
             return redirect('plant_collection:front_page')
         return render(request, self.template_name, {'form':form, 'error': 'Invalid username or password.'})
 
-def logout_view(request):
+def logout_view(request: HttpRequest) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     logout(request)
     return redirect('plant_collection:front_page')
 
 class registration_view(View):
     template_name = 'accounts/registration.html'
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         if request.user.is_authenticated:
             return redirect('plant_collection:personal_collection')
         form = RegistrationForm
@@ -39,7 +39,7 @@ class registration_view(View):
         return render(request, self.template_name, context)
 
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         form = RegistrationForm(request.POST)
         if form.is_valid():
             c = User.objects.create_user(username=form.cleaned_data['username'],
@@ -58,7 +58,7 @@ This view is for showing plants user have liked.
 '''
 class liked_list(LoginRequiredMixin, generic.View):
     template_name = 'accounts/like_list.html'
-    def get(self, request, order='-likes'):
+    def get(self, request: HttpRequest, order: str = '-likes') -> HttpResponse:
         context = {'plants':Plant.objects.filter(likes=request.user).order_by(order)}
         return render(request, self.template_name, context)
     
@@ -67,7 +67,7 @@ class liked_list(LoginRequiredMixin, generic.View):
 This receives receives GET and POST requests. It show all sent and received messages and allows delete of messages.
 '''
 class messages_view(LoginRequiredMixin, generic.View):
-    def get(self, request, order='-date_sent'):
+    def get(self, request: HttpRequest, order: str = '-date_sent') -> HttpResponse:
         context = {}
         messages = Message.objects.filter(receiver=request.user).order_by(order, '-date_sent')
         #If the url contains 'sent', it shows sent messages instead of received messages
@@ -78,7 +78,7 @@ class messages_view(LoginRequiredMixin, generic.View):
         context['order'] = order
         return render(request, 'accounts/messages.html', context)
     
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         for req in request.POST:
             if req != 'csrfmiddlewaretoken':
                 m = Message.objects.get(slug_subject=req)
@@ -96,7 +96,7 @@ This receives only GET request, but need additional parameter for identifying me
 It is for showing the message. It also marks the message as read.
 '''
 class message_view(LoginRequiredMixin, generic.View):
-    def get(self, request, slug):
+    def get(self, request: HttpRequest, slug: str) -> HttpResponse | Http404:
         message = get_object_or_404(Message, slug_subject=slug)
         if request.user not in (message.receiver, message.sender):
             raise Http404("You are not authorized to do that.")
@@ -111,7 +111,7 @@ class message_view(LoginRequiredMixin, generic.View):
 This view receives both GET and POST requests. It is for writing a message. It is utilizing django forms.
 '''
 class write_message_view(LoginRequiredMixin, generic.View):
-    def get(self, request, name):
+    def get(self, request: HttpRequest, name: str) -> HttpResponse:
         if name== '@':
             form = MessageForm
         else:
@@ -119,7 +119,7 @@ class write_message_view(LoginRequiredMixin, generic.View):
         context = {'form':form}
         return render(request, 'accounts/write_message.html', context)
     
-    def post(self, request, name):
+    def post(self, request: HttpRequest, name: str | None) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         form = MessageForm(request.POST)
         if request.POST['receiver'] == request.user.username:
             form.add_error('receiver', 'You cannot send a message to yourself.')
@@ -142,7 +142,7 @@ class write_message_view(LoginRequiredMixin, generic.View):
 This is variation of write_message_view. It is for replying to a message. It receives only GET and POST request.
 '''
 class reply_message_view(LoginForm, generic.View):
-    def get(self, request, slug):
+    def get(self, request: HttpRequest, slug: str) -> HttpResponse | Http404:
         message = get_object_or_404(Message, slug_subject=slug)
         form = MessageForm(initial={'receiver':message.sender.username,
                                     'subject':'Re: ' + message.subject,
@@ -150,7 +150,7 @@ class reply_message_view(LoginForm, generic.View):
         context = {'form':form}
         return render(request, 'accounts/write_message.html', context)
     
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         form = MessageForm(request.POST)
         if request.POST['receiver'] == request.user.username:
             form.add_error('receiver', 'You cannot send a message to yourself.')
@@ -169,18 +169,18 @@ class reply_message_view(LoginForm, generic.View):
         return render(request, 'accounts/write_message.html', {'form':form})
     
 class profile_view(LoginRequiredMixin, generic.View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         context = {'user':request.user}
         return render(request, 'accounts/profile.html', context)
 
-def seed_plants(request):
+def seed_plants(request: HttpRequest) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     call_command('populate_plants')
     return redirect('plant_collection:front_page')
 
-def clean_plants(request):
+def clean_plants(request: HttpRequest) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     call_command('depopulate_plants')
     return redirect('plant_collection:front_page')
 
-def delete_profile(request):
+def delete_profile(request: HttpRequest) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     request.user.delete()
     return redirect('plant_collection:front_page')

@@ -11,6 +11,7 @@ from .models import Plant, Species, Image, Thumbnail
 from django.views.generic.edit import FormMixin
 from django.core.cache import cache
 from .helper_functions import order_query
+from django.http import HttpRequest, Http404, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 """
 This view shows all owned plants, defult by number of likes.
@@ -18,7 +19,7 @@ This view shows all owned plants, defult by number of likes.
 class personal_collection(LoginRequiredMixin, generic.View):
     template_name = "plant_collection/collection.html"
 
-    def get(self, request, pagination=1, order='-likes', search=None):
+    def get(self, request: HttpRequest, pagination: int = 1, order: str ='-likes', search: str | None = None) -> HttpResponse:
         #We cannot order nick_name case insensitively, therefore we are replacing nick_name with slug
         if 'nick_name' in order:
             order = order.replace('nick_name', 'slug')
@@ -40,7 +41,11 @@ This view shows all plants depending on selected ordering(default is by likes) a
 class front_page(generic.View):
     template_name = "front_page.html"
 
-    def get(self, request, pagination=1, order ='-likes', specie=None, search=None):
+    def get(self, request: HttpRequest,
+            pagination: int = 1,
+            order: str = '-likes',
+            specie: str | None = None,
+            search: str | None = None) -> HttpResponse:
         #We cannot order nick_name case insensitively, therefore we are replacing nick_name with slug
         if 'nick_name' in order:
             order = order.replace('nick_name', 'slug')
@@ -68,7 +73,7 @@ This view is here only to receive species search bar and to unroll species bar o
 @method_decorator(csrf_exempt, name="dispatch")
 class search(View):
     # This receives get request from search bar
-    def get(self, request, specie=None):
+    def get(self, request: HttpRequest, specie: str | None = None) -> HttpResponse:
         #If there is search string in request, we are searching for species that have given string in their name else we are returning all species
         if request.GET.get("search"):
             search = request.GET.get("search")
@@ -83,7 +88,7 @@ This view is for mobile species search, it returns all species
 class mobile_specie_search(generic.View):
     template_name = "plant_collection/mobile_specie_search.html"
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         if not cache.get('species_all'):
             cache.set('species_all', Species.objects.all(), 60*60*24)
         species = cache.get('species_all')
@@ -98,13 +103,13 @@ This view receives post reqests for like and delete buttons
 class plant_view(generic.View):
     template_name = "plant_collection/plant.html"
 
-    def get(self, request, slug):
+    def get(self, request: HttpRequest, slug: str) -> HttpResponse | Http404:
         plant = get_object_or_404(Plant, slug=slug)
         context = {"plant": plant}
         return render(request, self.template_name, context)
 
 
-    def post(self, request, slug):
+    def post(self, request: HttpRequest, slug: str) -> HttpResponse | Http404:
         plant = get_object_or_404(Plant, slug=slug)
         if image:=(request.POST.get("thumbnail")) and request.user == plant.owner:
             image = Image.objects.get(pk=image)
@@ -128,11 +133,11 @@ class add_plant(LoginRequiredMixin, View):
     plant_form = add_plant_form
     ima_form = image_form
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         context = {"form": self.plant_form, "image": self.ima_form}
         return render(request, self.template_name, context)
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         plant_form = self.plant_form(request.POST)
         ima_form = self.ima_form(request.FILES)
         # Checks wheter some image was submitted
@@ -189,7 +194,7 @@ class update_plant(LoginRequiredMixin, FormMixin,generic.View):
     ima_form = image_form
 
     # This is for prefilling form with data from database
-    def get_initial(self):
+    def get_initial(self) -> dict:
         plant = get_object_or_404(Plant, slug=self.kwargs["slug"])
         initial = super(update_plant, self).get_initial()
         initial["nick_name"] = plant.nick_name
@@ -199,7 +204,7 @@ class update_plant(LoginRequiredMixin, FormMixin,generic.View):
         initial["content"] = plant.content
         return initial
 
-    def get(self, request, slug):
+    def get(self, request: HttpRequest, slug: str) -> HttpResponse | Http404 | HttpResponseRedirect | HttpResponsePermanentRedirect:
         plant = get_object_or_404(Plant, slug=slug)
         # We need to chceck wheter user accessing this url is truly owner of given object.
         # Django permission system is not appropriate and as far as I know there is nothing better than this solution.
@@ -211,7 +216,7 @@ class update_plant(LoginRequiredMixin, FormMixin,generic.View):
         context = {"form": form, "plant": plant, "image": image}
         return render(request, self.template_name, context)
 
-    def post(self, request, slug):
+    def post(self, request: HttpRequest, slug: str) -> HttpResponse | Http404 | HttpResponseRedirect | HttpResponsePermanentRedirect:
         plant = get_object_or_404(Plant, slug=slug)
         # Dont know if this is needed in here, but just to be sure
         if request.user != plant.owner:
@@ -268,7 +273,7 @@ class update_plant(LoginRequiredMixin, FormMixin,generic.View):
         context = {"form": form, "plant": plant}
         return render(request, self.template_name, context)
     
-def like_view(request):
+def like_view(request: HttpRequest) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
     if request.POST.get('plant'):
         plant = request.POST["plant"]
         user = request.POST["user"]
