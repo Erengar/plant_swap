@@ -13,6 +13,11 @@
     margin-right: auto;
 }
 
+#search-plant:focus, #ajax-search:focus, .dropdown-trigger > button:focus {
+    border-color: rgb(49, 88, 45);
+    box-shadow: 0 0 0 0.125em rgba(49, 88, 45, 0.295);
+}
+
 @media screen and (max-width: 1024px) {
     .search-bar {
         margin-top: 10px;
