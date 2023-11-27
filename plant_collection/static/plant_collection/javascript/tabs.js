@@ -1,3 +1,4 @@
+// This file contains the javascript for highlighting the active tab in the navbar
 var url = window.location.href;
 
 

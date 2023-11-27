@@ -1,3 +1,4 @@
+// This file is used to search for species in the database and display them in the menu list
 $('#ajax-search').on('keyup', _.debounce(function () {
     var search = $(this).val();
 

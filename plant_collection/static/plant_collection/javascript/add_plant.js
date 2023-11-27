@@ -23,7 +23,9 @@
         removeInput()
       })
 
-    
+    /**
+     * This function hides input field after image is uploaded
+     */
     function removeInput() {
         let node = document.getElementById(`hiding${counti}`);
         let hid = document.createAttribute('hidden');
@@ -33,6 +35,9 @@
 
     }
     
+    /**
+     * This function adds new input field after image is uploaded
+     */
     //Needs different variable, because it starts counting from 1, as 0 is already placed in html
     function addInput() {
         count ++
@@ -57,6 +62,9 @@
         input = document.querySelector(`.input_tag${count}`);
     }
 
+    /**
+     * This function displays images in the output div
+     */
     function displayImages() {
         let images = "";
         imagesArray.forEach((image, index) => {
@@ -74,6 +82,10 @@
         output.innerHTML = images;
     }
 
+    /**
+     * This function deletes image from imagesArray and calls displayImages() to display images again
+     * @param {string} index 
+     */
     function deleteImage(index) {
         let nod = document.getElementById(`input_tag${index}`);
         let dis = document.createAttribute('disabled');

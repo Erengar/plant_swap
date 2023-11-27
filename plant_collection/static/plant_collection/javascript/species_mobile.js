@@ -1,3 +1,4 @@
+//This file contains the javascript for the mobile version of the species search bar, it allows display of specie sidebar on mobile devices using swipe gestures
 let touchstartX = 0
 let touchendX = 0
 

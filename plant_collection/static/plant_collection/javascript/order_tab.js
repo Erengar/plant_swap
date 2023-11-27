@@ -1,3 +1,4 @@
+//This file contains the javascript for highlighting the active tab in the order menu
 const order_url = window.location.href;
 
 if(order_url.includes('likes') && !order_url.includes('-likes')) {

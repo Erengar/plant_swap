@@ -1,3 +1,4 @@
+// This file is used to like a plant and update the number of likes
 $('.heart').on('click', _.throttle(function() {
     var plant = $(this).attr('data-plant');
     var user = $(this).attr('data-user');
