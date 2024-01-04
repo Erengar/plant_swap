@@ -4,10 +4,11 @@
 <title>Add Plant - Plant Swap</title>
 <link rel="stylesheet" href="{% static 'plant_collection/css/no_padding_section.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/add_plant.css' %}">
+<link rel="stylesheet" href="{% static 'accounts/css/profile_animation.css' %}">
 {% endblock %}
 {% block content %}
 <section class='section'>
-    <form enctype='multipart/form-data' class='box' action="{% url 'plant_collection:add_plant' %}" method='post'>
+    <form onSubmit="loading.showModal()" enctype='multipart/form-data' class='box' action="{% url 'plant_collection:add_plant' %}" method='post'>
         <div class='columns'>
             <div class='column is-6'>
                 {% csrf_token %}
@@ -72,14 +73,18 @@
                             <div class='pt-5'>
                                 <input id='submit-btn' class='button forest-green-button' type="submit" value='Submit'>
                             </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class='column is-6'>
+                        <output class='columns is-multiline mt-6'></output>
+                    </div>
+                </form>
 
-                </div>
-            </div>
-
-            <div class='column is-6'>
-                <output class='columns is-multiline mt-6'></output>
-            </div>
-    </form>
+    <dialog id="loading" aria-hidden="true" style="background:transparent; border: none;">
+        <div class="fas fa-spinner fa-spin forest-green is-size-2"></div>
+    </dialog>
 
 </section>
 

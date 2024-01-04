@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content %}
 <section class='section mx-0'>
-    <form enctype='multipart/form-data' class='box' action="{% url 'plant_collection:update_plant' slug=plant.slug %}"
+    <form onSubmit="loading.showModal()" enctype='multipart/form-data' class='box' action="{% url 'plant_collection:update_plant' slug=plant.slug %}"
         method='post'>
         {% csrf_token %}
         {% for field in form %}
@@ -69,7 +69,7 @@
             <div class='column is-3-widescreen is-4-desktop is-6-tablet is-full-mobile'>
                 <div class='card-image'>
                     <div class="image is-4by3">
-                        <img src='{{pic.image.url}}' data-pic='{{pic}}' alt="Picture of a plant">
+                        <img src={{pic.image}} data-pic='{{pic}}' alt="Picture of a plant">
                         <span class='delete' tabindex=0
                             style="position: absolute; top: 0; right: 0;mix-blend-mode: difference"></span>
                     </div>
@@ -79,6 +79,10 @@
         </div>
 
     </form>
+
+    <dialog id="loading" aria-hidden="true" style="background:transparent; border: none;">
+        <div class="fas fa-spinner fa-spin forest-green is-size-2"></div>
+    </dialog>
 
 </section>
 

@@ -29,7 +29,7 @@
                     {% if trade.plant_offered.thumbnail %}
                     <div class='carousel_image'>
                         <figure class='image is-4by3'>
-                            <img class='carousel contain' src="{{ trade.plant_offered.thumbnail.image.image.url }}" alt="Picture of a plant">
+                            <img class='carousel contain' src="{{ trade.plant_offered.thumbnail.image.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant">
                         </figure>
                     </div>
                     {% endif %}
@@ -37,7 +37,7 @@
                         {% if picture != trade.plant_offered.thumbnail.image %}
                         <div class='carousel_image'>
                             <figure class='image is-4by3'>
-                                <img class='carousel contain' src="{{ picture.image.url }}" alt="Picture of a plant">
+                                <img class='carousel contain' src="{{ picture.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant">
                             </figure>
                         </div>
                         {% endif %}
@@ -147,7 +147,7 @@
                     {% if trade.plant_requested.thumbnail %}
                     <div class='carousel_image1'>
                         <figure class='image is-4by3'>
-                            <img class='carousel contain' src="{{ trade.plant_requested.thumbnail.image.image.url }}" alt="Picture of a plant">
+                            <img class='carousel contain' src="{{ trade.plant_requested.thumbnail.image.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant">
                         </figure>
                     </div>
                     {% endif %}
@@ -155,7 +155,7 @@
                         {% if picture != trade.plant_requested.thumbnail.image %}
                         <div class='carousel_image1'>
                             <figure class='image is-4by3'>
-                                <img class='carousel contain' src="{{ picture.image.url }}" alt="Picture of a plant">
+                                <img class='carousel contain' src="{{ picture.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant">
                             </figure>
                         </div>
                         {% endif %}

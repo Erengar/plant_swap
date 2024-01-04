@@ -14,11 +14,11 @@
                                     <div class='card-image'>
                                         {% if req.plant_offered.thumbnail %}
                                         <figure class='image is-4by3'>
-                                            <img src="{{ req.plant_offered.thumbnail.image.image.url }}" alt="Picture of a plant" class='cover'>
+                                            <img src="{{ req.plant_offered.thumbnail.image.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
                                         </figure>
                                         {% else %}
                                         <figure class='image is-4by3'>
-                                            <img src="{{ req.plant_offered.picture.all.0.image.url }}" alt="Picture of a plant" class='cover'>
+                                            <img src="{{ req.plant_offered.picture.all.0.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
                                         </figure>
                                         {% endif %}
                                     </div>
@@ -69,11 +69,11 @@
                                 <div class='card-image'>
                                     {% if offer.plant_requested.thumbnail %}
                                     <figure class='image is-4by3'>
-                                        <img src="{{ offer.plant_requested.thumbnail.image.image.url }}" alt="Picture of a plant" class='cover'>
+                                        <img src="{{ offer.plant_requested.thumbnail.image.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
                                     </figure>
                                     {% else %}
                                     <figure class='image is-4by3'>
-                                        <img src="{{ offer.plant_requested.picture.all.0.image.url }}" alt="Picture of a plant" class='cover'>
+                                        <img src="{{ offer.plant_requested.picture.all.0.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
                                     </figure>
                                     {% endif %}
                                 </div>

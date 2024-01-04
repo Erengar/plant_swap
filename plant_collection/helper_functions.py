@@ -3,6 +3,8 @@ from django.db.models import Q, Count
 from django.core.cache import cache
 from django.http import HttpRequest
 from django.db.models.query import QuerySet
+from pyuploadcare import Uploadcare
+from .models import Image
 
 def order_query(request: HttpRequest,
                 order: str,
@@ -102,3 +104,12 @@ def order_query(request: HttpRequest,
     context["plants"] = slicing(objects)
     context["pages"] = pages
     return context
+
+
+def upload_images(pictures: list, plant: Plant) -> None:
+    uploadcare = Uploadcare(public_key="f9c7bebe0949bee2838f", secret_key="3d390a60e900c30ee48b")
+    for picture in pictures:
+        data = pictures[picture]
+        ucare_file = uploadcare.upload(data, size=data.size)
+        image = Image.objects.create(plant=plant, image=f'https://ucarecdn.com/{ucare_file.uuid}/')
+        image.save()

@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{% static 'plant_collection/css/plant.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/like_animation.css' %}">
 <link rel="stylesheet" href="{% static 'plant_collection/css/set_thumbnail.css' %}">
+<link rel="stylesheet" href="{% static 'accounts/css/profile_animation.css' %}">
 {% endblock %}
 {% block content %}
 <section class='section'>
@@ -26,11 +27,11 @@
                     <div class='column is-6-tablet is-4-widescreen'>
                         {% if picture == plant.thumbnail.image %}
                         <figure class='image is-4by3 thumbnail selected' id='{{ picture }}'>
-                            <img src="{{ picture.image.url }}" alt="Picture of a plant" loading="lazy">
+                            <img src="{{ picture.image }}" alt="Picture of a plant" loading="lazy">
                         </figure>
                         {% else %}
                         <figure class='image is-4by3 thumbnail' id='{{ picture }}'>
-                            <img src="{{ picture.image.url }}" alt="Picture of a plant" loading="lazy">
+                            <img src="{{ picture.image }}" alt="Picture of a plant" loading="lazy">
                         </figure>
                         {% endif %}
                     </div>
@@ -61,7 +62,7 @@
                         {% csrf_token %}
                         <div class='box'>
                             <div class='block'>Are you sure you want to delete {{plant.nick_name}}?</div>
-                            <input class='button decline-button' type='submit' value='Yes, I am sure'>
+                            <button id="submit-btn" class='button decline-button' type='submit'>Yes, I am sure</button>
                         </div>
                     </form>
                 </div>
@@ -186,6 +187,13 @@
     </div>
     </div>
 </section>
+<script>
+    $('#submit-btn').click(function() {
+        $(this).closest('form').submit();
+        $(this).replaceWith('<button class="loading button decline-button" style="border-radius:50px">Deleting</button>');
+        event.preventDefault();
+    });
+</script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/plant_carousel.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/delete_modal.js' %}"></script>
 <script type='text/javascript' src="{% static 'plant_collection/javascript/like.js' %}"></script>

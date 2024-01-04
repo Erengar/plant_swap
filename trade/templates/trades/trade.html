@@ -68,7 +68,7 @@
                         {% if req.thumbnail %}
                         <div class='carousel_image1'>
                             <figure class='image is-4by3'>
-                                <img class='carousel contain' src="{{ req.thumbnail.image.image.url }}" alt="Picture of a plant">
+                                <img class='carousel contain' src="{{ req.thumbnail.image.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant">
                             </figure>
                         </div>
                         {% endif %}
@@ -76,7 +76,7 @@
                             {% if picture != req.thumbnail.image %}
                             <div class='carousel_image1'>
                                 <figure class='image is-4by3'>
-                                    <img class='carousel contain' src="{{ picture.image.url }}" alt="Picture of a plant">
+                                    <img class='carousel contain' src="{{ picture.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant">
                                 </figure>
                             </div>
                             {% endif %}

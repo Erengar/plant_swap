@@ -10,8 +10,9 @@ from django.utils.decorators import method_decorator
 from .models import Plant, Species, Image, Thumbnail
 from django.views.generic.edit import FormMixin
 from django.core.cache import cache
-from .helper_functions import order_query
+from .helper_functions import order_query, upload_images
 from django.http import HttpRequest, Http404, HttpResponseRedirect, HttpResponsePermanentRedirect
+from pyuploadcare import Uploadcare
 
 """
 This view shows all owned plants, defult by number of likes.
@@ -111,7 +112,8 @@ class plant_view(generic.View):
 
     def post(self, request: HttpRequest, slug: str) -> HttpResponse | Http404:
         plant = get_object_or_404(Plant, slug=slug)
-        if image:=(request.POST.get("thumbnail")) and request.user == plant.owner:
+        if (image:=(request.POST.get("thumbnail"))) and request.user == plant.owner:
+            print(image)
             image = Image.objects.get(pk=image)
             Thumbnail.objects.filter(plant=plant).delete()
             thumbnail = Thumbnail.objects.create(plant=plant, image=image)
@@ -170,17 +172,8 @@ class add_plant(LoginRequiredMixin, View):
                 for_trade=for_trade,
                 content=content
             )
-            # We are using try for cases if user submits more than 1 picture
-            try:
-                plant.save()
-                for picture in pictures:
-                    image = Image.objects.create(plant=plant, image=pictures[picture])
-                    image.save()
-            # If only one picture is submitted, it is not iterable and handled by except
-            except:
-                image = Image.objects.create(plant=plant, image=pictures["picture0"])
-                image.save()
-                plant.save()
+            upload_images(pictures=pictures, plant=plant)
+            plant.save()
             return redirect("plant_collection:personal_collection")
 
         return render(
@@ -257,13 +250,7 @@ class update_plant(LoginRequiredMixin, FormMixin,generic.View):
 
             # This is for adding new images, try and for except are for cases when user submits only one image
             pictures = request.FILES
-            try:
-                for picture in pictures:
-                    image = Image.objects.create(plant=plant, image=pictures[picture])
-                    image.save()
-            except:
-                image = Image.objects.create(plant=plant, image=pictures["image"])
-                image.save()
+            upload_images(pictures=pictures, plant=plant)
 
             # This is for deleting plant if there are no images
             if not plant.picture.all():

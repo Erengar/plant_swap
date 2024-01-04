@@ -32,9 +32,9 @@
                 <figure class='image is-4by3'>
                     <a href="{% url 'plant_collection:plant_view' slug=plant.slug %}">
                         {% if plant.thumbnail %}
-                        <img src="{{ plant.thumbnail.image.image.url }}" alt="Picture of a plant" loading='lazy' class="cover">
+                        <img src="{{ plant.thumbnail.image.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" loading='lazy' class="cover">
                         {% else %}
-                        <img src="{{ plant.picture.all.0.image.url }}" alt="Picture of a plant" loading='lazy' class="cover">
+                        <img src="{{ plant.picture.all.0.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" loading='lazy' class="cover">
                         {% endif %}
                     </a>
                 </figure>

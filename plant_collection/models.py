@@ -5,10 +5,7 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_delete
-from PIL import Image as PILImage
-from PIL import ImageOps
-from io import BytesIO
-from django.core.files import File
+from pyuploadcare import Uploadcare
 
 
 class Species(models.Model):
@@ -65,23 +62,16 @@ class Plant(models.Model):
 
 class Image(models.Model):
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name="picture")
-    image = models.ImageField(upload_to="pics")
-
-    def save(self, *args, **kwargs):
-        if not self.pk:  # Check if the instance is being saved for the first time
-            im = PILImage.open(self.image)
-            im = im.convert("RGB")
-            im = ImageOps.exif_transpose(im)
-            im_io = BytesIO()
-            im.save(im_io, format='JPEG', optimize=True, quality=75, progression=True)
-            im_io.seek(0)
-            webp_name = self.image.name.split(".")[0] + ".jpeg"
-            self.image.save(webp_name, File(im_io), save=False)
-
-        super().save(*args, **kwargs)
+    image = models.CharField(max_length=256)
 
     def __str__(self):
         return str(self.pk)
+    
+@receiver(post_delete, sender=Image)
+def delete_uploadcare_image(sender, instance, **kwargs):
+    uploadcare = Uploadcare(public_key="f9c7bebe0949bee2838f", secret_key="3d390a60e900c30ee48b")
+    file = uploadcare.file(instance.image)
+    file.delete()
 
     
 class Thumbnail(models.Model):
@@ -90,30 +80,3 @@ class Thumbnail(models.Model):
 
     def __str__(self):
         return str(self.pk)
-
-
-@receiver(post_delete, sender=Image)
-def post_save_image(sender, instance, *args, **kwargs):
-    """Clean Old Image file"""
-    try:
-        instance.image.delete(save=False)
-    except:
-        pass
-
-
-@receiver(pre_save, sender=Image)
-def pre_save_image(sender, instance, *args, **kwargs):
-    """instance old image file will delete from os"""
-    try:
-        old_img = instance.__class__.objects.get(id=instance.id).image.path
-        try:
-            new_img = instance.image.path
-        except:
-            new_img = None
-        if new_img != old_img:
-            import os
-
-            if os.path.exists(old_img):
-                os.remove(old_img)
-    except:
-        pass
