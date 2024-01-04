@@ -17,6 +17,7 @@ gunicorn = "^21.2.0"
 redis = {extras = ["hiredis"], version = "^5.0.1"}
 social-auth-app-django = "^5.4.0"
 django-storages = {extras = ["dropbox"], version = "^1.14.2"}
+pyuploadcare = "^5.0.0"
 
 [build-system]
 requires = ["poetry-core"]
