@@ -1,6 +1,7 @@
 .back-image {
     background-image: url('background/plant.jpg');
-    background-size: cover;
+    background-size: 110% 100%;
+    background-repeat: no-repeat;
 }
 
 .footer {
@@ -51,4 +52,9 @@ html {
 .menu-list::-webkit-scrollbar-thumb {
     background-color: #4a4a4a;
     border-radius: 0.5em;
+}
+
+lr-img {
+    --lr-img-pubkey: 'f9c7bebe0949bee2838f';
+    --lr-img-breakpoints: '200, 500, 800';
 }

@@ -72,7 +72,7 @@
                 images += `<div class='column is-6 is-4-widescreen'>
                                 <div class='card-image'>
                                     <div class="image is-4by3">
-                                        <img src="${URL.createObjectURL(image[i])}" alt="Picture of a plant">
+                                        <img src="${URL.createObjectURL(image[i])}" alt="Picture of a plant" class='cover'>
                                         <span style='mix-blend-mode: difference' tabindex=0 onclick="deleteImage(${index}, ${i})">&times;</span>
                                     </div>
                                 </div>

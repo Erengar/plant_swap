@@ -8,7 +8,7 @@
         {% if plant.thumbnail %}
         <div class='carousel_image'>
             <figure class='image is-4by3'>
-                <img class='carousel contain' src="{{ plant.thumbnail.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" loading='lazy'>
+                <lr-img class="carousel contain" src="{{ plant.thumbnail.image.image }}-/progressive/yes/-/quality/smart/-/format/auto/" alt="Picture of a {{plant.nick_name}}"></lr-img>
             </figure>
         </div>
         {% endif %}
@@ -16,7 +16,7 @@
             {% if picture != plant.thumbnail.image %}
             <div class='carousel_image'>
                 <figure class='image is-4by3'>
-                    <img class='carousel contain' src="{{ picture.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" laoding='lazy'>
+                    <lr-img class="carousel contain" src="{{ picture.image }}-/progressive/yes/-/quality/smart/-/format/auto/" alt="Picture of a {{plant.nick_name}}"></lr-img>
                 </figure>
             </div>
             {% endif %}

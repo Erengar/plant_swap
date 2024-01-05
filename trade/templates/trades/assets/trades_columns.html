@@ -13,12 +13,12 @@
                                 {% if req.plant_offered.picture.all %}
                                     <div class='card-image'>
                                         {% if req.plant_offered.thumbnail %}
-                                        <figure class='image is-4by3'>
-                                            <img src="{{ req.plant_offered.thumbnail.image.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
+                                        <figure class='image is-4by3'>                                            
+                                            <lr-img src="{{ req.plant_offered.thumbnail.image.image }}-/progressive/yes/-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'/>
                                         </figure>
                                         {% else %}
                                         <figure class='image is-4by3'>
-                                            <img src="{{ req.plant_offered.picture.all.0.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
+                                            <lr-img src="{{ req.plant_offered.picture.all.0.image }}-/progressive/yes/-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
                                         </figure>
                                         {% endif %}
                                     </div>
@@ -69,11 +69,11 @@
                                 <div class='card-image'>
                                     {% if offer.plant_requested.thumbnail %}
                                     <figure class='image is-4by3'>
-                                        <img src="{{ offer.plant_requested.thumbnail.image.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
+                                        <lr-img src="{{ offer.plant_requested.thumbnail.image.image }}-/progressive/yes/-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
                                     </figure>
                                     {% else %}
                                     <figure class='image is-4by3'>
-                                        <img src="{{ offer.plant_requested.picture.all.0.image }}-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
+                                        <lr-img src="{{ offer.plant_requested.picture.all.0.image }}-/progressive/yes/-/quality/smart/-/format/auto/" alt="Picture of a plant" class='cover'>
                                     </figure>
                                     {% endif %}
                                 </div>
