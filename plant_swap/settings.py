@@ -104,7 +104,7 @@ if DEBUG:
 else:
     DATABASES = {
         "default": dj_database_url.config(
-            default='postgres://plant_swap_db_user:Is2JTalxBNT04DMx2bfGzMLIuopwrVTq@dpg-ckv3a8i37rbc73eff14g-a.frankfurt-postgres.render.com/plant_swap_db',
+            default='postgres://zhsejqjs:NLw1UlRi8r1ild7tF7mH0ak6ipeuSohQ@cornelius.db.elephantsql.com/zhsejqjs',
             conn_max_age=600,)
     }
 
