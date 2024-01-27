@@ -104,8 +104,8 @@ if DEBUG:
 else:
     DATABASES = {
         "default": dj_database_url.config(
-            default='postgresql://erengar3:DqgPf5GR9ido@ep-purple-tree-a27g9s5r.eu-central-1.aws.neon.tech/plant_swap?sslmode=require',
-            conn_max_age=0, ssl_require=True)
+            default='postgresql://erengar3:5vJFy8kZXQqm@ep-cold-glade-a27o191k.eu-central-1.aws.neon.tech/plant_swap?sslmode=require',
+            conn_max_age=600,)
     }
 
 
