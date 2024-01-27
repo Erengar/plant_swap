@@ -39,7 +39,6 @@ class add_plant_form(forms.ModelForm):
                             )
     content = forms.CharField(required=False, 
                             label_suffix='',
-                            max_length=256,
                             widget=forms.Textarea(
                                 attrs={
                                     "class": "textarea is-size-7-touch",

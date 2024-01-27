@@ -22,7 +22,6 @@ If you have all python dependencies(will be listed below or see pyproject.toml w
 django  
 social-auth-app-django  
 whitenoise  
-pillow  
 selenium 
 psycopg2-binary  
 gunicorn  
@@ -30,3 +29,4 @@ redis
 hiredis     
 jquery  
 htmx  
+uploadcare   
