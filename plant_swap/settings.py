@@ -94,7 +94,7 @@ WSGI_APPLICATION = "plant_swap.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # We want to use local sqlite3 for development and postgres for production
-if DEBUG:
+if not DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -104,8 +104,7 @@ if DEBUG:
 else:
     DATABASES = {
         "default": dj_database_url.config(
-            default='postgres://zhsejqjs:NLw1UlRi8r1ild7tF7mH0ak6ipeuSohQ@cornelius.db.elephantsql.com/zhsejqjs',
-            conn_max_age=600,)
+            default='postgresql://erengar3:DqgPf5GR9ido@ep-purple-tree-a27g9s5r.eu-central-1.aws.neon.tech/plant_swap?sslmode=require',)
     }
 
 

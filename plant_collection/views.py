@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic, View
-from django.db.models import Q, Count
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import add_plant_form, image_form, update_plant_form
 from django.contrib.auth.models import User
@@ -12,7 +11,6 @@ from django.views.generic.edit import FormMixin
 from django.core.cache import cache
 from .helper_functions import order_query, upload_images
 from django.http import HttpRequest, Http404, HttpResponseRedirect, HttpResponsePermanentRedirect
-from pyuploadcare import Uploadcare
 
 """
 This view shows all owned plants, defult by number of likes.
